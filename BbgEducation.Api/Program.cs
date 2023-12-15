@@ -1,24 +1,34 @@
-var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+using BbgEducation.Infrastructure;
+using BbgEducation.Application;
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+namespace BbgEducation.Api;
+public class Program {
 
-var app = builder.Build();
+    public static void Main(string[] args) {
+        var builder = WebApplication.CreateBuilder(args);
+        {
+            // Add services to the container.            
+            builder.Services      
+                .AddPresentation()
+                .AddApplication()
+                .AddInfrastructure(builder.Configuration);
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment()) {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+            var app = builder.Build();
+            {
+               // app.UseExceptionHandler("/error");
+                app.UseHttpsRedirection();
+                //app.UseAuthentication();
+                //app.UseAuthorization();
+                app.MapControllers();
+
+                app.Run();
+            }
+        }
+    }
+
+
+
+
+
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();

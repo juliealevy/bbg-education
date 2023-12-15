@@ -27,6 +27,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BbgEducation.Application.Un
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BbgEducation.Database", "BbgEducation.Database\BbgEducation.Database.sqlproj", "{0AF9CE5E-D15E-4473-AE11-819B0C81AEA8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Program", "Program", "{3BCD291C-A954-4C6E-8BCC-D0A9E9663286}"
+	ProjectSection(SolutionItems) = preProject
+		CreateProgram.http = CreateProgram.http
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -76,6 +81,7 @@ Global
 		{5E2C24C8-6E8C-44B5-8BF3-0B2FE8BB34C7} = {8E455A94-1C5F-41C5-8A6D-355CC97ACCD4}
 		{B4DA3AE2-1296-4EF7-B45F-5F3A948602EB} = {5E2C24C8-6E8C-44B5-8BF3-0B2FE8BB34C7}
 		{0AF9CE5E-D15E-4473-AE11-819B0C81AEA8} = {EBA1F1D6-38C7-4613-89C0-D2BBA91FD3B4}
+		{3BCD291C-A954-4C6E-8BCC-D0A9E9663286} = {C4D12ED7-9EF8-4BC0-A8B9-AACE034026F7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {132C8585-940A-4A89-803A-7D64196E31D1}

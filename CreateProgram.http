@@ -1,0 +1,9 @@
+@rootUrl= https://localhost:7270
+
+POST {{rootUrl}}/programs
+Content-Type: application/json
+
+{
+  "name": "Testing123 Program",
+  "description": "this is a test..."  
+}
