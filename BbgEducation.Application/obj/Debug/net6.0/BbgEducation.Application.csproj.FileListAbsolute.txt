@@ -1,0 +1,11 @@
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Application\bin\Debug\net6.0\BbgEducation.Application.deps.json
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Application\bin\Debug\net6.0\BbgEducation.Application.dll
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Application\bin\Debug\net6.0\BbgEducation.Application.pdb
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Application\obj\Debug\net6.0\BbgEducation.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Application\obj\Debug\net6.0\BbgEducation.Application.AssemblyInfoInputs.cache
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Application\obj\Debug\net6.0\BbgEducation.Application.AssemblyInfo.cs
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Application\obj\Debug\net6.0\BbgEducation.Application.csproj.CoreCompileInputs.cache
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Application\obj\Debug\net6.0\BbgEducation.Application.dll
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Application\obj\Debug\net6.0\refint\BbgEducation.Application.dll
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Application\obj\Debug\net6.0\BbgEducation.Application.pdb
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Application\obj\Debug\net6.0\ref\BbgEducation.Application.dll

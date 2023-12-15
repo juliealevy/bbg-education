@@ -1,0 +1,10 @@
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Database\bin\Debug\BbgEducation.Database.dacpac
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Database\bin\Debug\BbgEducation.Database.dll
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Database\bin\Debug\BbgEducation.Database.pdb
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Database\obj\Debug\BbgEducation.Database.sqlproj.AssemblyReference.cache
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Database\obj\Debug\BbgEducation.Database.dll
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Database\obj\Debug\BbgEducation.Database.pdb
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Database\obj\Debug\Model.xml
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Database\obj\Debug\refactor.xml
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Database\obj\Debug\postdeploy.sql
+C:\Users\jalev\source\repos\BbgEducation\BbgEducation.Database\obj\Debug\predeploy.sql
