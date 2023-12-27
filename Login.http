@@ -1,0 +1,9 @@
+@rootUrl= https://localhost:7270
+
+POST {{rootUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "jalevy19@gmail.com",
+  "password": "Iw2rmb29!!"
+}

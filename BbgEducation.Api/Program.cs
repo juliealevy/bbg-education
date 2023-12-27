@@ -16,10 +16,10 @@ public class Program {
 
             var app = builder.Build();
             {
-               // app.UseExceptionHandler("/error");
+                app.UseExceptionHandler("/error");
                 app.UseHttpsRedirection();
-                //app.UseAuthentication();
-                //app.UseAuthorization();
+                app.UseAuthentication();
+                app.UseAuthorization();
                 app.MapControllers();
 
                 app.Run();

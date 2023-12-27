@@ -1,0 +1,11 @@
+@rootUrl= https://localhost:7270
+
+POST {{rootUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "firstName": "julie",
+  "lastName": "levy",
+  "email": "jalevy19@gmail.com",
+  "password": "Iw2rmb29!!"
+}
