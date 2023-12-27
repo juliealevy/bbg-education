@@ -5,6 +5,8 @@
     [description]      NCHAR (255) NULL,
     [start_date]       DATE    NOT NULL,
     [end_date]         DATE    NOT NULL,
+    [created_datetime] DATETIME    NULL,
+    [updated_datetime] DATETIME    NULL,
     [inactivated_datetime] DATETIME    NULL,
     [inactivated_user_id] INT NULL, 
     PRIMARY KEY CLUSTERED ([session_id] ASC), 

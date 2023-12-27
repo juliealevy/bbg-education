@@ -34,7 +34,7 @@ public class BbgProgramRepository : GenericRepository<BbgProgram>, IBbgProgramRe
         return Update(entity);
     }
 
-    public Task DeleteProgram(BbgProgram entity) {
+    public Task DeleteProgram(BbgProgram entity) {        
         throw new NotImplementedException();
     }
 

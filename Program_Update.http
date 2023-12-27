@@ -4,7 +4,7 @@ PUT {{rootUrl}}/programs
 Content-Type: application/json
 
 {
-  "id": "1002",
-  "name": "3Julie Test Program",
+  "id": "4002",
+  "name": "Blah",
   "description": "i updated this program"
 }

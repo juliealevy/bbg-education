@@ -13,10 +13,9 @@ public class BbgProgramCreateCommandHandler : IRequestHandler<BbgProgramCreateCo
 
     public async Task<BbgProgram> Handle(BbgProgramCreateCommand request, CancellationToken cancellationToken)
     {      
-        var program = new BbgProgram() {
-            program_name = request.Name,
-            description = request.Description,
-        };
+        var program = BbgProgram.CreateNew(             
+            request.Name,
+            request.Description);
 
         var newProgram = await _bbgProgramRepository.AddProgram(program);
 
