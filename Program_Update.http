@@ -1,0 +1,10 @@
+@rootUrl= https://localhost:7270
+
+PUT {{rootUrl}}/programs
+Content-Type: application/json
+
+{
+  "id": "1002",
+  "name": "3Julie Test Program",
+  "description": "i updated this program"
+}

@@ -23,13 +23,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BbgEducation.Infrastructure
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{5E2C24C8-6E8C-44B5-8BF3-0B2FE8BB34C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BbgEducation.Application.UnitTests", "BbgEducation.Application.UnitTests\BbgEducation.Application.UnitTests.csproj", "{B4DA3AE2-1296-4EF7-B45F-5F3A948602EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BbgEducation.Application.UnitTests", "BbgEducation.Application.UnitTests\BbgEducation.Application.UnitTests.csproj", "{B4DA3AE2-1296-4EF7-B45F-5F3A948602EB}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BbgEducation.Database", "BbgEducation.Database\BbgEducation.Database.sqlproj", "{0AF9CE5E-D15E-4473-AE11-819B0C81AEA8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Program", "Program", "{3BCD291C-A954-4C6E-8BCC-D0A9E9663286}"
 	ProjectSection(SolutionItems) = preProject
-		CreateProgram.http = CreateProgram.http
+		Program_GetAll.http = Program_GetAll.http
+		Program_Create.http = Program_Create.http
+		Program_GetById.http = Program_GetById.http
+		Program_Update.http = Program_Update.http
 	EndProjectSection
 EndProject
 Global

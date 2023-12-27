@@ -3,7 +3,6 @@ using BbgEducation.Application.Common.Interfaces.Services;
 using BbgEducation.Infrastructure.Persistance.Connections;
 using BbgEducation.Infrastructure.Persistance.Repositories;
 using BbgEducation.Infrastructure.Services;
-using DataAccess.DbAccess;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -30,9 +29,9 @@ public static class DependencyInjection
 
     public static IServiceCollection AddPersistance(this IServiceCollection services) {
 
-        services.AddSingleton<IConnectionProvider, SQLConnectionProvider>();   
-        services.AddSingleton<ISessionRepository, SessionRepository>();
-        services.AddSingleton<IBbgProgramRepository, BbgProgramRepository>();
+        services.AddSingleton<ISQLConnectionFactory, SQLConnectionFactory>();   
+        services.AddScoped<ISessionRepository, SessionRepository>();
+        services.AddScoped<IBbgProgramRepository, BbgProgramRepository>();
         //services.AddScoped<IUserRepository, UserRepository>();
         
         return services;

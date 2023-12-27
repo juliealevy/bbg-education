@@ -19,4 +19,8 @@
     <ProjectReference Include="..\BbgEducation.Infrastructure\BbgEducation.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="BbgSessions\" />
+  </ItemGroup>
+
 </Project>

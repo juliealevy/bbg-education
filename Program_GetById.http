@@ -1,0 +1,5 @@
+@BbgEducation.Api_HostAddress = https://localhost:7270
+@programId = 1002
+GET {{BbgEducation.Api_HostAddress}}/programs/{{programId}}
+
+###

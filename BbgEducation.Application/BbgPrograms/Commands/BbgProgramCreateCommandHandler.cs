@@ -3,24 +3,24 @@ using BbgEducation.Domain.BbgProgramDomain;
 using BbgEducation.Application.Common.Interfaces.Persistance;
 
 namespace BbgEducation.Application.BbgPrograms.Commands;
-public class CreateBbgProgramCommandHandler : IRequestHandler<CreateBbgProgramCommand, BbgProgram>
+public class BbgProgramCreateCommandHandler : IRequestHandler<BbgProgramCreateCommand, BbgProgram>
 {
     private readonly IBbgProgramRepository _bbgProgramRepository;
 
-    public CreateBbgProgramCommandHandler(IBbgProgramRepository bbgProgramRepository) {
+    public BbgProgramCreateCommandHandler(IBbgProgramRepository bbgProgramRepository) {
         _bbgProgramRepository = bbgProgramRepository;
     }
 
-    public async Task<BbgProgram> Handle(CreateBbgProgramCommand request, CancellationToken cancellationToken)
+    public async Task<BbgProgram> Handle(BbgProgramCreateCommand request, CancellationToken cancellationToken)
     {      
         var program = new BbgProgram() {
             program_name = request.Name,
             description = request.Description,
         };
 
-        await _bbgProgramRepository.AddProgram(program);
+        var newProgram = await _bbgProgramRepository.AddProgram(program);
 
-        return program;       
+        return newProgram;       
         
     }
 }

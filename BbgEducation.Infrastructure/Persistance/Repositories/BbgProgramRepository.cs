@@ -14,23 +14,23 @@ public class BbgProgramRepository : GenericRepository<BbgProgram>, IBbgProgramRe
 
     protected override string AddUpdateStoredProc => DbConstants.StoredProcedures.PROGRAM_ADD_UPDATE;
 
-    public BbgProgramRepository(IConnectionProvider connectionProvider) : base(connectionProvider) {
+    public BbgProgramRepository(ISQLConnectionFactory sqlConnectionFactory) : base(sqlConnectionFactory) {
 
     }
 
-    public Task<IEnumerable<BbgProgram>> GetPrograms() {
-        return GetAll();
+    public async Task<IEnumerable<BbgProgram>> GetProgramsAsync() {
+        return await GetAllAsync();
     }
 
-    public Task<BbgProgram> GetProgramById(int id) {
-        return GetById(id);
+    public async Task<BbgProgram> GetProgramByIdAsync(string id) {
+        return await GetByIdAsync(id);
     }
 
-    public Task AddProgram(BbgProgram entity) {
+    public Task<BbgProgram> AddProgram(BbgProgram entity) {
         return Add(entity);
     }
 
-    public Task UpdateProgram(BbgProgram entity) {
+    public Task<BbgProgram> UpdateProgram(BbgProgram entity) {
         return Update(entity);
     }
 
@@ -59,7 +59,7 @@ public class BbgProgramRepository : GenericRepository<BbgProgram>, IBbgProgramRe
         return inputParams;
     }
 
-    protected override DynamicParameters BuildGetByIdParam(int id) {
+    protected override DynamicParameters BuildGetByIdParam(string id) {
         var inputParams = new DynamicParameters();
         inputParams.Add("@id", id);
         return inputParams;

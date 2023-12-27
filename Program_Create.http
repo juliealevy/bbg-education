@@ -4,6 +4,6 @@ POST {{rootUrl}}/programs
 Content-Type: application/json
 
 {
-  "name": "Testing123 Program",
+  "name": "Julie Test Blah Program",
   "description": "this is a test..."  
 }

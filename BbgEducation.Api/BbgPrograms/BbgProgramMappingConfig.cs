@@ -4,12 +4,13 @@ using BbgEducation.Domain.BbgProgramDomain;
 using Mapster;
 using Microsoft.AspNetCore.Routing.Constraints;
 
-namespace BbgEducation.Api.Mapping;
+namespace BbgEducation.Api.BbgPrograms;
 
-public class BbgProgramMappingConfig : IRegister {
+public class BbgProgramMappingConfig : IRegister
+{
     public void Register(TypeAdapterConfig config) {
 
-        config.NewConfig<CreateBbgProgramRequest, CreateBbgProgramCommand>()
+        config.NewConfig<CreateBbgProgramRequest, BbgProgramCreateCommand>()
             .Map(dest => dest, src => src);
 
         config.NewConfig<BbgProgram, BbgProgramResponse>()

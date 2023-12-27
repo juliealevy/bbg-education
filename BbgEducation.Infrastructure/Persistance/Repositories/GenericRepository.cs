@@ -5,14 +5,14 @@ using System.Data;
 namespace BbgEducation.Infrastructure.Persistance.Repositories;
 public abstract class GenericRepository<T> : IRepository<T>
 {
-    private readonly IConnectionProvider _connectionProvider;
+    private readonly ISQLConnectionFactory _connectionFactory;
 
-    protected GenericRepository(IConnectionProvider connectionProvider) {
-        _connectionProvider = connectionProvider;
+    protected GenericRepository(ISQLConnectionFactory sqlConnectionFactory) {
+        _connectionFactory = sqlConnectionFactory;
     }
 
     protected abstract DynamicParameters BuildAddUpdateParams(T entity);
-    protected abstract DynamicParameters BuildGetByIdParam(int id);
+    protected abstract DynamicParameters BuildGetByIdParam(string id);
 
     protected abstract string GetAllStoredProc { get; }
 
@@ -21,13 +21,15 @@ public abstract class GenericRepository<T> : IRepository<T>
     protected abstract string AddUpdateStoredProc { get; }
 
 
-    public async Task Add(T entity) {
-        using (var connection = _connectionProvider.GetConnection()) {
+    public async Task<T> Add(T entity) {
+        using (var connection = _connectionFactory.Create()) {
             try {
                 var inputParams = BuildAddUpdateParams(entity);
 
-                await connection.ExecuteAsync(AddUpdateStoredProc, inputParams,
+                var newId = await connection.ExecuteScalarAsync<string>(AddUpdateStoredProc, inputParams,
                     commandType: CommandType.StoredProcedure);
+
+                return await GetByIdAsync(newId!);
             }
             catch (Exception ex) {
                 throw new Exception($"Error adding {typeof(T).Name}: {ex.Message}");
@@ -45,10 +47,10 @@ public abstract class GenericRepository<T> : IRepository<T>
     }
 
 
-    public async Task<IEnumerable<T>> GetAll<TFirst, TSecond, T, U>(string splitOn, Func<TFirst, TSecond, T> map, U parameters) {
+    public async Task<IEnumerable<T>> GetAllAsync<TFirst, TSecond, T, U>(string splitOn, Func<TFirst, TSecond, T> map, U parameters) {
         IEnumerable<T> data = new List<T>();
 
-        using (var connection = _connectionProvider.GetConnection()) {
+        using (var connection = _connectionFactory.Create()) {
             try {
                 data = await connection.QueryAsync<TFirst, TSecond, T>(GetAllStoredProc,
                     map,
@@ -63,10 +65,10 @@ public abstract class GenericRepository<T> : IRepository<T>
         }
     }
 
-    public async Task<IEnumerable<T>> GetAll<TFirst, TSecond, TThird, T, U>(string splitOnFirst, string splitOnSecond, Func<TFirst, TSecond, TThird, T> map, U parameters) {
+    public async Task<IEnumerable<T>> GetAllAsync<TFirst, TSecond, TThird, T, U>(string splitOnFirst, string splitOnSecond, Func<TFirst, TSecond, TThird, T> map, U parameters) {
         IEnumerable<T> data = new List<T>();
 
-        using (var connection = _connectionProvider.GetConnection()) {
+        using (var connection = _connectionFactory.Create()) {
             try {
                 data = await connection.QueryAsync<TFirst, TSecond, TThird, T>(GetAllStoredProc,
                     map,
@@ -82,10 +84,10 @@ public abstract class GenericRepository<T> : IRepository<T>
     }
 
 
-    public async Task<IEnumerable<T>> GetAll(bool? includeInactive = null) {
+    public async Task<IEnumerable<T>> GetAllAsync(bool? includeInactive = null) {
         IEnumerable<T> data = new List<T>();
 
-        using (var connection = _connectionProvider.GetConnection()) {
+        using (var connection = _connectionFactory.Create()) {
             try {
 
                 data = await connection.QueryAsync<T>(GetAllStoredProc,
@@ -100,29 +102,31 @@ public abstract class GenericRepository<T> : IRepository<T>
         }
     }
 
-    public async Task<T> GetById(int id) {
+    public async Task<T> GetByIdAsync(string id) {
         IEnumerable<T> data = new List<T>();
 
-        using (var connection = _connectionProvider.GetConnection()) {
+        using (var connection = _connectionFactory.Create()) {
             try {
                 data = await connection.QueryAsync<T>(GetByIDStoredProc,
                     param: BuildGetByIdParam(id),
-                    commandType: CommandType.StoredProcedure);
+                    commandType: CommandType.StoredProcedure
+                 );
             }
             catch (Exception ex) {
                 throw new Exception($"Error fetching {typeof(T).Name}: {ex.Message}");
             }
-            return data.FirstOrDefault();
+            return data.FirstOrDefault()!;
         }
     }
 
-    public async Task Update(T entity) {
-        using (var connection = _connectionProvider.GetConnection()) {
+    public async Task<T> Update(T entity) {
+        using (var connection = _connectionFactory.Create()) {
             try {
                 var inputParams = BuildAddUpdateParams(entity);
 
-                await connection.ExecuteAsync(AddUpdateStoredProc, inputParams,
+               var id = await connection.ExecuteScalarAsync<string>(AddUpdateStoredProc, inputParams,
                     commandType: CommandType.StoredProcedure);
+                return await GetByIdAsync(id!);
             }
             catch (Exception ex) {
                 throw new Exception($"Error updating {typeof(T).Name}: {ex.Message}");

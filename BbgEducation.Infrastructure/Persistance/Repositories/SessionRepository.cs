@@ -15,17 +15,17 @@ public class SessionRepository : GenericRepository<Session>, ISessionRepository
 
     protected override string AddUpdateStoredProc => DbConstants.StoredProcedures.SESSION_ADD_UPDATE;
 
-    public SessionRepository(IConnectionProvider connectionProvider) : base(connectionProvider) {
+    public SessionRepository(ISQLConnectionFactory connectionFactory) : base(connectionFactory) {
 
     }
 
     public Task<IEnumerable<Session>> GetAllSessions(bool includeInactive = false) {
-        return GetAll(includeInactive);
+        return GetAllAsync(includeInactive);
 
     }
 
     public Task<IEnumerable<Session>> GetAllFullSessions(bool includeInactive = false) {
-        return GetAll<Session, BbgProgram, User, Session, dynamic>("program_id", "user_id",
+        return GetAllAsync<Session, BbgProgram, User, Session, dynamic>("program_id", "user_id",
             (s, p, u) =>
             {
                 s.session_program = p;
@@ -36,8 +36,8 @@ public class SessionRepository : GenericRepository<Session>, ISessionRepository
 
     }
 
-    public Task<Session> GetSession(int sessionID) {
-        return GetById(sessionID);
+    public Task<Session> GetSession(string sessionID) {
+        return GetByIdAsync(sessionID);
     }
 
     public Task AddSession(Session sessionToAdd) {
@@ -89,7 +89,7 @@ public class SessionRepository : GenericRepository<Session>, ISessionRepository
         return inputParams;
     }
 
-    protected override DynamicParameters BuildGetByIdParam(int id) {
+    protected override DynamicParameters BuildGetByIdParam(string id) {
         var inputParams = new DynamicParameters();
         inputParams.Add("@id", id);
         return inputParams;
