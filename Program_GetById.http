@@ -1,5 +1,6 @@
 @BbgEducation.Api_HostAddress = https://localhost:7270
 @programId = 1002
 GET {{BbgEducation.Api_HostAddress}}/programs/{{programId}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MWQ2NjNjNS00YTE2LTRiNDgtOWY3Ni0wYTVhNjEwYWRkZjYiLCJnaXZlbl9uYW1lIjoianVsaWUiLCJmYW1pbHlfbmFtZSI6ImxldnkiLCJqdGkiOiIyMjE5ZDIyOS01MjI2LTRiYWQtOWY2Ni00YWZjODU0NTM4MTciLCJleHAiOjE3MDM3OTI4NDYsImlzcyI6IkJiZ0VkdWNhdGlvbiIsImF1ZCI6IkJiZ0VkdWNhdGlvbiJ9.4auf5UflAw-b1r37lVKAA7r1AM3fdvSbliN1wBepHew
 
 ###

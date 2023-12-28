@@ -6,5 +6,5 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BbgEducation.Application.BbgPrograms.Commands;
-public record BbgProgramGetByIdCommand(string id): IRequest<BbgProgram>;
+namespace BbgEducation.Application.BbgPrograms.Queries;
+public record BbgProgramGetByIdQuery(string id) : IRequest<BbgProgram>;

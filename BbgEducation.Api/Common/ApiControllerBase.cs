@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace BbgEducation.Api.Common;
 
 [ApiController]
-//[Authorize]
+[Authorize]
 public class ApiControllerBase : ControllerBase
 {
     protected IActionResult Problem(ValidationException ex)

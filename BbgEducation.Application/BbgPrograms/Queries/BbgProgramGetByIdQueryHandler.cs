@@ -7,15 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BbgEducation.Application.BbgPrograms.Commands;
-public class BbgProgramGetByIdCommandHandler : IRequestHandler<BbgProgramGetByIdCommand, BbgProgram>
+namespace BbgEducation.Application.BbgPrograms.Queries;
+public class BbgProgramGetByIdQueryHandler : IRequestHandler<BbgProgramGetByIdQuery, BbgProgram>
 {
     private readonly IBbgProgramRepository _repository;
-public BbgProgramGetByIdCommandHandler(IBbgProgramRepository repository) {
+    public BbgProgramGetByIdQueryHandler(IBbgProgramRepository repository)
+    {
         _repository = repository;
     }
 
-    public async Task<BbgProgram> Handle(BbgProgramGetByIdCommand request, CancellationToken cancellationToken) {
+    public async Task<BbgProgram> Handle(BbgProgramGetByIdQuery request, CancellationToken cancellationToken)
+    {
         return await _repository.GetProgramByIdAsync(request.id);
     }
 }

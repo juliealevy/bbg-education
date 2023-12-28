@@ -1,5 +1,6 @@
 ﻿using BbgEducation.Api.Common;
 using BbgEducation.Application.BbgPrograms.Commands;
+using BbgEducation.Application.BbgPrograms.Queries;
 using BbgEducation.Contracts.BbgProgram;
 using MapsterMapper;
 using MediatR;
@@ -24,16 +25,16 @@ public class BbgProgramController : ApiControllerBase
         string programId)
     {
 
-        var command = new BbgProgramGetByIdCommand(programId);
-        var getResult = await _mediator.Send(command);
+        var query = new BbgProgramGetByIdQuery(programId);
+        var getResult = await _mediator.Send(query);
         return getResult is null ? NotFound() : Ok(_mapper.Map<BbgProgramResponse>(getResult));
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAllPrograms()
     {
-        var command = new BbgProgramGetAllCommand();
-        var getResult = await _mediator.Send(command);
+        var query = new BbgProgramGetAllQuery();
+        var getResult = await _mediator.Send(query);
         return Ok(_mapper.Map<List<BbgProgramResponse>>(getResult));
     }
 
