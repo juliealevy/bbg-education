@@ -143,19 +143,18 @@ public abstract class GenericRepository<T> : IRepository<T>
 
     public async Task<bool> CheckNameExistsAsync(string name) {
 
-        int exists;
-
         using (var connection = _connectionFactory.Create()) {
             try {
-                exists = await connection.ExecuteScalarAsync<int>(GetNameExistsStoredProc,
+                var exists = await connection.ExecuteScalarAsync<bool>(GetNameExistsStoredProc,
                     param: BuildCheckNameExistsParam(name),
                     commandType: CommandType.StoredProcedure
                  );
+                return exists;
             }
             catch (Exception ex) {
                 throw new Exception($"Error fetching {typeof(T).Name}: {ex.Message}");
             }
-            return exists.Equals(1);
+            
         }
     }
 }

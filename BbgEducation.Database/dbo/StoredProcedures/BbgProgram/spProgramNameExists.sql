@@ -14,6 +14,6 @@ BEGIN
 		SET @Exists = 0
 	END
 
-	RETURN @Exists	
+	SELECT @Exists	
 
 END
