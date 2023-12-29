@@ -1,6 +1,7 @@
 ﻿using System.Net;
+using BbgEducation.Application.Common.Interfaces.Exceptions;
 
-namespace BbgEducation.Application.Common.Exceptions;
+namespace BbgEducation.Application.Authentication.Login.Exceptions;
 public class InvalidCredentialsException : Exception, IServiceException
 {
     public HttpStatusCode StatusCode => HttpStatusCode.Unauthorized;

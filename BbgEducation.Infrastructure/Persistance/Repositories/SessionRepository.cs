@@ -9,11 +9,13 @@ using Dapper;
 namespace BbgEducation.Infrastructure.Persistance.Repositories;
 public class SessionRepository : GenericRepository<Session>, ISessionRepository
 {
-    protected override string GetAllStoredProc => DbConstants.StoredProcedures.SESSION_GET_ALL;
+    protected override string GetAllStoredProc => DbConstants.StoredProcedures.Session.GET_ALL;
 
-    protected override string GetByIDStoredProc => DbConstants.StoredProcedures.SESSION_GET;
+    protected override string GetByIDStoredProc => DbConstants.StoredProcedures.Session.GET_BY_ID;
 
-    protected override string AddUpdateStoredProc => DbConstants.StoredProcedures.SESSION_ADD_UPDATE;
+    protected override string AddUpdateStoredProc => DbConstants.StoredProcedures.Session.ADD_UPDATE;
+
+    protected override string GetNameExistsStoredProc => throw new NotImplementedException();
 
     public SessionRepository(ISQLConnectionFactory connectionFactory) : base(connectionFactory) {
 
@@ -95,5 +97,7 @@ public class SessionRepository : GenericRepository<Session>, ISessionRepository
         return inputParams;
     }
 
-
+    protected override DynamicParameters BuildCheckNameExistsParam(string name) {
+        throw new NotImplementedException();
+    }
 }

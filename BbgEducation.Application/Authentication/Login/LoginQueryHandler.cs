@@ -1,14 +1,8 @@
-﻿using BbgEducation.Application.Common.Exceptions;
+﻿using BbgEducation.Application.Authentication.Login.Exceptions;
 using BbgEducation.Application.Common.Interfaces.Authentication;
 using BbgEducation.Application.Common.Interfaces.Persistance;
 using BbgEducation.Domain.UserDomain;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Authentication;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BbgEducation.Application.Authentication.Login;
 public class LoginQueryHandler : IRequestHandler<LoginQuery, AuthenticationResult>

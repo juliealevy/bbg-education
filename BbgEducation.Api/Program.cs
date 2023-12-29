@@ -1,6 +1,7 @@
 
 using BbgEducation.Infrastructure;
 using BbgEducation.Application;
+using BbgEducation.Api.Errors;
 
 namespace BbgEducation.Api;
 public class Program {
@@ -10,7 +11,7 @@ public class Program {
         {
             // Add services to the container.            
             builder.Services      
-                .AddPresentation()
+                .AddPresentation()               
                 .AddApplication()
                 .AddInfrastructure(builder.Configuration);
 
@@ -19,7 +20,7 @@ public class Program {
                 app.UseExceptionHandler("/error");
                 app.UseHttpsRedirection();
                 app.UseAuthentication();
-                app.UseAuthorization();
+                app.UseAuthorization();                
                 app.MapControllers();
 
                 app.Run();

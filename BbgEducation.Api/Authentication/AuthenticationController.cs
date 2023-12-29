@@ -2,6 +2,7 @@
 using BbgEducation.Application.Authentication;
 using BbgEducation.Application.Authentication.Login;
 using BbgEducation.Application.Authentication.Register;
+using BbgEducation.Application.Common;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +28,7 @@ public class AuthenticationController: ApiControllerBase
     public async Task<IActionResult> Register(RegisterRequest request) {
         var command = _mapper.Map<RegisterCommand>(request);
         AuthenticationResult registerResult = await _mediator.Send(command);
+        
         return Ok(_mapper.Map<AuthenticationResponse>(registerResult));
     }
 

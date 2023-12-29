@@ -1,8 +1,8 @@
-﻿using BbgEducation.Application.Common.Exceptions;
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc;
 using FluentValidation.Results;
+using BbgEducation.Application.Common.Interfaces.Exceptions;
 
 namespace BbgEducation.Api.Errors;
 
@@ -14,7 +14,7 @@ public class ErrorsController: ControllerBase
         Exception? exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
 
         if (exception is IValidationException validationException) {
-            return ValidationProblem(validationException.Errors);
+            return BuildValidationProblem(validationException.Errors);
         }
 
         if (exception is IServiceException serviceException) {
@@ -27,7 +27,7 @@ public class ErrorsController: ControllerBase
 
     }
 
-    private IActionResult ValidationProblem(List<ValidationFailure> errors) {
+    private IActionResult BuildValidationProblem(List<ValidationFailure> errors) {
         if (errors is null || !errors.Any()) {
             return Problem();
         }

@@ -1,4 +1,4 @@
-﻿using BbgEducation.Application.Common.Behaviors;
+﻿using BbgEducation.Application.Common.Validation;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

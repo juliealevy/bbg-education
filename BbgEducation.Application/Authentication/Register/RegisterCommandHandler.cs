@@ -1,4 +1,4 @@
-﻿using BbgEducation.Application.Common.Exceptions;
+﻿using BbgEducation.Application.Authentication.Register.Exceptions;
 using BbgEducation.Application.Common.Interfaces.Authentication;
 using BbgEducation.Application.Common.Interfaces.Persistance;
 using BbgEducation.Domain.UserDomain;
@@ -19,7 +19,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Authentic
 
         //check if user already exists
         if (_userRepository.GetUserByEmail(command.Email) is not null) {
-            throw new DuplicateEmailException();
+            throw new DuplicateEmailException();            
         }
 
         var user = User.Create(
@@ -33,12 +33,14 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Authentic
         //create jwt token
         var token = _jwtTokenGenerator.GenerateToken(user);
 
-        return new AuthenticationResult(
+        var authResult =  new AuthenticationResult(
             user.Id,
             user.FirstName,
             user.LastName,
             user.Email,
             token);
+
+        return authResult;
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using BbgEducation.Application.Common;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;

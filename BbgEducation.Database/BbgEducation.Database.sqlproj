@@ -70,7 +70,7 @@
     <Build Include="dbo\Tables\User.sql" />
     <Build Include="dbo\Views\vSessions.sql" />
     <Build Include="dbo\StoredProcedures\BbgProgram\spProgramAddUpdate.sql" />
-    <Build Include="dbo\StoredProcedures\BbgProgram\spProgramGet.sql" />
+    <Build Include="dbo\StoredProcedures\BbgProgram\spProgramGetById.sql" />
     <Build Include="dbo\StoredProcedures\BbgProgram\spProgramGetAll.sql" />
     <Build Include="dbo\StoredProcedures\BbgSession\spSessionAddUpdate.sql" />
     <Build Include="dbo\StoredProcedures\BbgSession\spSessionGet.sql" />
@@ -79,5 +79,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BbgEducation.Database.publish.xml" />
+    <Build Include="dbo\StoredProcedures\BbgProgram\spProgramNameExists.sql" />
   </ItemGroup>
 </Project>

@@ -8,11 +8,13 @@ namespace BbgEducation.Infrastructure.Persistance.Repositories;
 public class BbgProgramRepository : GenericRepository<BbgProgram>, IBbgProgramRepository
 {
 
-    protected override string GetAllStoredProc => DbConstants.StoredProcedures.PROGRAM_GET_ALL;
+    protected override string GetAllStoredProc => DbConstants.StoredProcedures.Program.GET_ALL;
 
-    protected override string GetByIDStoredProc => DbConstants.StoredProcedures.PROGRAM_GET;
+    protected override string GetByIDStoredProc => DbConstants.StoredProcedures.Program.GET_BY_ID;
 
-    protected override string AddUpdateStoredProc => DbConstants.StoredProcedures.PROGRAM_ADD_UPDATE;
+    protected override string AddUpdateStoredProc => DbConstants.StoredProcedures.Program.ADD_UPDATE;
+
+    protected override string GetNameExistsStoredProc => DbConstants.StoredProcedures.Program.NAME_EXISTS;
 
     public BbgProgramRepository(ISQLConnectionFactory sqlConnectionFactory) : base(sqlConnectionFactory) {
 
@@ -24,6 +26,10 @@ public class BbgProgramRepository : GenericRepository<BbgProgram>, IBbgProgramRe
 
     public async Task<BbgProgram> GetProgramByIdAsync(string id) {
         return await GetByIdAsync(id);
+    }
+
+    public async Task<bool> CheckProgramNameExistsAsync(string name) {
+        return await CheckNameExistsAsync(name);
     }
 
     public Task<BbgProgram> AddProgram(BbgProgram entity) {
@@ -64,4 +70,12 @@ public class BbgProgramRepository : GenericRepository<BbgProgram>, IBbgProgramRe
         inputParams.Add("@id", id);
         return inputParams;
     }
+
+    protected override DynamicParameters BuildCheckNameExistsParam(string name) {
+        var inputParams = new DynamicParameters();
+        inputParams.Add("@program_name", name);
+        return inputParams;
+    }
+
+
 }

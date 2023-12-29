@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace BbgEducation.Application.Common.Exceptions;
+namespace BbgEducation.Application.Common.Interfaces.Exceptions;
 public interface IServiceException
 {
     public HttpStatusCode StatusCode { get; }

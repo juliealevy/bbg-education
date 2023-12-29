@@ -14,9 +14,15 @@ public abstract class GenericRepository<T> : IRepository<T>
     protected abstract DynamicParameters BuildAddUpdateParams(T entity);
     protected abstract DynamicParameters BuildGetByIdParam(string id);
 
+    protected abstract DynamicParameters BuildCheckNameExistsParam(string name);
+
+
+
     protected abstract string GetAllStoredProc { get; }
 
     protected abstract string GetByIDStoredProc { get; }
+
+    protected abstract string GetNameExistsStoredProc { get; }
 
     protected abstract string AddUpdateStoredProc { get; }
 
@@ -132,6 +138,24 @@ public abstract class GenericRepository<T> : IRepository<T>
                 throw new Exception($"Error updating {typeof(T).Name}: {ex.Message}");
             }
 
+        }
+    }
+
+    public async Task<bool> CheckNameExistsAsync(string name) {
+
+        int exists;
+
+        using (var connection = _connectionFactory.Create()) {
+            try {
+                exists = await connection.ExecuteScalarAsync<int>(GetNameExistsStoredProc,
+                    param: BuildCheckNameExistsParam(name),
+                    commandType: CommandType.StoredProcedure
+                 );
+            }
+            catch (Exception ex) {
+                throw new Exception($"Error fetching {typeof(T).Name}: {ex.Message}");
+            }
+            return exists.Equals(1);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Mapster;
+﻿using BbgEducation.Api.Errors;
+using Mapster;
 using MapsterMapper;
 using System.Reflection;
 
@@ -11,6 +12,7 @@ public static class DependencyInjection
  
         services.AddControllers();
         services.AddMappings();
+        
         return services;
 
     }

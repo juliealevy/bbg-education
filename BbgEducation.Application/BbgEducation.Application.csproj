@@ -17,4 +17,9 @@
     <ProjectReference Include="..\BbgEducation.Domain\BbgEducation.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\Behaviors\" />
+    <Folder Include="Common\Exceptions\" />
+  </ItemGroup>
+
 </Project>
