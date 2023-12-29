@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BbgEducation.Api", "BbgEduc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BbgEducation.Application", "BbgEducation.Application\BbgEducation.Application.csproj", "{BFEDDEE0-7D18-4FC8-B16A-2C6C0AB641EF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BbgEducation.Contracts", "BbgEducation.Contracts\BbgEducation.Contracts.csproj", "{9D622DAE-00B9-4790-984D-5A6A3F8C0227}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BbgEducation.Domain", "BbgEducation.Domain\BbgEducation.Domain.csproj", "{EDEBB48D-2CFF-45E9-866F-0131DB53A2C2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BbgEducation.Infrastructure", "BbgEducation.Infrastructure\BbgEducation.Infrastructure.csproj", "{CF89CC9E-98B5-43CF-9DC0-C15D6DE69026}"
@@ -29,8 +27,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "BbgEducation.Database", "Bb
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Program", "Program", "{3BCD291C-A954-4C6E-8BCC-D0A9E9663286}"
 	ProjectSection(SolutionItems) = preProject
-		Program_GetAll.http = Program_GetAll.http
 		Program_Create.http = Program_Create.http
+		Program_GetAll.http = Program_GetAll.http
 		Program_GetById.http = Program_GetById.http
 		Program_Update.http = Program_Update.http
 	EndProjectSection
@@ -55,10 +53,6 @@ Global
 		{BFEDDEE0-7D18-4FC8-B16A-2C6C0AB641EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFEDDEE0-7D18-4FC8-B16A-2C6C0AB641EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFEDDEE0-7D18-4FC8-B16A-2C6C0AB641EF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9D622DAE-00B9-4790-984D-5A6A3F8C0227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9D622DAE-00B9-4790-984D-5A6A3F8C0227}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9D622DAE-00B9-4790-984D-5A6A3F8C0227}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9D622DAE-00B9-4790-984D-5A6A3F8C0227}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EDEBB48D-2CFF-45E9-866F-0131DB53A2C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EDEBB48D-2CFF-45E9-866F-0131DB53A2C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDEBB48D-2CFF-45E9-866F-0131DB53A2C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -84,7 +78,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A2955A80-4D74-44EA-A764-3CB3F513951D} = {EBA1F1D6-38C7-4613-89C0-D2BBA91FD3B4}
 		{BFEDDEE0-7D18-4FC8-B16A-2C6C0AB641EF} = {EBA1F1D6-38C7-4613-89C0-D2BBA91FD3B4}
-		{9D622DAE-00B9-4790-984D-5A6A3F8C0227} = {EBA1F1D6-38C7-4613-89C0-D2BBA91FD3B4}
 		{EDEBB48D-2CFF-45E9-866F-0131DB53A2C2} = {EBA1F1D6-38C7-4613-89C0-D2BBA91FD3B4}
 		{CF89CC9E-98B5-43CF-9DC0-C15D6DE69026} = {EBA1F1D6-38C7-4613-89C0-D2BBA91FD3B4}
 		{5E2C24C8-6E8C-44B5-8BF3-0B2FE8BB34C7} = {8E455A94-1C5F-41C5-8A6D-355CC97ACCD4}

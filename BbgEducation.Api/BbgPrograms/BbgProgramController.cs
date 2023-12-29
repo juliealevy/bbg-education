@@ -1,7 +1,6 @@
 ﻿using BbgEducation.Api.Common;
 using BbgEducation.Application.BbgPrograms.Commands;
 using BbgEducation.Application.BbgPrograms.Queries;
-using BbgEducation.Contracts.BbgProgram;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

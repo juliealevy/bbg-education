@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BbgEducation.Application\BbgEducation.Application.csproj" />
-    <ProjectReference Include="..\BbgEducation.Contracts\BbgEducation.Contracts.csproj" />
     <ProjectReference Include="..\BbgEducation.Infrastructure\BbgEducation.Infrastructure.csproj" />
   </ItemGroup>
 

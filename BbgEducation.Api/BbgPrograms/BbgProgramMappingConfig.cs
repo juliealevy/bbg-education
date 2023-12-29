@@ -1,5 +1,4 @@
 ﻿using BbgEducation.Application.BbgPrograms.Commands;
-using BbgEducation.Contracts.BbgProgram;
 using BbgEducation.Domain.BbgProgramDomain;
 using Mapster;
 using Microsoft.AspNetCore.Routing.Constraints;
