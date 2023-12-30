@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BbgEducation.Application.BbgPrograms.Commands;
 public record BbgProgramUpdateCommand(
-    string Id,
+    int Id,
     string Name,
     string Description) : IRequest<BbgProgram>;
 

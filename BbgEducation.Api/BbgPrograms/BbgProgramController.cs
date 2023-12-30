@@ -1,4 +1,5 @@
-﻿using BbgEducation.Api.Common;
+﻿using BbgEducation.Api.Api;
+using BbgEducation.Api.Common;
 using BbgEducation.Application.BbgPrograms.Commands;
 using BbgEducation.Application.BbgPrograms.Queries;
 using MapsterMapper;
@@ -43,7 +44,7 @@ public class BbgProgramController : ApiControllerBase
 
         var command = _mapper.Map<BbgProgramCreateCommand>(request);
         var createResult = await _mediator.Send(command);
-        return Ok(_mapper.Map<BbgProgramResponse>(createResult));
+        return NoContent();
 
     }
 
@@ -53,7 +54,7 @@ public class BbgProgramController : ApiControllerBase
 
         var command = _mapper.Map<BbgProgramUpdateCommand>(request);
         var updateResult = await _mediator.Send(command);
-        return Ok(_mapper.Map<BbgProgramResponse>(updateResult));
+        return NoContent();
 
     }
 

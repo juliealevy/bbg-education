@@ -16,8 +16,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Authentic
     }
     public async Task<AuthenticationResult> Handle(RegisterCommand command, CancellationToken cancellationToken) {
         await Task.CompletedTask;  //to get rid of warning until there is asynchronous logic
-
-        //check if user already exists
+                
         if (_userRepository.GetUserByEmail(command.Email) is not null) {
             throw new DuplicateEmailException();            
         }
@@ -30,7 +29,6 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Authentic
 
         _userRepository.Add(user);
 
-        //create jwt token
         var token = _jwtTokenGenerator.GenerateToken(user);
 
         var authResult =  new AuthenticationResult(

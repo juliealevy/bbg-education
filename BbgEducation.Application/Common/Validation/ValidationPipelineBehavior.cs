@@ -2,13 +2,12 @@
 using MediatR;
 
 namespace BbgEducation.Application.Common.Validation;
-public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
-{
-    //private readonly IValidator<TRequest>? _validator;
+{    
     private readonly IEnumerable<IValidator<TRequest>>? _validators;
 
-    public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
+    public ValidationPipelineBehavior(IEnumerable<IValidator<TRequest>> validators)
     {
         _validators = validators;
     }

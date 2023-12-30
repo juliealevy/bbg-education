@@ -1,4 +1,5 @@
-﻿using BbgEducation.Api.Common;
+﻿using BbgEducation.Api.Api;
+using BbgEducation.Api.Common;
 using BbgEducation.Application.Authentication;
 using BbgEducation.Application.Authentication.Login;
 using BbgEducation.Application.Authentication.Register;

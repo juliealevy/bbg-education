@@ -2,7 +2,7 @@
 using System.Net;
 
 namespace BbgEducation.Application.BbgPrograms.Exceptions;
-public class DuplicateProgramNameException : Exception, IServiceException
+public class DuplicateProgramNameException : Exception, IApplicationException
 {
     public HttpStatusCode StatusCode => HttpStatusCode.UnprocessableEntity;
 

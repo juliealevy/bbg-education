@@ -2,7 +2,7 @@
 using BbgEducation.Application.Common.Interfaces.Exceptions;
 
 namespace BbgEducation.Application.Authentication.Register.Exceptions;
-public class DuplicateEmailException : Exception, IServiceException
+public class DuplicateEmailException : Exception, IApplicationException
 {
     public HttpStatusCode StatusCode => HttpStatusCode.Conflict;
 

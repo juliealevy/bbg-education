@@ -16,7 +16,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, AuthenticationResul
     }
 
     public async Task<AuthenticationResult> Handle(LoginQuery query, CancellationToken cancellationToken) {
-        await Task.CompletedTask;  //to get rid of warning until there is asynchronous logic
+        await Task.CompletedTask;  //to get rid of warning until there is DB storage happening and repo call can be async
 
         User? user = _userRepository.GetUserByEmail(query.Email);
 

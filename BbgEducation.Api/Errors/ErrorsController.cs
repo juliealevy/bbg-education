@@ -13,12 +13,12 @@ public class ErrorsController: ControllerBase
 
         Exception? exception = HttpContext.Features.Get<IExceptionHandlerFeature>()?.Error;
 
-        if (exception is IValidationException validationException) {
-            return BuildValidationProblem(validationException.Errors);
+        if (exception is IValidatorException validatorException) {
+            return BuildValidationProblem(validatorException.Errors);
         }
 
-        if (exception is IServiceException serviceException) {
-            return Problem(statusCode: (int)serviceException.StatusCode, title: serviceException.ErrorMessage);
+        if (exception is IApplicationException appException) {
+            return Problem(statusCode: (int)appException.StatusCode, title: appException.ErrorMessage);
         }
 
         return Problem(statusCode: StatusCodes.Status500InternalServerError, title: "An unexpected error occurred.",

@@ -18,7 +18,7 @@ public class BbgProgramUpdateCommandHandler : IRequestHandler<BbgProgramUpdateCo
 
     public async Task<BbgProgram> Handle(BbgProgramUpdateCommand request, CancellationToken cancellationToken) {
         var program = BbgProgram.CreateExisting(
-            Int32.Parse(request.Id),
+            request.Id,
             request.Name,
             request.Description);
 

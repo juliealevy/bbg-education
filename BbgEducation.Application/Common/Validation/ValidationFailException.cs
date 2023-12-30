@@ -2,7 +2,7 @@
 using FluentValidation.Results;
 
 namespace BbgEducation.Application.Common.Validation;
-public class ValidationFailException : Exception, IValidationException
+public class ValidationFailException : Exception, IValidatorException
 {
     public ValidationFailException(List<ValidationFailure> errors)
     {
