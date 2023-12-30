@@ -9,10 +9,14 @@ public static class DependencyInjection
 {
 
     public static IServiceCollection AddPresentation(this IServiceCollection services) {
- 
-        services.AddControllers();
+
+        services.AddControllers()
+            .AddJsonOptions(options => {
+                options.JsonSerializerOptions.DefaultIgnoreCondition = 
+                    System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+            });
         services.AddMappings();
-        
+
         return services;
 
     }

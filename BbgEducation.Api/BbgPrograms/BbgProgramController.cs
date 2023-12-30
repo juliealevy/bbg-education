@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BbgEducation.Api.BbgPrograms;
 
-[Route("programs")]
 public class BbgProgramController : ApiControllerBase
 {
     private readonly IMapper _mapper;
@@ -18,9 +17,9 @@ public class BbgProgramController : ApiControllerBase
         _mapper = mapper;
         _mediator = mediator;
     }
-
-    [HttpGet("{programId}")]
-    public async Task<IActionResult> GetProgramsById(
+    
+    [HttpGet(ApiRoutes.Programs.GetById)]
+    public async Task<IActionResult> GetProgramById(
         string programId)
     {
 
@@ -29,7 +28,7 @@ public class BbgProgramController : ApiControllerBase
         return getResult is null ? NotFound() : Ok(_mapper.Map<BbgProgramResponse>(getResult));
     }
 
-    [HttpGet]
+    [HttpGet(ApiRoutes.Programs.GetAll)]
     public async Task<IActionResult> GetAllPrograms()
     {
         var query = new BbgProgramGetAllQuery();
@@ -37,7 +36,7 @@ public class BbgProgramController : ApiControllerBase
         return Ok(_mapper.Map<List<BbgProgramResponse>>(getResult));
     }
 
-    [HttpPost]
+    [HttpPost(ApiRoutes.Programs.Create)]
     public async Task<IActionResult> CreateProgram(
         CreateBbgProgramRequest request)
     {
@@ -48,7 +47,7 @@ public class BbgProgramController : ApiControllerBase
 
     }
 
-    [HttpPut]
+    [HttpPut(ApiRoutes.Programs.Update)]
     public async Task<IActionResult> UpdateProgram(
        UpdateBbgProgramRequest request) {
 

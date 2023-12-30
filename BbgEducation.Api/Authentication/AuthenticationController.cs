@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BbgEducation.Api.Authentication;
 
-[Route("auth")]
 [AllowAnonymous]
 public class AuthenticationController: ApiControllerBase
 {
@@ -24,7 +23,7 @@ public class AuthenticationController: ApiControllerBase
     }
 
 
-    [HttpPost("register")]
+    [HttpPost(ApiRoutes.Authentication.Register) ]
     public async Task<IActionResult> Register(RegisterRequest request) {
         var command = _mapper.Map<RegisterCommand>(request);
         AuthenticationResult registerResult = await _mediator.Send(command);
@@ -32,7 +31,7 @@ public class AuthenticationController: ApiControllerBase
         return Ok(_mapper.Map<AuthenticationResponse>(registerResult));
     }
 
-    [HttpPost("login")]
+    [HttpPost(ApiRoutes.Authentication.Login)]
     public async Task<IActionResult> Login(LoginRequest request) {
 
         var query = _mapper.Map<LoginQuery>(request);

@@ -10,7 +10,8 @@ public class Program {
         var builder = WebApplication.CreateBuilder(args);
         {
             // Add services to the container.            
-            builder.Services      
+            builder.Services   
+                .AddHttpContextAccessor()
                 .AddPresentation()               
                 .AddApplication()
                 .AddInfrastructure(builder.Configuration);
