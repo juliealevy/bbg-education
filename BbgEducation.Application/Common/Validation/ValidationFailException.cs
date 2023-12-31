@@ -8,7 +8,12 @@ public class ValidationFailException : Exception, IValidatorException
     {
         Errors = errors;
     }
+
+    public ValidationFailException(ValidationFailure error) {
+        Errors.Add(error);
+    }
     public List<ValidationFailure> Errors { get; } = new List<ValidationFailure>();
+
 
 
 

@@ -1,7 +1,9 @@
 ﻿using BbgEducation.Api.Api;
 using BbgEducation.Api.Common;
-using BbgEducation.Application.BbgPrograms.Commands;
-using BbgEducation.Application.BbgPrograms.Queries;
+using BbgEducation.Application.BbgPrograms.Create;
+using BbgEducation.Application.BbgPrograms.GetAll;
+using BbgEducation.Application.BbgPrograms.GetById;
+using BbgEducation.Application.BbgPrograms.Update;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -21,12 +23,17 @@ public class BbgProgramController : ApiControllerBase
     
     [HttpGet(ApiRoutes.Programs.GetById)]
     public async Task<IActionResult> GetProgramById(
-        string programId)
+        int programId)
     {
 
         var query = new BbgProgramGetByIdQuery(programId);
         var getResult = await _mediator.Send(query);
-        return getResult is null ? NotFound() : Ok(_mapper.Map<BbgProgramResponse>(getResult));
+
+        return getResult.Match<IActionResult>(
+            program => Ok(_mapper.Map<BbgProgramResponse>(getResult.Value)),
+                _ => NotFound()            
+            );
+           
     }
 
     [HttpGet(ApiRoutes.Programs.GetAll)]
@@ -34,18 +41,21 @@ public class BbgProgramController : ApiControllerBase
     {
         var query = new BbgProgramGetAllQuery();
         var getResult = await _mediator.Send(query);
+
         return Ok(_mapper.Map<List<BbgProgramResponse>>(getResult));
     }
 
     [HttpPost(ApiRoutes.Programs.Create)]
     public async Task<IActionResult> CreateProgram(
-        CreateBbgProgramRequest request)
-    {
+        CreateBbgProgramRequest request) {
 
         var command = _mapper.Map<BbgProgramCreateCommand>(request);
         var createResult = await _mediator.Send(command);
-        return NoContent();
 
+        return createResult.Match<IActionResult>(
+            program => CreatedAtAction(nameof(CreateProgram), value: _mapper.Map<BbgProgramResponse>(createResult.Value)),
+            failed => BadRequest(BuildValidationProblem(failed.Errors))
+            );
     }
 
     [HttpPut(ApiRoutes.Programs.Update)]
@@ -54,7 +64,12 @@ public class BbgProgramController : ApiControllerBase
 
         var command = _mapper.Map<BbgProgramUpdateCommand>(request);
         var updateResult = await _mediator.Send(command);
-        return NoContent();
+
+        return updateResult.Match<IActionResult>(
+            program => Ok(_mapper.Map<BbgProgramResponse>(updateResult.Value)),
+            _ => NotFound(),
+            failed => BadRequest(BuildValidationProblem(failed.Errors))
+            );
 
     }
 

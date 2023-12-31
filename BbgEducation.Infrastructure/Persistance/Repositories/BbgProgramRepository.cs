@@ -24,7 +24,7 @@ public class BbgProgramRepository : GenericRepository<BbgProgram>, IBbgProgramRe
         return await GetAllAsync();
     }
 
-    public async Task<BbgProgram> GetProgramByIdAsync(string id) {
+    public async Task<BbgProgram> GetProgramByIdAsync(int id) {
         return await GetByIdAsync(id);
     }
 
@@ -65,7 +65,7 @@ public class BbgProgramRepository : GenericRepository<BbgProgram>, IBbgProgramRe
         return inputParams;
     }
 
-    protected override DynamicParameters BuildGetByIdParam(string id) {
+    protected override DynamicParameters BuildGetByIdParam(int id) {
         var inputParams = new DynamicParameters();
         inputParams.Add("@id", id);
         return inputParams;

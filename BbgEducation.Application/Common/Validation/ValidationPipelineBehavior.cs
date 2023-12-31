@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
 using MediatR;
+using OneOf;
 
 namespace BbgEducation.Application.Common.Validation;
-public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, OneOf<TResponse, ValidationFailed>>
     where TRequest : IRequest<TResponse>
 {    
     private readonly IEnumerable<IValidator<TRequest>>? _validators;
@@ -11,15 +12,15 @@ public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior
     {
         _validators = validators;
     }
-    public async Task<TResponse> Handle(
+    public async Task<OneOf<TResponse, ValidationFailed>> Handle(
         TRequest request,
-        RequestHandlerDelegate<TResponse> next,
+        RequestHandlerDelegate<OneOf<TResponse,ValidationFailed>> next,
         CancellationToken cancellationToken)
     {
 
         if (_validators is null || !_validators.Any())
         {
-            return await next();
+            return await next(); //calls the handler (next in the pipline)
         }
 
 
@@ -32,10 +33,12 @@ public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior
 
         if (!errors.Any())
         {
-            return await next();  //calls the handler
+            return await next();  
         }
 
-        throw new ValidationFailException(errors);
+        return new ValidationFailed(errors);
 
     }
+
+   
 }

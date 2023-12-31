@@ -1,12 +1,7 @@
 ﻿using BbgEducation.Api.Authentication;
 using BbgEducation.Api.BbgPrograms;
-using BbgEducation.Api.Links;
-using BbgEducation.Application.BbgPrograms.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Mvc.Routing;
-using System.Text.Json;
 
 namespace BbgEducation.Api.Api;
 
@@ -28,8 +23,9 @@ public class ApiRootController : Controller
     public IActionResult Get()
     {
 
-        var apiResponse = new ApiResponse("0.0.1");
+        var apiResponse = new ApiResponse("0.0.1");  //TODO:  better versioning
 
+        //TODO:  Keeping for reference.  remove this when add links to responses.  
         //apiResponse.AddLink("auth:register", _linkGenerator.GetPathByAction(_httpContextAccessor.HttpContext!, action: "Register", controller: "Authentication", values: null)!, "POST");
         //apiResponse.AddLink("auth:login", _linkGenerator.GetPathByAction(_httpContextAccessor.HttpContext!, action: "Login", controller: "Authentication", values: null)!, "POST");
         //apiResponse.AddLink("programs:get", _linkGenerator.GetPathByAction(_httpContextAccessor.HttpContext!, action: "GetAllPrograms", controller: "BbgProgram", values: null)!, "GET");

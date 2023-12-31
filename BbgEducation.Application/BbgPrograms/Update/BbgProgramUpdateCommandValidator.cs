@@ -5,8 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BbgEducation.Application.BbgPrograms.Commands;
-public class BbgProgramUpdateCommandValidator: AbstractValidator<BbgProgramUpdateCommand>
+namespace BbgEducation.Application.BbgPrograms.Update;
+public class BbgProgramUpdateCommandValidator : AbstractValidator<BbgProgramUpdateCommand>
 {
     public BbgProgramUpdateCommandValidator()
     {

@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace BbgEducation.Api.Common;
 
@@ -8,9 +9,15 @@ namespace BbgEducation.Api.Common;
 [Authorize]
 public class ApiControllerBase : ControllerBase
 {
-    //protected IActionResult Problem(ValidationException ex)
-    //{
-    //    return ValidationProblem(statusCode: StatusCodes.Status400BadRequest, detail: ex.Message, title: "Validation Error");
+    protected IActionResult BuildValidationProblem(IEnumerable<ValidationFailure> errors) {
+        if (errors is null || !errors.Any()) {
+            return Problem();
+        }
 
-    //}
+        var modelStateDictionary = new ModelStateDictionary();
+        foreach (var error in errors) {
+            modelStateDictionary.AddModelError(error.PropertyName, error.ErrorMessage);
+        }
+        return ValidationProblem(modelStateDictionary);
+    }
 }

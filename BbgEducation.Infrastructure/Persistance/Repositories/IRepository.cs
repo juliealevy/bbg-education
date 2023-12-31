@@ -1,7 +1,7 @@
 ﻿namespace BbgEducation.Infrastructure.Persistance.Repositories;
 public interface IRepository<T>
 {
-    Task<T> GetByIdAsync(string id);
+    Task<T> GetByIdAsync(int id);
     Task<IEnumerable<T>> GetAllAsync(bool? includeInactive = false);
 
     Task<IEnumerable<T>> GetAllAsync<TFirst, TSecond, T, U>(string splitOn, Func<TFirst, TSecond, T> map, U parameters);

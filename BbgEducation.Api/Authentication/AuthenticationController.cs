@@ -3,11 +3,12 @@ using BbgEducation.Api.Common;
 using BbgEducation.Application.Authentication;
 using BbgEducation.Application.Authentication.Login;
 using BbgEducation.Application.Authentication.Register;
-using BbgEducation.Application.Common;
+using BbgEducation.Application.Common.Validation;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OneOf;
 
 namespace BbgEducation.Api.Authentication;
 
@@ -24,21 +25,26 @@ public class AuthenticationController: ApiControllerBase
     }
 
 
-    [HttpPost(ApiRoutes.Authentication.Register) ]
+    [HttpPost(ApiRoutes.Authentication.Register)]
     public async Task<IActionResult> Register(RegisterRequest request) {
         var command = _mapper.Map<RegisterCommand>(request);
-        AuthenticationResult registerResult = await _mediator.Send(command);
-        
-        return Ok(_mapper.Map<AuthenticationResponse>(registerResult));
-    }
+        var authResult = await _mediator.Send(command);
+        return HandleAuthResult(authResult);
+    }   
 
     [HttpPost(ApiRoutes.Authentication.Login)]
     public async Task<IActionResult> Login(LoginRequest request) {
 
         var query = _mapper.Map<LoginQuery>(request);
-        AuthenticationResult loginResult = await _mediator.Send(query);
+        var authResult = await _mediator.Send(query);
 
+        return HandleAuthResult(authResult);
+    }
 
-        return Ok(_mapper.Map<AuthenticationResponse>(loginResult));
+    private IActionResult HandleAuthResult(OneOf<AuthenticationResult, ValidationFailed> authResult) {
+        return authResult.Match<IActionResult>(
+            auth => Ok(_mapper.Map<AuthenticationResponse>(authResult.Value)),
+            failed => BadRequest(BuildValidationProblem(failed.Errors))
+            );
     }
 }

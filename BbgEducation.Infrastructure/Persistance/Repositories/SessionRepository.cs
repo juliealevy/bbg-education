@@ -38,7 +38,7 @@ public class SessionRepository : GenericRepository<Session>, ISessionRepository
 
     }
 
-    public Task<Session> GetSession(string sessionID) {
+    public Task<Session> GetSession(int sessionID) {
         return GetByIdAsync(sessionID);
     }
 
@@ -91,7 +91,7 @@ public class SessionRepository : GenericRepository<Session>, ISessionRepository
         return inputParams;
     }
 
-    protected override DynamicParameters BuildGetByIdParam(string id) {
+    protected override DynamicParameters BuildGetByIdParam(int id) {
         var inputParams = new DynamicParameters();
         inputParams.Add("@id", id);
         return inputParams;

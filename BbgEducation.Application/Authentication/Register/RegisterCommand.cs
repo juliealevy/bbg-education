@@ -1,15 +1,11 @@
-﻿using BbgEducation.Application.Common;
+﻿using BbgEducation.Application.Common.Validation;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OneOf;
 
 namespace BbgEducation.Application.Authentication.Register;
 public record RegisterCommand(
     string FirstName,
     string LastName,
     string Email,
-    string Password) : IRequest<AuthenticationResult>;
+    string Password) : IRequest<OneOf<AuthenticationResult, ValidationFailed>>;
 

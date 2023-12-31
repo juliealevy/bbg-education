@@ -1,4 +1,5 @@
-﻿using BbgEducation.Application.BbgPrograms.Commands;
+﻿using BbgEducation.Application.BbgPrograms;
+using BbgEducation.Application.BbgPrograms.Create;
 using BbgEducation.Domain.BbgProgramDomain;
 using Mapster;
 using Microsoft.AspNetCore.Routing.Constraints;
@@ -12,10 +13,10 @@ public class BbgProgramMappingConfig : IRegister
         config.NewConfig<CreateBbgProgramRequest, BbgProgramCreateCommand>()
             .Map(dest => dest, src => src);
 
-        config.NewConfig<BbgProgram, BbgProgramResponse>()
-            .Map(dest => dest.Id, src => src.program_id)
-            .Map(dest => dest.Name, src => src.program_name)
-            .Map(dest => dest.Description, src => src.description);
+        config.NewConfig<BbgProgramResult, BbgProgramResponse>()
+            .Map(dest => dest.Id, src => src.Id)
+            .Map(dest => dest.Name, src => src.Name)
+            .Map(dest => dest.Description, src => src.Description);
 
     }
 

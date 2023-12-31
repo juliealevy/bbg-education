@@ -12,7 +12,7 @@ public abstract class GenericRepository<T> : IRepository<T>
     }
 
     protected abstract DynamicParameters BuildAddUpdateParams(T entity);
-    protected abstract DynamicParameters BuildGetByIdParam(string id);
+    protected abstract DynamicParameters BuildGetByIdParam(int id);
 
     protected abstract DynamicParameters BuildCheckNameExistsParam(string name);
 
@@ -32,7 +32,7 @@ public abstract class GenericRepository<T> : IRepository<T>
             try {
                 var inputParams = BuildAddUpdateParams(entity);
 
-                var newId = await connection.ExecuteScalarAsync<string>(AddUpdateStoredProc, inputParams,
+                var newId = await connection.ExecuteScalarAsync<int>(AddUpdateStoredProc, inputParams,
                     commandType: CommandType.StoredProcedure);
 
                 return await GetByIdAsync(newId!);
@@ -108,7 +108,7 @@ public abstract class GenericRepository<T> : IRepository<T>
         }
     }
 
-    public async Task<T> GetByIdAsync(string id) {
+    public async Task<T> GetByIdAsync(int id) {
         IEnumerable<T> data = new List<T>();
 
         using (var connection = _connectionFactory.Create()) {
@@ -130,7 +130,7 @@ public abstract class GenericRepository<T> : IRepository<T>
             try {
                 var inputParams = BuildAddUpdateParams(entity);
 
-               var id = await connection.ExecuteScalarAsync<string>(AddUpdateStoredProc, inputParams,
+               var id = await connection.ExecuteScalarAsync<int>(AddUpdateStoredProc, inputParams,
                     commandType: CommandType.StoredProcedure);
                 return await GetByIdAsync(id!);
             }
