@@ -32,8 +32,8 @@ public class BbgProgramRepository : GenericRepository<BbgProgram>, IBbgProgramRe
         return await CheckNameExistsAsync(name);
     }
 
-    public Task<BbgProgram> AddProgram(BbgProgram entity) {
-        return Add(entity);
+    public Task<BbgProgram> AddProgram(string name, string description) {
+        return Add(BbgProgram.CreateNew(name, description));
     }
 
     public Task<BbgProgram> UpdateProgram(BbgProgram entity) {

@@ -25,11 +25,7 @@ public class BbgProgramCreateCommandHandler : IRequestHandler<BbgProgramCreateCo
             return new ValidationFailed(new ValidationFailure(nameof(BbgProgramCreateCommand.Name), "Name already exists"));
         }
 
-        var program = BbgProgram.CreateNew(
-            request.Name,
-            request.Description);
-
-        var newProgram = await _bbgProgramRepository.AddProgram(program);
+        var newProgram = await _bbgProgramRepository.AddProgram(request.Name, request.Description);
 
         return new BbgProgramResult((int)newProgram.program_id!, newProgram.program_name, newProgram.description);
 

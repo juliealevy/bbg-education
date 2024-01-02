@@ -9,4 +9,5 @@ namespace BbgEducation.Application.Common.Interfaces.Authentication;
 public interface IJwtTokenGenerator
 {
     string GenerateToken(User user);
+    string GenerateToken(string id, string firstName, string lastName, string email, string password);
 }

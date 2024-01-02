@@ -3,7 +3,7 @@
 namespace BbgEducation.Application.Common.Interfaces.Persistance;
 public interface IBbgProgramRepository
 {
-    Task<BbgProgram> AddProgram(BbgProgram entity);
+    Task<BbgProgram> AddProgram(string name, string description);
     Task<BbgProgram> UpdateProgram(BbgProgram entity);
     Task DeleteProgram(BbgProgram entity);
     Task DeleteAllPrograms();

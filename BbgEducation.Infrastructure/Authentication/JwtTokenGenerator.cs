@@ -23,6 +23,10 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 
     public string GenerateToken(User user) {
 
+        return GenerateToken(user.Id, user.FirstName, user.LastName, user.Email, user.Password);
+    }
+
+    public string GenerateToken(string id, string firstName, string lastName, string email, string password) {
         //symmetric key because we are issuing and validating the token ourselves
         //if using an identity server, need to change
         var signingCreds = new SigningCredentials(
@@ -31,9 +35,9 @@ public class JwtTokenGenerator : IJwtTokenGenerator
             SecurityAlgorithms.HmacSha256);
 
         var claims = new[] {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()!),
-            new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
-            new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
+            new Claim(JwtRegisteredClaimNames.Sub, id),
+            new Claim(JwtRegisteredClaimNames.GivenName, firstName),
+            new Claim(JwtRegisteredClaimNames.FamilyName, lastName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 

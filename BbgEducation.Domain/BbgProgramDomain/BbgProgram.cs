@@ -25,13 +25,15 @@ public sealed class BbgProgram: Entity
         base.created_datetime = createdDateTime;
         base.updated_datetime = updatedDateTime;
 
-    }
-    public static BbgProgram CreateNew(
+    }  
+
+    public static BbgProgram Create(
+        int program_id,
         string program_name,
         string description) {
 
         var program = new BbgProgram(
-            null,  //created by db at the moment
+            program_id, 
             program_name,
             description,
             DateTime.UtcNow,
@@ -41,13 +43,12 @@ public sealed class BbgProgram: Entity
 
     }
 
-    public static BbgProgram CreateExisting(
-        int program_id,
+    public static BbgProgram CreateNew(        
         string program_name,
         string description) {
 
         var program = new BbgProgram(
-            program_id, 
+            null,
             program_name,
             description,
             DateTime.UtcNow,
