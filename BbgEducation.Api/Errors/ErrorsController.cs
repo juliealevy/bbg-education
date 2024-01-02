@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BbgEducation.Api.Errors;
 
+/// <summary>
+/// This handler is for unhandled exceptions not coming back to controllers as OneOf ValidationFailed
+/// </summary>
 public class ErrorsController: ControllerBase
 {
     [Route("/error")]

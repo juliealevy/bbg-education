@@ -1,4 +1,5 @@
-﻿using BbgEducation.Domain.BbgProgramDomain;
+﻿using BbgEducation.Application.BbgPrograms.Common;
+using BbgEducation.Domain.BbgProgramDomain;
 using MediatR;
 
 namespace BbgEducation.Application.BbgPrograms.GetAll;

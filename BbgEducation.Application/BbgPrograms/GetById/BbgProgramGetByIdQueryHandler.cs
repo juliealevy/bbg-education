@@ -1,6 +1,5 @@
-﻿using BbgEducation.Application.Common.Interfaces.Persistance;
-using BbgEducation.Application.Common.Validation;
-using BbgEducation.Domain.BbgProgramDomain;
+﻿using BbgEducation.Application.BbgPrograms.Common;
+using BbgEducation.Application.Common.Interfaces.Persistance;
 using MediatR;
 using OneOf;
 using OneOf.Types;

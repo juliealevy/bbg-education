@@ -1,4 +1,4 @@
-﻿using BbgEducation.Application.BbgPrograms;
+﻿using BbgEducation.Application.BbgPrograms.Common;
 using BbgEducation.Application.BbgPrograms.Create;
 using BbgEducation.Domain.BbgProgramDomain;
 using Mapster;

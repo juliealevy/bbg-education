@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BbgEducation.Application.Authentication;
+namespace BbgEducation.Application.Authentication.Common;
 public record AuthenticationResult(
     string Id,
     string FirstName,

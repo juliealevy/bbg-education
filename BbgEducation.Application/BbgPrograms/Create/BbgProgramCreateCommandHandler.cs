@@ -4,29 +4,20 @@ using BbgEducation.Application.Common.Interfaces.Persistance;
 using BbgEducation.Application.Common.Validation;
 using OneOf;
 using FluentValidation.Results;
-using FluentValidation;
+using BbgEducation.Application.BbgPrograms.Common;
 
 namespace BbgEducation.Application.BbgPrograms.Create;
 public class BbgProgramCreateCommandHandler : IRequestHandler<BbgProgramCreateCommand, OneOf<BbgProgramResult, ValidationFailed>>
 {
     private readonly IBbgProgramRepository _bbgProgramRepository;
-    private readonly IValidator<BbgProgramCreateCommand> _validator;
 
-    public BbgProgramCreateCommandHandler(IBbgProgramRepository bbgProgramRepository, IValidator<BbgProgramCreateCommand> validator)
+    public BbgProgramCreateCommandHandler(IBbgProgramRepository bbgProgramRepository)
     {
         _bbgProgramRepository = bbgProgramRepository;
-        _validator = validator;
     }
 
     public async Task<OneOf<BbgProgramResult, ValidationFailed>> Handle(BbgProgramCreateCommand request, CancellationToken cancellationToken)
     {
-        var validate = _validator.Validate(request);
-
-        if (!validate.IsValid)
-        {
-            return new ValidationFailed(validate.Errors);
-        }
-
         var programNameExists = await _bbgProgramRepository.CheckProgramNameExistsAsync(request.Name);
 
         if (programNameExists)

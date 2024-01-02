@@ -3,8 +3,9 @@ using MediatR;
 using OneOf;
 
 namespace BbgEducation.Application.Common.Validation;
-public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, OneOf<TResponse, ValidationFailed>>
+public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
+    where TResponse: IOneOf
 {    
     private readonly IEnumerable<IValidator<TRequest>>? _validators;
 
@@ -12,9 +13,9 @@ public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior
     {
         _validators = validators;
     }
-    public async Task<OneOf<TResponse, ValidationFailed>> Handle(
+    public async Task<TResponse> Handle(
         TRequest request,
-        RequestHandlerDelegate<OneOf<TResponse,ValidationFailed>> next,
+        RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
 
@@ -36,7 +37,7 @@ public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior
             return await next();  
         }
 
-        return new ValidationFailed(errors);
+        return (dynamic)new ValidationFailed(errors);
 
     }
 

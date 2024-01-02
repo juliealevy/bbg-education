@@ -1,4 +1,5 @@
-﻿using BbgEducation.Application.Common.Validation;
+﻿using BbgEducation.Application.BbgPrograms.Common;
+using BbgEducation.Application.Common.Validation;
 using BbgEducation.Domain.BbgProgramDomain;
 using MediatR;
 using OneOf;

@@ -1,7 +1,7 @@
 ﻿using BbgEducation.Application.Authentication.Login;
 using BbgEducation.Application.Authentication.Register;
-using BbgEducation.Application.Authentication;
 using Mapster;
+using BbgEducation.Application.Authentication.Common;
 
 namespace BbgEducation.Api.Authentication;
 

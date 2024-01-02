@@ -19,8 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Behaviors\" />
-    <Folder Include="Common\Exceptions\" />
     <Folder Include="BbgSessions\" />
   </ItemGroup>
 
