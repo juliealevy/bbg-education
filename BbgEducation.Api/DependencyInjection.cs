@@ -1,4 +1,5 @@
-﻿using BbgEducation.Api.Errors;
+﻿using BbgEducation.Api.Api;
+using BbgEducation.Api.Errors;
 using Mapster;
 using MapsterMapper;
 using System.Reflection;
@@ -16,6 +17,7 @@ public static class DependencyInjection
                     System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
             });
         services.AddMappings();
+        services.AddSingleton<IApiRouteService, ApiRouteService>();
 
         return services;
 

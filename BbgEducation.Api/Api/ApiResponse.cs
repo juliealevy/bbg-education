@@ -11,10 +11,24 @@ public class ApiResponse
     {
         version = apiVersion;
     }
+
+    public void AddLink(string rel, ApiRouteData routeData) {
+        if (routeData is not null) {
+            AddLink(rel, routeData.RouteTemplate!, routeData.HttpMethod);
+        }
+    }
+
+    public void AddLink(string rel, ApiRouteData routeData, object emptyBody) {
+        if (routeData is not null) {
+            AddLink(rel, routeData.RouteTemplate!, routeData.HttpMethod, emptyBody);
+        }
+    }
     public void AddLink(string rel, string href, string method, object emptyBody)
     {
         api._links.Add(new Link(rel, href, method, emptyBody));
     }
+
+
 
     public void AddLink(string rel, string href, string method)
     {
