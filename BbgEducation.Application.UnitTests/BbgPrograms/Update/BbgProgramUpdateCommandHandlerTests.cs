@@ -1,0 +1,89 @@
+﻿using AutoFixture;
+using BbgEducation.Application.BbgPrograms.Common;
+using BbgEducation.Application.BbgPrograms.Create;
+using BbgEducation.Application.BbgPrograms.Update;
+using BbgEducation.Application.Common.Interfaces.Persistance;
+using BbgEducation.Application.Common.Validation;
+using BbgEducation.Domain.BbgProgramDomain;
+using FluentAssertions;
+using NSubstitute;
+using NSubstitute.ReturnsExtensions;
+using OneOf.Types;
+
+namespace BbgEducation.Application.UnitTests.BbgPrograms.Update;
+public class BbgProgramUpdateCommandHandlerTests
+{
+    private readonly BbgProgramUpdateCommandHandler _testing;
+    private readonly IBbgProgramRepository _programRepository = Substitute.For<IBbgProgramRepository>();
+    private readonly IFixture _fixture = new Fixture();
+
+    public BbgProgramUpdateCommandHandlerTests()
+    {
+        _testing = new BbgProgramUpdateCommandHandler(_programRepository);
+    }
+
+    [Fact]
+    public async void Handle_ShouldReturnUpdatedProgram_WhenInputIsValid() {
+        
+        //arrange
+        var command = _fixture.Create<BbgProgramUpdateCommand>();
+        var program = BbgProgram.Create(command.Id, command.Name, command.Description);
+
+        _programRepository.GetProgramByIdAsync(command.Id).Returns(program);
+        _programRepository.CheckProgramNameExistsAsync(command.Name).Returns(false);
+
+        
+        _programRepository.UpdateProgram(program).Returns(program);
+
+        //act
+        var result = await _testing.Handle(command, default);
+
+        //assert
+        result.Should().NotBeNull();
+
+        result.IsT0.Should().BeTrue();
+        BbgProgramResult? T0Value = result.AsT0;        
+        T0Value.Should().NotBeNull();
+        T0Value.Id.Should().Be(program.program_id);
+        T0Value.Name.Should().Be(program.program_name);
+        T0Value.Description.Should().Be(program.description);
+    }
+
+    [Fact]
+    public async void Handle_ShouldReturnNotFound_WhenIdIsInvalid() {
+
+        //arrange
+        var command = _fixture.Create<BbgProgramUpdateCommand>();
+        _programRepository.GetProgramByIdAsync(command.Id).ReturnsNull();
+
+        //act
+        var result = await _testing.Handle(command, default);
+
+        //assert
+        result.IsT1.Should().BeTrue();
+        result.AsT1.Should().NotBeNull();
+        result.AsT1.Should().Be(new NotFound());
+    }
+
+    [Fact]
+    public async void Handle_ShouldReturnFail_WhenNameExists() {
+
+        //arrange
+        var command = _fixture.Create<BbgProgramUpdateCommand>();
+        var program = BbgProgram.Create(command.Id, command.Name, command.Description);
+
+        _programRepository.GetProgramByIdAsync(command.Id).Returns(program);
+        _programRepository.CheckProgramNameExistsAsync(command.Name).Returns(true);
+
+        //act
+        var result = await _testing.Handle(command, default);
+
+        //assert
+        result.Should().NotBeNull();
+        result.IsT2.Should().BeTrue();
+        result.AsT2.Should().NotBeNull();
+        result.AsT2.Errors.Should().NotBeNull().And.HaveCount(1);
+        result.AsT2.GetType().Should().Be(typeof(NameExistsValidationFailed));
+
+    }
+}

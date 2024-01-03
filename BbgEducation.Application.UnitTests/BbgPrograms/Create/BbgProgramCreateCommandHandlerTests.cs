@@ -6,14 +6,8 @@ using BbgEducation.Application.Common.Validation;
 using BbgEducation.Domain.BbgProgramDomain;
 using FluentAssertions;
 using NSubstitute;
-using OneOf.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BbgEducation.Application.UnitTests.BbgPrograms;
+namespace BbgEducation.Application.UnitTests.BbgPrograms.Create;
 public class BbgProgramCreateCommandHandlerTests
 {
     private readonly BbgProgramCreateCommandHandler _testing;
@@ -26,11 +20,13 @@ public class BbgProgramCreateCommandHandlerTests
     }
 
     [Fact]
-    public async void Handle_ShouldReturnNewProgram_WhenInputIsValid() {
+    public async void Handle_ShouldReturnNewProgram_WhenInputIsValid()
+    {
         //arrange
-        var command = _fixture.Create<BbgProgramCreateCommand>();        
+        var command = _fixture.Create<BbgProgramCreateCommand>();
+
         _programRepository.CheckProgramNameExistsAsync(command.Name).Returns(false);
-        
+
         var savedProgram = BbgProgram.Create(1, command.Name, command.Description);
         _programRepository.AddProgram(command.Name, command.Description).Returns(savedProgram);
 
@@ -42,7 +38,7 @@ public class BbgProgramCreateCommandHandlerTests
 
         result.IsT0.Should().BeTrue();
         BbgProgramResult? T0Value = result.AsT0;
-        T0Value.Should().NotBeNull();        
+        T0Value.Should().NotBeNull();
         T0Value.Id.Should().Be(savedProgram.program_id);
         T0Value.Name.Should().Be(savedProgram.program_name);
         T0Value.Description.Should().Be(savedProgram.description);
@@ -50,7 +46,8 @@ public class BbgProgramCreateCommandHandlerTests
 
 
     [Fact]
-    public async void Handle_ShouldReturnNewProgram_WhenNameExists() {
+    public async void Handle_Should_Fail_WhenNameExists()
+    {
         //arrange
         var command = _fixture.Create<BbgProgramCreateCommand>();
         _programRepository.CheckProgramNameExistsAsync(command.Name).Returns(true);
@@ -63,15 +60,10 @@ public class BbgProgramCreateCommandHandlerTests
 
         //assert
         result.Should().NotBeNull();
-
         result.IsT1.Should().BeTrue();
-        var validationFailResult = result.AsT1;
-        validationFailResult.Should().NotBeNull();
-        validationFailResult.Errors.Should().NotBeNull();
-        validationFailResult.Errors.Count().Should().Be(1);
-        validationFailResult.Errors.FirstOrDefault()!.ErrorMessage.Should().Be("Name already exists");
-        
-        
+        result.AsT1.Should().NotBeNull();
+        result.AsT1.Errors.Should().NotBeNull().And.HaveCount(1);
+        result.AsT1.GetType().Should().Be(typeof(NameExistsValidationFailed));
     }
 
 }

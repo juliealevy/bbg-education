@@ -4,7 +4,7 @@ using FluentValidation;
 namespace BbgEducation.Application.Authentication.Login;
 public class LoginQueryValidator : AbstractValidator<LoginQuery>
 {
-    public LoginQueryValidator(IUserRepository userRepository) {
+    public LoginQueryValidator() {
 
         RuleFor(x => x.Email).NotEmpty();
         RuleFor(x => x.Email).EmailAddress();

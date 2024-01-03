@@ -37,9 +37,4 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, OneOf<Authenticatio
            token);
     }
 
-    /// <summary>
-    /// Builds generic credentials validation failed to hide if it was the email or password that was wrong for security"
-    /// </summary>
-    /// <returns></returns>
-   
 }

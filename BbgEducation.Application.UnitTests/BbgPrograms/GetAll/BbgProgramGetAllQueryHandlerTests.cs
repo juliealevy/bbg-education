@@ -5,19 +5,21 @@ using BbgEducation.Domain.BbgProgramDomain;
 using FluentAssertions;
 using NSubstitute;
 
-namespace BbgEducation.Application.UnitTests.BbgPrograms;
+namespace BbgEducation.Application.UnitTests.BbgPrograms.GetAll;
 public class BbgProgramGetAllQueryHandlerTests
 {
     private readonly BbgProgramGetAllQueryHandler _testing;
-    private readonly IBbgProgramRepository _programRepository =  Substitute.For<IBbgProgramRepository>();
+    private readonly IBbgProgramRepository _programRepository = Substitute.For<IBbgProgramRepository>();
     private readonly IFixture _fixture = new Fixture();
 
-    public BbgProgramGetAllQueryHandlerTests() {
+    public BbgProgramGetAllQueryHandlerTests()
+    {
         _testing = new BbgProgramGetAllQueryHandler(_programRepository);
     }
 
     [Fact]
-    public async void Handle_ShouldReturnList_WhenValid() {
+    public async void Handle_ShouldReturnList_WhenValid()
+    {
 
         //arrange
 
@@ -27,7 +29,7 @@ public class BbgProgramGetAllQueryHandlerTests
             BbgProgram.Create(3, "Three", "Three Description")
         };
 
-        _programRepository.GetProgramsAsync().Returns<IEnumerable<BbgProgram>>(programs);
+        _programRepository.GetProgramsAsync().Returns(programs);
 
         var query = _fixture.Create<BbgProgramGetAllQuery>();
 
@@ -47,6 +49,6 @@ public class BbgProgramGetAllQueryHandlerTests
         firstResult?.Description.Should().Be(firstSeed?.description);
 
 
-    }   
+    }
 
 }

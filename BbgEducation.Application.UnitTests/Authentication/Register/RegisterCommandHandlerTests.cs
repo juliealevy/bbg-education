@@ -61,7 +61,7 @@ public class RegisterCommandHandlerTests
         resultValue.Should().NotBeNull();
         resultValue.Errors.Should().NotBeNull();
         resultValue.Errors.Count().Should().Be(1);
-        resultValue.Errors.FirstOrDefault().ErrorMessage.Should().Be("Email already exists");
+        resultValue.Errors.FirstOrDefault()!.ErrorMessage.Should().Be("Email already exists");
 
     }
 }

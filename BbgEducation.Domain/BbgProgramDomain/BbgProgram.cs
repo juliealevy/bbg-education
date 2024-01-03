@@ -1,4 +1,5 @@
 ﻿using BbgEducation.Domain.Common;
+using System.Security.Cryptography;
 
 namespace BbgEducation.Domain.BbgProgramDomain;
 
@@ -60,5 +61,29 @@ public sealed class BbgProgram: Entity
 
     private BbgProgram() {
 
+    }
+
+    public override bool Equals(object? obj) {
+        return obj is BbgProgram entity && program_id.Equals(entity.program_id);
+    }
+
+    public static bool operator ==(BbgProgram left, BbgProgram right) {
+        return (left is null && right is null) ||
+            left!.Equals(right);
+    }
+
+    public static bool operator !=(BbgProgram left, BbgProgram right) {
+        return  
+            (left is null && right is not null) ||
+            (right is null && left is not null) ||
+            !left!.Equals(right);
+    }
+
+    public override int GetHashCode() {
+        return HashCode.Combine(program_id, program_name);
+    }
+
+    public bool Equals(BbgProgram? other) {
+        return Equals((object?)other);
     }
 }

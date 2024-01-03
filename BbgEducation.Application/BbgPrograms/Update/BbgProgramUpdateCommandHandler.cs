@@ -18,18 +18,23 @@ public class BbgProgramUpdateCommandHandler : IRequestHandler<BbgProgramUpdateCo
 
     public async Task<OneOf<BbgProgramResult, NotFound, ValidationFailed>> Handle(BbgProgramUpdateCommand request, CancellationToken cancellationToken)
     {
-
-        var program = BbgProgram.Create(
-           request.Id,
-           request.Name,
-           request.Description);
+       
+        var programExists = await _programRepository.GetProgramByIdAsync(request.Id);
+        if (programExists is null) {
+            return new NotFound();
+        }
 
         var programNameExists = await _programRepository.CheckProgramNameExistsAsync(request.Name);
 
-        if (!programNameExists)
+        if (programNameExists)
         {
-            return new NotFound();
+            return new NameExistsValidationFailed("Program");
         }
+
+        var program = BbgProgram.Create(
+          request.Id,
+          request.Name,
+          request.Description);
 
         var newProgram = await _programRepository.UpdateProgram(program);
 

@@ -32,6 +32,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, OneOf<Aut
 
         _userRepository.Add(user);
 
+        //Question:  should register generate a token?  Or require user to log in after registration?
         var token = _jwtTokenGenerator.GenerateToken(user);
 
         var authResult =  new AuthenticationResult(
