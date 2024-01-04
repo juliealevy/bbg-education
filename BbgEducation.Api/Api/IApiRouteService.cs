@@ -2,7 +2,7 @@
 
 public interface IApiRouteService
 {
-    ApiRouteData? GetRouteData(string controllerName, string methodName);
+    ApiRouteData? GetSelfRouteData(RouteValueDictionary routeValues);
 
     ApiRouteData? GetRouteData(Type controllerClass, string methodName);
 }

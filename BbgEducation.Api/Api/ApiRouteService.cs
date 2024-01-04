@@ -58,4 +58,11 @@ public class ApiRouteService : IApiRouteService
         }
         return routeList!.Where(m => m.ActionMethodName.Equals(methodName)).FirstOrDefault();
     }
+
+    public ApiRouteData? GetSelfRouteData(RouteValueDictionary routeValues) {
+        if (routeValues == null || routeValues.Count < 2) {
+            return null; 
+        }   
+        return GetRouteData(routeValues["controller"]?.ToString()!, routeValues["action"]?.ToString()!);
+    }
 }

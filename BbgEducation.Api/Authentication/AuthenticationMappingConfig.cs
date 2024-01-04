@@ -2,6 +2,7 @@
 using BbgEducation.Application.Authentication.Register;
 using Mapster;
 using BbgEducation.Application.Authentication.Common;
+using BbgEducation.Api.Links;
 
 namespace BbgEducation.Api.Authentication;
 
@@ -13,6 +14,13 @@ public class AuthenticationMappingConfig : IRegister
         config.NewConfig<RegisterRequest, RegisterCommand>();
         config.NewConfig<LoginRequest, LoginQuery>();
 
-        config.NewConfig<AuthenticationResult, AuthenticationResponse>();
+        config.NewConfig<AuthenticationResult, AuthenticationResponse>()
+            .Map(dest => dest.Id, src => src.Id)
+            .Map(dest => dest.FirstName, src => src.FirstName)
+            .Map(dest => dest.LastName, src => src.LastName)
+            .Map(dest => dest.Email, src => src.Email)
+            .Map(dest => dest.Token, src => src.Token)
+            .Map(dest => dest._links, _ => new Dictionary<string, List<Link>>())
+            .IgnoreNonMapped(true);
     }
 }

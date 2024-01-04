@@ -2,44 +2,18 @@
 
 namespace BbgEducation.Api.Api;
 
-public class ApiResponse
+public class ApiResponse: HalResponse
 {
-    public Api api { get; } = new();
     public string version { get; } = string.Empty;
 
-    public ApiResponse(string apiVersion)
+    public ApiResponse(ApiRouteData selfRouteData, string apiVersion)
     {
         version = apiVersion;
-    }
-
-    public void AddLink(string rel, ApiRouteData routeData) {
-        if (routeData is not null) {
-            AddLink(rel, routeData.RouteTemplate!, routeData.HttpMethod);
-        }
-    }
-
-    public void AddLink(string rel, ApiRouteData routeData, object emptyBody) {
-        if (routeData is not null) {
-            AddLink(rel, routeData.RouteTemplate!, routeData.HttpMethod, emptyBody);
-        }
-    }
-    public void AddLink(string rel, string href, string method, object emptyBody)
-    {
-        api._links.Add(new Link(rel, href, method, emptyBody));
-    }
-
-
-
-    public void AddLink(string rel, string href, string method)
-    {
-        api._links.Add(new Link(rel, href, method));
-    }
+        AddSelfLink(selfRouteData);
+        
+    }   
 }
-public class Api
-{
-    public List<Link> _links { get; set; } = new();
 
-}
 
 
 
