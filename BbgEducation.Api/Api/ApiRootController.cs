@@ -20,7 +20,7 @@ public class ApiRootController : ApiControllerBase
     [HttpGet]
     public IActionResult Get()
     {        
-        var apiResponse = new ApiResponse(_routeService.GetRouteData(typeof(ApiRootController), Request.Method)!, _version);                 
+        var apiResponse = new ApiResponse(_routeService.GetSelfRouteData(Request.RouteValues)!, _version);                 
 
         apiResponse.AddLink("auth:register", _routeService.GetRouteData(typeof(AuthenticationController), "Register")!, new RegisterRequest("", "", "", ""));
         apiResponse.AddLink("auth:login", _routeService.GetRouteData(typeof(AuthenticationController), "Login")!, new LoginRequest("", ""));       
