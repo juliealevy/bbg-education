@@ -35,64 +35,76 @@ https://localhost:7270/api
 
 ```json
 {
-    "api": {
-        "_links": [
+    "version": "0.0.1",
+    "_links": {
+        "self": [
             {
-                "rel": "self",
                 "href": "api",
+                "templated": false,
                 "method": "GET"
-            },
+            }
+        ],
+        "auth:register": [
             {
-                "rel": "auth:register",
                 "href": "api/auth/register",
-                "method": "POST",
+                "templated": false,
                 "body": {
                     "firstName": "",
                     "lastName": "",
                     "email": "",
                     "password": ""
-                }
-            },
+                },
+                "method": "POST"
+            }
+        ],
+        "auth:login": [
             {
-                "rel": "auth:login",
                 "href": "api/auth/login",
-                "method": "POST",
+                "templated": false,
                 "body": {
                     "email": "",
                     "password": ""
-                }
-            },
+                },
+                "method": "POST"
+            }
+        ],
+        "programs:get-all": [
             {
-                "rel": "programs:get_all",
                 "href": "api/programs",
+                "templated": false,
                 "method": "GET"
-            },
+            }
+        ],
+        "programs:get-by-id": [
             {
-                "rel": "programs:get_by_id",
                 "href": "api/programs/{programId}",
+                "templated": true,
                 "method": "GET"
-            },
+            }
+        ],
+        "programs:create": [
             {
-                "rel": "programs:create",
                 "href": "api/programs",
-                "method": "POST",
+                "templated": false,
                 "body": {
                     "name": "",
                     "description": ""
-                }
-            },
+                },
+                "method": "POST"
+            }
+        ],
+        "programs:update": [
             {
-                "rel": "programs:update",
                 "href": "api/programs",
-                "method": "PUT",
+                "templated": false,
                 "body": {
-                    "id": -123,
+                    "id": 123,
                     "name": "Updated Name",
                     "description": "Updated Description"
-                }
+                },
+                "method": "PUT"
             }
         ]
-    },
-    "version": "0.0.1"
+    }
 }
 ```
