@@ -11,5 +11,6 @@ public interface IUserRepository
     User? GetUserByEmail(string email);
     void Add(User user);
 
+    void ClearAllUsers();  //for development
     //todo... changing email, password, etc.
 }

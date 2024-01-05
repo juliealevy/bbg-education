@@ -1,5 +1,7 @@
 ﻿using BbgEducation.Api.Api;
+using BbgEducation.Api.Common.Routes;
 using BbgEducation.Api.Errors;
+using BbgEducation.Api.Hal;
 using Mapster;
 using MapsterMapper;
 using System.Reflection;
@@ -18,6 +20,11 @@ public static class DependencyInjection
             });
         services.AddMappings();
         services.AddSingleton<IApiRouteService, ApiRouteService>();
+        services.AddScoped<IBbgLinkGenerator, BbgLinkGenerator>();
+        services.AddControllersWithViews(opts =>
+        {
+            opts.Conventions.Add(new RoutePrefixConvention());
+        });
 
         return services;
 

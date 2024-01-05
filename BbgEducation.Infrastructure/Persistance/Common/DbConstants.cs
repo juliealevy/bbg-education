@@ -6,7 +6,7 @@ public static class DbConstants
     public static class StoredProcedures
     {
 
-        public static partial class Program
+        public static class Program
         {
             public const string GET_BY_ID = SCHEMA_PREFIX + "spProgramGetById";
             public const string GET_ALL = SCHEMA_PREFIX + "spProgramGetAll";
@@ -15,7 +15,7 @@ public static class DbConstants
             public const string NAME_EXISTS = SCHEMA_PREFIX + "spProgramNameExists";
         }
 
-        public static partial class Session
+        public static class Session
         {
             public const string GET_BY_ID = SCHEMA_PREFIX + "spSessionGet";
             public const string GET_ALL = SCHEMA_PREFIX + "spSessionGetAll";

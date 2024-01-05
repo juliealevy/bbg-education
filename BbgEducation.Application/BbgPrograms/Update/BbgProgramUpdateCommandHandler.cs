@@ -24,13 +24,14 @@ public class BbgProgramUpdateCommandHandler : IRequestHandler<BbgProgramUpdateCo
             return new NotFound();
         }
 
-        var programNameExists = await _programRepository.CheckProgramNameExistsAsync(request.Name);
+        //if the name changed, make sure it doesn't already exist
+        if (!request.Name.Equals(programExists.program_name)) {
+            var programNameExists = await _programRepository.CheckProgramNameExistsAsync(request.Name);
 
-        if (programNameExists)
-        {
-            return new NameExistsValidationFailed("Program");
+            if (programNameExists) {
+                return new NameExistsValidationFailed("Program");
+            }
         }
-
         var program = BbgProgram.Create(
           request.Id,
           request.Name,

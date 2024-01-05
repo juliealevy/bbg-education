@@ -1,6 +1,7 @@
-﻿using BbgEducation.Api.Api;
+﻿using BbgEducation.Api.Common.Routes;
+using System.Text.Json.Serialization;
 
-namespace BbgEducation.Api.Links;
+namespace BbgEducation.Api.Hal;
 
 public class HalResponse
 {
@@ -8,39 +9,34 @@ public class HalResponse
 
     protected HalResponse() { }
 
-    public Dictionary<string, List<Link>> _links 
-    {
+    [JsonPropertyOrder(1)]
+    public Dictionary<string, List<Link>> _links {
         get {
             return __links;
         }
         set {
             __links = value;
         }
-    }
-
-    public void AddLink(string rel, ApiRouteData routeData) {
-        if (routeData is not null) {
-            AddLink(rel, routeData, null);
-        }
-    }
-
-    public void AddLink(string rel, ApiRouteData routeData, object body) {
-        if (routeData is not null) {
-            AddApiLink(rel, routeData.RouteTemplate!, routeData.HttpMethod, body);
-        }
-    }
+    }      
 
     public void AddSelfLink(ApiRouteData routeData) {
         if (routeData is not null) {
-            AddApiLink("self", routeData.RouteTemplate!, routeData.HttpMethod, null);
+            AddLink(new Link("self", routeData.RouteTemplate!, routeData.HttpMethod!));
         }
-    }   
-    private void AddApiLink(string rel, string href, string? method, object? body) {
-        if (!_links.ContainsKey(rel)) {
-            __links.Add(rel, new List<Link>());
-        }
-        var link = new Link(rel, href, method, body);
-        __links[rel].Add(link);
     }
+
+    public void AddSelfLink(Link? link) {
+        AddLink(link);
+    }
+
+    public void AddLink(Link? link) {
+        if (link is null)
+            return;
+
+        if (!_links.ContainsKey(link.Rel)) {
+            __links.Add(link.Rel, new List<Link>());
+        }        
+        __links[link.Rel].Add(link);
+    }   
 
 }

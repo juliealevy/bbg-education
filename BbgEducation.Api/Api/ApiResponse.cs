@@ -1,4 +1,5 @@
-﻿using BbgEducation.Api.Links;
+﻿using BbgEducation.Api.Common.Routes;
+using BbgEducation.Api.Hal;
 
 namespace BbgEducation.Api.Api;
 

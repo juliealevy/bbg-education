@@ -18,4 +18,8 @@ public class UserRepository : IUserRepository
     public User? GetUserByEmail(string email) {
         return _users.SingleOrDefault(u => u.Email == email);
     }
+
+    public void ClearAllUsers() {
+        _users.Clear();
+    }
 }

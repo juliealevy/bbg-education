@@ -24,13 +24,14 @@ public class BbgProgramUpdateCommandHandlerTests
 
     [Fact]
     public async void Handle_ShouldReturnUpdatedProgram_WhenInputIsValid() {
-        
-        //arrange
+
+        //arrange       
         var command = _fixture.Create<BbgProgramUpdateCommand>();
         var program = BbgProgram.Create(command.Id, command.Name, command.Description);
 
         _programRepository.GetProgramByIdAsync(command.Id).Returns(program);
-        _programRepository.CheckProgramNameExistsAsync(command.Name).Returns(false);
+        //this should not be called so returning true to be sure
+        _programRepository.CheckProgramNameExistsAsync(command.Name).Returns(true);
 
         
         _programRepository.UpdateProgram(program).Returns(program);
@@ -46,7 +47,7 @@ public class BbgProgramUpdateCommandHandlerTests
         T0Value.Should().NotBeNull();
         T0Value.Id.Should().Be(program.program_id);
         T0Value.Name.Should().Be(program.program_name);
-        T0Value.Description.Should().Be(program.description);
+        T0Value.Description.Should().Be(program.description);       
     }
 
     [Fact]
@@ -63,14 +64,14 @@ public class BbgProgramUpdateCommandHandlerTests
         result.IsT1.Should().BeTrue();
         result.AsT1.Should().NotBeNull();
         result.AsT1.Should().Be(new NotFound());
-    }
+    }   
 
     [Fact]
-    public async void Handle_ShouldReturnFail_WhenNameExists() {
+    public async void Handle_ShouldReturnFail_WhenChangedNameExists() {
 
         //arrange
         var command = _fixture.Create<BbgProgramUpdateCommand>();
-        var program = BbgProgram.Create(command.Id, command.Name, command.Description);
+        var program = BbgProgram.Create(command.Id, _fixture.Create<String>(), command.Description);
 
         _programRepository.GetProgramByIdAsync(command.Id).Returns(program);
         _programRepository.CheckProgramNameExistsAsync(command.Name).Returns(true);

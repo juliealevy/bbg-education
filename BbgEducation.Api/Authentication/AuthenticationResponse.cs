@@ -1,4 +1,4 @@
-﻿using BbgEducation.Api.Links;
+﻿using BbgEducation.Api.Hal;
 
 namespace BbgEducation.Api.Authentication;
 
