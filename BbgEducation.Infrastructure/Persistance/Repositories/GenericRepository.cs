@@ -86,7 +86,7 @@ public abstract class GenericRepository<T> : IRepository<T>
             }
             return data;
         }
-    }
+    }  
 
 
     public async Task<IEnumerable<T>> GetAllAsync(bool? includeInactive = null) {

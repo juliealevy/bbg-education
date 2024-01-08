@@ -1,16 +1,15 @@
 ﻿using BbgEducation.Api.BbgPrograms;
 using BbgEducation.Api.Common;
 using BbgEducation.Api.Hal;
-using BbgEducation.Application.BbgPrograms.Create;
-using BbgEducation.Application.BbgSessions.Create;
+using BbgEducation.Application.BbgSessions.GetAll;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BbgEducation.Api.BbgSessions;
 
-[Route("programs/{programId}/session")]
-public class BbgSessionController : ApiControllerBase
+[Route("sessions")]
+public class BbgSessionController: ApiControllerBase
 {
     private readonly IMapper _mapper;
     private readonly ISender _mediator;
@@ -22,22 +21,25 @@ public class BbgSessionController : ApiControllerBase
         _linkGenerator = linkGenerator;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateSession(
-       CreateBbgSessionRequest request, int programId) {
+    [HttpGet]
+    public async Task<IActionResult> GetAllSessions() {
+        var query = new BbgSessionGetAllQuery();
+        var getResult = await _mediator.Send(query);
 
-        var command = _mapper.Map<BbgSessionCreateCommand>((request, programId));
-        var createResult = await _mediator.Send(command);
+        var sessionListResponse = new BbgSessionListResponse();
+        sessionListResponse.AddSelfLink(_linkGenerator.GetSelfLink(HttpContext));
 
-        return createResult.Match<IActionResult>(
-            program => {
-                var response = _mapper.Map<BbgSessionResponse>(createResult.Value);
-                response.AddSelfLink(_linkGenerator.GetSelfLink(HttpContext));
-                //AddGetLinks(response);
+        var sessionList = _mapper.Map<List<BbgSessionResponse>>(getResult);
 
-                return CreatedAtAction(nameof(CreateSession), value: response);
-            },
-            failed => BadRequest(BuildValidationProblem(failed.Errors))
-            );
+        foreach (var session in sessionList.OrderBy(s => s.ProgramName)) {
+            session.AddLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Session.GET_BY_ID,
+                  typeof(BbgProgramSessionController), nameof(BbgProgramSessionController.GetSessionById),
+                  new { programId = session.ProgramId, sessionId = session.Id }));
+        }
+
+        sessionListResponse.Sessions = sessionList;
+
+        return Ok(sessionListResponse);
+
     }
 }

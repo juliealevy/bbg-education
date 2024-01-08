@@ -28,8 +28,8 @@ public sealed class BbgSession: Entity
         DateTime? updatedDateTime) {
 
         this.session_id = session_id;
-        this.session_name = sessionName;
-        this.description = description;
+        this.session_name = sessionName.Trim();
+        this.description = description.Trim();
         this.start_date = startDate;
         this.end_date = endDate;
         this.session_program = program;

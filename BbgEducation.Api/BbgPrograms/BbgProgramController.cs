@@ -1,4 +1,5 @@
-﻿using BbgEducation.Api.Common;
+﻿using BbgEducation.Api.BbgSessions;
+using BbgEducation.Api.Common;
 using BbgEducation.Api.Hal;
 using BbgEducation.Application.BbgPrograms.Create;
 using BbgEducation.Application.BbgPrograms.GetAll;
@@ -37,8 +38,9 @@ public class BbgProgramController : ApiControllerBase
                 var response = _mapper.Map<BbgProgramResponse>(getResult.Value);
                 response.AddSelfLink(_linkGenerator.GetSelfLink(HttpContext));
                 response.AddLink(_linkGenerator.GetActionLink(HttpContext,LinkRelations.Program.UPDATE, 
-                    typeof(BbgProgramController),"UpdateProgram",new {programId=programId}));
-                //add delete when it exists
+                    typeof(BbgProgramController),nameof(BbgProgramController.UpdateProgram),new {programId=programId}));
+                response.AddLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Session.CREATE, 
+                    typeof(BbgProgramSessionController), nameof(BbgProgramSessionController.CreateSession), new { programId = response.Id }));
                 return Ok(response);
                 },
                 _ => NotFound()            
@@ -58,9 +60,8 @@ public class BbgProgramController : ApiControllerBase
         var programList = _mapper.Map<List<BbgProgramResponse>>(getResult);
         programList.ForEach(p =>
         {
-            p.AddLink(_linkGenerator.GetActionLink(HttpContext,
-                LinkRelations.Program.GET_BY_ID, typeof(BbgProgramController), "GetProgramById", new { programId = p.Id }));
-            //add delete when exists.
+            p.AddLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Program.GET_BY_ID, 
+                typeof(BbgProgramController), nameof(BbgProgramController.GetProgramById), new { programId = p.Id }));          
         });
         programListResponse.Programs = programList;
 

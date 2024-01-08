@@ -35,7 +35,7 @@ public static class DependencyInjection
     public static IServiceCollection AddPersistance(this IServiceCollection services) {
 
         services.AddSingleton<ISQLConnectionFactory, SQLConnectionFactory>();   
-        services.AddScoped<ISessionRepository, SessionRepository>();
+        services.AddScoped<IBbgSessionRepository, BbgSessionRepository>();
         services.AddScoped<IBbgProgramRepository, BbgProgramRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         

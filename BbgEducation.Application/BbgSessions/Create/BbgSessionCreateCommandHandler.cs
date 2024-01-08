@@ -16,10 +16,10 @@ using System.Threading.Tasks;
 namespace BbgEducation.Application.BbgSessions.Create;
 public class BbgSessionCreateCommandHandler : IRequestHandler<BbgSessionCreateCommand, OneOf<BbgSessionResult, ValidationFailed>>
 {
-    private readonly ISessionRepository _sessionRepository;
+    private readonly IBbgSessionRepository _sessionRepository;
     private readonly IBbgProgramRepository _programRepository;
 
-    public BbgSessionCreateCommandHandler(ISessionRepository sessionRepository, IBbgProgramRepository programRepository) {
+    public BbgSessionCreateCommandHandler(IBbgSessionRepository sessionRepository, IBbgProgramRepository programRepository) {
         _sessionRepository = sessionRepository;
         _programRepository = programRepository;
     }
@@ -33,7 +33,7 @@ public class BbgSessionCreateCommandHandler : IRequestHandler<BbgSessionCreateCo
         
         var sessionProgram = await _programRepository.GetProgramByIdAsync(request.ProgramId);
         if (sessionProgram is null) {
-            return new ValidationFailed(new ValidationFailure("ProgramId", "Program does not exist.", request.ProgramId));
+            return new ProgramNotExistValidationFailed(request.ProgramId);
         }
 
         var newSession = await _sessionRepository.AddSession(request.ProgramId, request.Name, request.Description,

@@ -20,8 +20,8 @@ public sealed class BbgProgram: Entity
         DateTime updatedDateTime
         ) {
         this.program_id = program_id;
-        this.program_name = program_name;
-        this.description = description;
+        this.program_name = program_name.Trim();
+        this.description = description.Trim();
         base.created_datetime = createdDateTime;
         base.updated_datetime = updatedDateTime;
 

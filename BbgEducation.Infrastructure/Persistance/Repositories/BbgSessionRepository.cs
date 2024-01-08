@@ -8,7 +8,7 @@ using Dapper;
 using MediatR;
 
 namespace BbgEducation.Infrastructure.Persistance.Repositories;
-public class SessionRepository : GenericRepository<BbgSession>, ISessionRepository
+public class BbgSessionRepository : GenericRepository<BbgSession>, IBbgSessionRepository
 {
     protected override string GetAllStoredProc => DbConstants.StoredProcedures.Session.GET_ALL;
 
@@ -18,12 +18,27 @@ public class SessionRepository : GenericRepository<BbgSession>, ISessionReposito
 
     protected override string GetNameExistsStoredProc => DbConstants.StoredProcedures.Session.NAME_EXISTS;
 
-    public SessionRepository(ISQLConnectionFactory connectionFactory) : base(connectionFactory) {
+    public BbgSessionRepository(ISQLConnectionFactory connectionFactory) : base(connectionFactory) {
 
     }
 
-    public Task<IEnumerable<BbgSession>> GetAllSessions(bool includeInactive = false) {
-        return GetAllAsync<BbgSession, BbgProgram, User, BbgSession, dynamic>("program_id", "user_id",
+
+    public async Task<IEnumerable<BbgSession>> GetSessionsByProgramId(int programId, bool includeInactive = false) {
+        return await GetAllAsync<BbgSession, BbgProgram, User, BbgSession, dynamic>("program_id", "user_id",
+            (s, p, u) =>
+            {
+                s.session_program = p;
+                s.inactivated_user = u;
+                return s;
+            }, new {
+                IncludeInactive = includeInactive,
+                ProgramId = programId
+            }
+        );
+    }
+
+    public async Task<IEnumerable<BbgSession>> GetAllSessions(bool includeInactive = false) {
+        return await GetAllAsync<BbgSession, BbgProgram, User, BbgSession, dynamic>("program_id", "user_id",
             (s, p, u) =>
             {
                 s.session_program = p;
@@ -33,28 +48,28 @@ public class SessionRepository : GenericRepository<BbgSession>, ISessionReposito
 
     }
 
-    public Task<BbgSession> GetSessionById(int sessionID) {
-        return GetByIdAsync<BbgSession, BbgProgram, User, BbgSession>(sessionID, "program_id", "user_id",
+    public async Task<BbgSession> GetSessionById(int sessionID) {
+        return await GetByIdAsync<BbgSession, BbgProgram, User, BbgSession>(sessionID, "program_id", "user_id",
             (s, p, u) =>
             {
                 s.session_program = p;
                 s.inactivated_user = u;
                 return s;
             });
-    }
+    } 
 
-    public Task<BbgSession> AddSession(int programId, string sessionName, string description, 
+    public async Task<BbgSession> AddSession(int programId, string sessionName, string description, 
         DateOnly startDate, DateOnly endDate) {
 
         var sessionToAdd = BbgSession.Create(programId, sessionName, description,
             startDate.ToDateTime(TimeOnly.Parse("12:00 AM")), endDate.ToDateTime(TimeOnly.Parse("12:00 AM")));
         var newId = Add(sessionToAdd);
-        return GetSessionById(newId);
+        return await GetSessionById(newId);
     }
 
-    public Task<BbgSession> UpdateSession(BbgSession sessionToUpdate) {
+    public async Task<BbgSession> UpdateSession(BbgSession sessionToUpdate) {
         Update(sessionToUpdate);
-        return GetSessionById((int)sessionToUpdate.session_id!);
+        return await GetSessionById((int)sessionToUpdate.session_id!);
     }
 
     public async Task<bool> CheckSessionNameExistsAsync(string name) {
@@ -111,6 +126,14 @@ public class SessionRepository : GenericRepository<BbgSession>, ISessionReposito
     protected override DynamicParameters BuildCheckNameExistsParam(string name) {
         var inputParams = new DynamicParameters();
         inputParams.Add("@session_name", name);
+        return inputParams;
+    }   
+
+    private DynamicParameters BuildByProgramIdParams(int programId, bool includeInactive) {
+        var inputParams = new DynamicParameters();
+        inputParams.Add("@includeInactive", includeInactive);
+        inputParams.Add("@program_id", programId);
+        
         return inputParams;
     }
 }

@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.9.0" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="Mapster" Version="7.4.0" />
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="OneOf" Version="3.0.263" />
@@ -20,8 +21,6 @@
 
   <ItemGroup>
     <Folder Include="BbgPrograms\DeActivate\" />
-    <Folder Include="BbgSessions\GetAll\" />
-    <Folder Include="BbgSessions\GetById\" />
     <Folder Include="BbgSessions\Deactivate\" />
     <Folder Include="BbgSessions\Update\" />
   </ItemGroup>
