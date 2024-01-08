@@ -26,16 +26,15 @@ public abstract class GenericRepository<T> : IRepository<T>
 
     protected abstract string AddUpdateStoredProc { get; }
 
-
-    public async Task<T> Add(T entity) {
+    public int Add(T entity) {
         using (var connection = _connectionFactory.Create()) {
             try {
                 var inputParams = BuildAddUpdateParams(entity);
 
-                var newId = await connection.ExecuteScalarAsync<int>(AddUpdateStoredProc, inputParams,
+                var newId = connection.ExecuteScalar<int>(AddUpdateStoredProc, inputParams,
                     commandType: CommandType.StoredProcedure);
 
-                return await GetByIdAsync(newId!);
+                return newId;
             }
             catch (Exception ex) {
                 throw new Exception($"Error adding {typeof(T).Name}: {ex.Message}");
@@ -44,11 +43,11 @@ public abstract class GenericRepository<T> : IRepository<T>
         }
     }
 
-    public Task Delete(T entity) {
+    public void Delete(T entity) {
         throw new NotImplementedException();
     }
 
-    public Task DeleteAll() {
+    public void DeleteAll() {
         throw new NotImplementedException();
     }
 
@@ -125,14 +124,48 @@ public abstract class GenericRepository<T> : IRepository<T>
         }
     }
 
-    public async Task<T> Update(T entity) {
+    public async Task<T> GetByIdAsync<TFirst, TSecond, T>(int id, string splitOn, Func<TFirst, TSecond, T> map) {
+        IEnumerable<T> data = new List<T>();
+
+        using (var connection = _connectionFactory.Create()) {
+            try {
+                data = await connection.QueryAsync<TFirst, TSecond, T>(GetByIDStoredProc,
+                    map,
+                    splitOn: $"{splitOn}",
+                    param: BuildGetByIdParam(id),
+                    commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception ex) {
+                throw new Exception($"Error fetching {typeof(T).Name}: {ex.Message}");
+            }
+            return data.FirstOrDefault()!;
+        }
+    }
+
+    public async Task<T> GetByIdAsync<TFirst, TSecond, TThird, T>(int id, string splitOnFirst, string splitOnSecond, Func<TFirst, TSecond, TThird, T> map) {
+        IEnumerable<T> data = new List<T>();
+
+        using (var connection = _connectionFactory.Create()) {
+            try {
+                data = await connection.QueryAsync<TFirst, TSecond, TThird, T>(GetByIDStoredProc,
+                    map,
+                    splitOn: $"{splitOnFirst}, {splitOnSecond}",
+                    param: BuildGetByIdParam(id),
+                    commandType: CommandType.StoredProcedure);
+            }
+            catch (Exception ex) {
+                throw new Exception($"Error fetching {typeof(T).Name}: {ex.Message}");
+            }
+            return data.FirstOrDefault()!;
+        }
+    }
+    public void Update(T entity) {
         using (var connection = _connectionFactory.Create()) {
             try {
                 var inputParams = BuildAddUpdateParams(entity);
 
-               var id = await connection.ExecuteScalarAsync<int>(AddUpdateStoredProc, inputParams,
-                    commandType: CommandType.StoredProcedure);
-                return await GetByIdAsync(id!);
+               var id = connection.ExecuteScalarAsync<int>(AddUpdateStoredProc, inputParams,
+                    commandType: CommandType.StoredProcedure);                
             }
             catch (Exception ex) {
                 throw new Exception($"Error updating {typeof(T).Name}: {ex.Message}");

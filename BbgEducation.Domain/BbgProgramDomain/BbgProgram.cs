@@ -1,5 +1,4 @@
 ﻿using BbgEducation.Domain.Common;
-using System.Security.Cryptography;
 
 namespace BbgEducation.Domain.BbgProgramDomain;
 

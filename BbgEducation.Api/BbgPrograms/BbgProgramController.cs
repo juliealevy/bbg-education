@@ -1,5 +1,4 @@
-﻿using BbgEducation.Api.Api;
-using BbgEducation.Api.Common;
+﻿using BbgEducation.Api.Common;
 using BbgEducation.Api.Hal;
 using BbgEducation.Application.BbgPrograms.Create;
 using BbgEducation.Application.BbgPrograms.GetAll;
@@ -8,7 +7,6 @@ using BbgEducation.Application.BbgPrograms.Update;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Runtime.CompilerServices;
 
 namespace BbgEducation.Api.BbgPrograms;
 

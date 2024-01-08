@@ -2,6 +2,7 @@
 using BbgEducation.Api.Common.Routes;
 using BbgEducation.Api.Errors;
 using BbgEducation.Api.Hal;
+using BbgEducation.Api.JsonConverters;
 using Mapster;
 using MapsterMapper;
 using System.Reflection;
@@ -17,6 +18,7 @@ public static class DependencyInjection
             .AddJsonOptions(options => {
                 options.JsonSerializerOptions.DefaultIgnoreCondition = 
                     System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+                options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
             });
         services.AddMappings();
         services.AddSingleton<IApiRouteService, ApiRouteService>();

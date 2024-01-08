@@ -19,7 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="BbgSessions\" />
+    <Folder Include="BbgPrograms\DeActivate\" />
+    <Folder Include="BbgSessions\GetAll\" />
+    <Folder Include="BbgSessions\GetById\" />
+    <Folder Include="BbgSessions\Deactivate\" />
+    <Folder Include="BbgSessions\Update\" />
   </ItemGroup>
 
 </Project>

@@ -33,11 +33,13 @@ public class BbgProgramRepository : GenericRepository<BbgProgram>, IBbgProgramRe
     }
 
     public Task<BbgProgram> AddProgram(string name, string description) {
-        return Add(BbgProgram.CreateNew(name, description));
+        var newId = Add(BbgProgram.CreateNew(name, description));
+        return GetProgramByIdAsync(newId);
     }
 
     public Task<BbgProgram> UpdateProgram(BbgProgram entity) {
-        return Update(entity);
+        Update(entity);
+        return GetProgramByIdAsync((int)entity.program_id!);
     }
 
     public Task DeleteProgram(BbgProgram entity) {        

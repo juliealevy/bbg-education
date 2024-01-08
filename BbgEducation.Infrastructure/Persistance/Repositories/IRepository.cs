@@ -7,8 +7,8 @@ public interface IRepository<T>
     Task<IEnumerable<T>> GetAllAsync<TFirst, TSecond, TThird, T, U>(string splitOnFirst, string splitOnSecond, Func<TFirst, TSecond, TThird, T> map, U parameters);
     Task<bool> CheckNameExistsAsync(string name);
 
-    Task<T> Add(T entity);
-    Task<T> Update(T entity);
-    Task Delete(T entity);
-    Task DeleteAll();
+    int Add(T entity);
+    void Update(T entity);
+    void Delete(T entity);
+    void DeleteAll();
 }

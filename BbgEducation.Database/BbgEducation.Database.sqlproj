@@ -73,9 +73,10 @@
     <Build Include="dbo\StoredProcedures\BbgProgram\spProgramGetById.sql" />
     <Build Include="dbo\StoredProcedures\BbgProgram\spProgramGetAll.sql" />
     <Build Include="dbo\StoredProcedures\BbgSession\spSessionAddUpdate.sql" />
-    <Build Include="dbo\StoredProcedures\BbgSession\spSessionGet.sql" />
+    <Build Include="dbo\StoredProcedures\BbgSession\spSessionGetById.sql" />
     <Build Include="dbo\StoredProcedures\BbgSession\spSessionGetAll.sql" />
     <Build Include="dbo\StoredProcedures\BbgSession\spSessionInactivate.sql" />
+    <Build Include="dbo\StoredProcedures\BbgSession\spSessionNameExists.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BbgEducation.Database.publish.xml" />

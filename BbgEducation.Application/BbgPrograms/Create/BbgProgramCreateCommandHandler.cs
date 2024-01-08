@@ -21,8 +21,7 @@ public class BbgProgramCreateCommandHandler : IRequestHandler<BbgProgramCreateCo
         var programNameExists = await _bbgProgramRepository.CheckProgramNameExistsAsync(request.Name);
 
         if (programNameExists)
-        {
-            //return new ValidationFailed(new ValidationFailure(nameof(BbgProgramCreateCommand.Name), "Name already exists"));
+        {            
             return new NameExistsValidationFailed("Program");
         }
 

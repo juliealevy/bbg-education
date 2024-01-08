@@ -20,7 +20,9 @@ public static class DbConstants
             public const string GET_BY_ID = SCHEMA_PREFIX + "spSessionGet";
             public const string GET_ALL = SCHEMA_PREFIX + "spSessionGetAll";
             public const string ADD_UPDATE = SCHEMA_PREFIX + "spSessionAddUpdate";
+            public const string NAME_EXISTS = SCHEMA_PREFIX + "spSessionNameExists";
             public const string INACTIVATE = SCHEMA_PREFIX + "spSessionInactivate";
+
         }
     }
 

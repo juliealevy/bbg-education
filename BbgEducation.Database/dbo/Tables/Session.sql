@@ -5,10 +5,13 @@
     [description]      NCHAR (255) NULL,
     [start_date]       DATE    NOT NULL,
     [end_date]         DATE    NOT NULL,
-    [created_datetime] DATETIME    NULL,
-    [updated_datetime] DATETIME    NULL,
+    [created_datetime] DATETIME    NULL DEFAULT GETDATE(),
+    [updated_datetime] DATETIME    NULL DEFAULT GETDATE(),
     [inactivated_datetime] DATETIME    NULL,
     [inactivated_user_id] INT NULL, 
-    PRIMARY KEY CLUSTERED ([session_id] ASC), 
-    CONSTRAINT [FK_Session_Program] FOREIGN KEY ([program_id]) REFERENCES [Program]([program_id])
+    CONSTRAINT PK_Session_Session_Id PRIMARY KEY CLUSTERED ([session_id]), 
+    CONSTRAINT [FK_Session_Program] FOREIGN KEY ([program_id]) REFERENCES [Program]([program_id]),
+    CONSTRAINT AK_Session_Name UNIQUE(name)
+    
+
 );

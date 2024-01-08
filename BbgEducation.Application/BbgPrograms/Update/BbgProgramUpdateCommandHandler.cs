@@ -25,7 +25,7 @@ public class BbgProgramUpdateCommandHandler : IRequestHandler<BbgProgramUpdateCo
         }
 
         //if the name changed, make sure it doesn't already exist
-        if (!request.Name.Equals(programExists.program_name)) {
+        if (!request.Name.Trim().Equals(programExists.program_name.Trim())) {
             var programNameExists = await _programRepository.CheckProgramNameExistsAsync(request.Name);
 
             if (programNameExists) {

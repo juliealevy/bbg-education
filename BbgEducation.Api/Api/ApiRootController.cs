@@ -1,5 +1,6 @@
 ﻿using BbgEducation.Api.Authentication;
 using BbgEducation.Api.BbgPrograms;
+using BbgEducation.Api.BbgSessions;
 using BbgEducation.Api.Common;
 using BbgEducation.Api.Hal;
 using Microsoft.AspNetCore.Authorization;
@@ -25,15 +26,22 @@ public class ApiRootController : ApiControllerBase
         var apiResponse = new ApiResponse(_linkGenerator.GetSelfRouteData(HttpContext)!, _version);
 
         
-        apiResponse.AddLink(_linkGenerator.GetApiLink(LinkRelations.Authentication.REGISTER, typeof(AuthenticationController), "Register", new RegisterRequest("", "", "", "")));        
-        apiResponse.AddLink(_linkGenerator.GetApiLink(LinkRelations.Authentication.LOGIN, typeof(AuthenticationController), "Login", new LoginRequest("", "")));
+        apiResponse.AddLink(_linkGenerator.GetApiLink(LinkRelations.Authentication.REGISTER, typeof(AuthenticationController), "Register", 
+            new RegisterRequest("", "", "", "")));        
+        apiResponse.AddLink(_linkGenerator.GetApiLink(LinkRelations.Authentication.LOGIN, typeof(AuthenticationController), "Login", 
+            new LoginRequest("", "")));
         apiResponse.AddLink(_linkGenerator.GetApiLink(LinkRelations.Authentication.LOGOUT, typeof(AuthenticationController), "Logout",null));
 
         apiResponse.AddLink(_linkGenerator.GetApiLink(LinkRelations.Program.GET_ALL, typeof(BbgProgramController), "GetAllPrograms", null));
         apiResponse.AddLink(_linkGenerator.GetApiLink(LinkRelations.Program.GET_BY_ID, typeof(BbgProgramController), "GetProgramById", null));
-        apiResponse.AddLink(_linkGenerator.GetApiLink(LinkRelations.Program.CREATE, typeof(BbgProgramController), "CreateProgram", new CreateBbgProgramRequest("", "")));
-        apiResponse.AddLink(_linkGenerator.GetApiLink(LinkRelations.Program.UPDATE, typeof(BbgProgramController), "UpdateProgram", new UpdateBbgProgramRequest(-123, "", "")));
+        apiResponse.AddLink(_linkGenerator.GetApiLink(LinkRelations.Program.CREATE, typeof(BbgProgramController), "CreateProgram", 
+            new CreateBbgProgramRequest("", "")));
+        apiResponse.AddLink(_linkGenerator.GetApiLink(LinkRelations.Program.UPDATE, typeof(BbgProgramController), "UpdateProgram", 
+            new UpdateBbgProgramRequest(-123, "", "")));
 
+        apiResponse.AddLink(_linkGenerator.GetApiLink(LinkRelations.Session.CREATE, typeof(BbgSessionController), "CreateSession",
+            new CreateBbgSessionRequest("", "", DateOnly.Parse("09/13/2023"), DateOnly.Parse("12/20/2023"))));
+       
         return Ok(apiResponse);
     }
 

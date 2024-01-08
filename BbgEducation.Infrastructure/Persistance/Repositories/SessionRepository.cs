@@ -5,9 +5,10 @@ using BbgEducation.Domain.UserDomain;
 using BbgEducation.Infrastructure.Persistance.Common;
 using BbgEducation.Infrastructure.Persistance.Connections;
 using Dapper;
+using MediatR;
 
 namespace BbgEducation.Infrastructure.Persistance.Repositories;
-public class SessionRepository : GenericRepository<Session>, ISessionRepository
+public class SessionRepository : GenericRepository<BbgSession>, ISessionRepository
 {
     protected override string GetAllStoredProc => DbConstants.StoredProcedures.Session.GET_ALL;
 
@@ -15,19 +16,14 @@ public class SessionRepository : GenericRepository<Session>, ISessionRepository
 
     protected override string AddUpdateStoredProc => DbConstants.StoredProcedures.Session.ADD_UPDATE;
 
-    protected override string GetNameExistsStoredProc => throw new NotImplementedException();
+    protected override string GetNameExistsStoredProc => DbConstants.StoredProcedures.Session.NAME_EXISTS;
 
     public SessionRepository(ISQLConnectionFactory connectionFactory) : base(connectionFactory) {
 
     }
 
-    public Task<IEnumerable<Session>> GetAllSessions(bool includeInactive = false) {
-        return GetAllAsync(includeInactive);
-
-    }
-
-    public Task<IEnumerable<Session>> GetAllFullSessions(bool includeInactive = false) {
-        return GetAllAsync<Session, BbgProgram, User, Session, dynamic>("program_id", "user_id",
+    public Task<IEnumerable<BbgSession>> GetAllSessions(bool includeInactive = false) {
+        return GetAllAsync<BbgSession, BbgProgram, User, BbgSession, dynamic>("program_id", "user_id",
             (s, p, u) =>
             {
                 s.session_program = p;
@@ -35,19 +31,34 @@ public class SessionRepository : GenericRepository<Session>, ISessionRepository
                 return s;
             }, new { IncludeInactive = includeInactive });
 
-
     }
 
-    public Task<Session> GetSession(int sessionID) {
-        return GetByIdAsync(sessionID);
+    public Task<BbgSession> GetSessionById(int sessionID) {
+        return GetByIdAsync<BbgSession, BbgProgram, User, BbgSession>(sessionID, "program_id", "user_id",
+            (s, p, u) =>
+            {
+                s.session_program = p;
+                s.inactivated_user = u;
+                return s;
+            });
     }
 
-    public Task AddSession(Session sessionToAdd) {
-        return Add(sessionToAdd);
+    public Task<BbgSession> AddSession(int programId, string sessionName, string description, 
+        DateOnly startDate, DateOnly endDate) {
+
+        var sessionToAdd = BbgSession.Create(programId, sessionName, description,
+            startDate.ToDateTime(TimeOnly.Parse("12:00 AM")), endDate.ToDateTime(TimeOnly.Parse("12:00 AM")));
+        var newId = Add(sessionToAdd);
+        return GetSessionById(newId);
     }
 
-    public Task UpdateSession(Session sessionToUpdate) {
-        return Update(sessionToUpdate);
+    public Task<BbgSession> UpdateSession(BbgSession sessionToUpdate) {
+        Update(sessionToUpdate);
+        return GetSessionById((int)sessionToUpdate.session_id!);
+    }
+
+    public async Task<bool> CheckSessionNameExistsAsync(string name) {
+        return await CheckNameExistsAsync(name);
     }
 
     public Task InactivateSession(int sessionID) {
@@ -55,7 +66,7 @@ public class SessionRepository : GenericRepository<Session>, ISessionRepository
         throw new NotImplementedException();
     }
 
-    private DynamicParameters BuildSessionParams(Session session) {
+    private DynamicParameters BuildSessionParams(BbgSession session) {
         var inputParams = new DynamicParameters();
         if (session == null) {
             throw new Exception("Session input cannot be null");
@@ -73,7 +84,7 @@ public class SessionRepository : GenericRepository<Session>, ISessionRepository
         return inputParams;
     }
 
-    protected override DynamicParameters BuildAddUpdateParams(Session entity) {
+    protected override DynamicParameters BuildAddUpdateParams(BbgSession entity) {
         var inputParams = new DynamicParameters();
         if (entity == null) {
             throw new Exception("Session input cannot be null");
@@ -98,6 +109,8 @@ public class SessionRepository : GenericRepository<Session>, ISessionRepository
     }
 
     protected override DynamicParameters BuildCheckNameExistsParam(string name) {
-        throw new NotImplementedException();
+        var inputParams = new DynamicParameters();
+        inputParams.Add("@session_name", name);
+        return inputParams;
     }
 }

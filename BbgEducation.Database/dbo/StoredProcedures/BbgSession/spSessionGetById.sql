@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[spSessionGet]
+﻿CREATE PROCEDURE [dbo].[spSessionGetById]
 	@id int
 AS
 begin
