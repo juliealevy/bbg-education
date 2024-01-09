@@ -15,18 +15,18 @@ Some sample code in C#/.NET Core to show the following:
 - Commands/Queries
 - Repository Pattern
 - Basic SQL tables, views, stored procs
+- BbgProgram and BbgSession domains with CRU (no D yet)
+- HAL/HATEOS responses
+- First error handling in stored proc, rest in progress
 
 
 ## Coming soon
 In progress, coming soon:
-- HATEOS
 - Minimal APIs
 - Logging
 - Integration Tests
 - Acceptance Tests
-- Another Domain:  BbgSession
 - More authentication (OAuth, refresh token)
-- Add more functionality, error handling, etc. to the stored procs
 - Front End ??
 
 ## Discoverable API/REST calls
@@ -48,61 +48,114 @@ https://localhost:7270/api
             {
                 "href": "api/auth/register",
                 "templated": false,
+                "method": "POST",
                 "body": {
                     "firstName": "",
                     "lastName": "",
                     "email": "",
                     "password": ""
-                },
-                "method": "POST"
+                }
             }
         ],
         "auth:login": [
             {
                 "href": "api/auth/login",
                 "templated": false,
+                "method": "POST",
                 "body": {
                     "email": "",
                     "password": ""
-                },
+                }
+            }
+        ],
+        "auth:logout": [
+            {
+                "href": "api/auth/logout/{username}",
+                "templated": true,
                 "method": "POST"
             }
         ],
-        "programs:get-all": [
+        "program:get-all": [
             {
                 "href": "api/programs",
                 "templated": false,
                 "method": "GET"
             }
         ],
-        "programs:get-by-id": [
+        "program:get-by-id": [
             {
                 "href": "api/programs/{programId}",
                 "templated": true,
                 "method": "GET"
             }
         ],
-        "programs:create": [
+        "program:create": [
             {
                 "href": "api/programs",
                 "templated": false,
+                "method": "POST",
                 "body": {
                     "name": "",
                     "description": ""
-                },
-                "method": "POST"
+                }
             }
         ],
-        "programs:update": [
+        "program:update": [
             {
-                "href": "api/programs",
-                "templated": false,
+                "href": "api/programs/{programId}",
+                "templated": true,
+                "method": "PUT",
                 "body": {
-                    "id": 123,
-                    "name": "Updated Name",
-                    "description": "Updated Description"
-                },
-                "method": "PUT"
+                    "name": "",
+                    "description": ""
+                }
+            }
+        ],
+        "session:create": [
+            {
+                "href": "api/programs/{programId}/sessions",
+                "templated": true,
+                "method": "POST",
+                "body": {
+                    "name": "",
+                    "description": "",
+                    "startDate": "2023-09-13",
+                    "endDate": "2023-12-20"
+                }
+            }
+        ],
+        "session:update": [
+            {
+                "href": "api/programs/{programId}/sessions/{sessionId}",
+                "templated": true,
+                "method": "PUT",
+                "body": {
+                    "name": "",
+                    "description": "",
+                    "startDate": "2023-09-13",
+                    "endDate": "2023-12-20"
+                }
+            }
+        ],
+        "session:get-by-id": [
+            {
+                "href": "api/programs/{programId}/sessions/{sessionId}",
+                "templated": true,
+                "method": "GET"
+            }
+        ],
+        "session:get-by-program-id": [
+            {
+                "href": "api/programs/{programId}/sessions",
+                "templated": true,
+                "method": "GET"
+            }
+        ],
+        "session:get-all": [
+            {
+                "href": "api/sessions",
+                "templated": false,
+                "method": "GET"
             }
         ]
     }
