@@ -20,10 +20,10 @@ public abstract class BbgResponseBuilder<TResult, TResponse>: IBbgResponseBuilde
     public abstract TResponse? Build(TResult resultData, HttpContext context, bool selfFromPath,
         bool addGetLinks, bool addCreateUpdateLinks); 
 
-    protected abstract void AddGetLinks(BbgProgramResponse response, HttpContext context);
+    protected abstract void AddGetLinks(TResponse response, HttpContext context);
 
 
-    protected abstract void AddCreateUpdateLinks(BbgProgramResponse response, HttpContext context);
+    protected abstract void AddCreateUpdateLinks(TResponse response, HttpContext context);
 
-    protected abstract void AddGetByIdSelfLink(BbgProgramResponse response, HttpContext context);
+    protected abstract void AddGetByIdSelfLink(TResponse response, HttpContext context);
 }

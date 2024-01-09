@@ -63,12 +63,13 @@
     <Folder Include="dbo\StoredProcedures\BbgProgram" />
     <Folder Include="dbo\StoredProcedures\BbgSession" />
     <Folder Include="dbo\StoredProcedures\User" />
+    <Folder Include="dbo\Views\BbgProgram" />
+    <Folder Include="dbo\Views\BbgSession" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Program.sql" />
     <Build Include="dbo\Tables\Session.sql" />
     <Build Include="dbo\Tables\User.sql" />
-    <Build Include="dbo\Views\vSessions.sql" />
     <Build Include="dbo\StoredProcedures\BbgProgram\spProgramAddUpdate.sql" />
     <Build Include="dbo\StoredProcedures\BbgProgram\spProgramGetById.sql" />
     <Build Include="dbo\StoredProcedures\BbgProgram\spProgramGetAll.sql" />
@@ -77,6 +78,9 @@
     <Build Include="dbo\StoredProcedures\BbgSession\spSessionGetAll.sql" />
     <Build Include="dbo\StoredProcedures\BbgSession\spSessionInactivate.sql" />
     <Build Include="dbo\StoredProcedures\BbgSession\spSessionNameExists.sql" />
+    <Build Include="dbo\Views\BbgProgram\vActivePrograms.sql" />
+    <Build Include="dbo\Views\BbgProgram\vAllPrograms.sql" />
+    <Build Include="dbo\Views\BbgSession\vSessions.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="BbgEducation.Database.publish.xml" />

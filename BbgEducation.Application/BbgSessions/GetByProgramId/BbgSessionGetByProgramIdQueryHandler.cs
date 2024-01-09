@@ -14,9 +14,10 @@ public class BbgSessionGetByProgramIdQueryHandler : IRequestHandler<BbgSessionGe
     private readonly IBbgSessionRepository _sessionRepository;
     private readonly IMapper _mapper;
 
-    public BbgSessionGetByProgramIdQueryHandler(IBbgProgramRepository programRepository, IBbgSessionRepository sessionRepository) {
+    public BbgSessionGetByProgramIdQueryHandler(IBbgProgramRepository programRepository, IBbgSessionRepository sessionRepository, IMapper mapper) {
         _programRepository = programRepository;
         _sessionRepository = sessionRepository;
+        _mapper = mapper;
     }
 
     public async Task<OneOf<List<BbgSessionResult>, ValidationFailed, NotFound>> Handle(BbgSessionGetByProgramIdQuery request, CancellationToken cancellationToken) {

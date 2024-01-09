@@ -14,7 +14,8 @@ public class BbgSessionMappingConfig : IRegister
     public void Register(TypeAdapterConfig config) {
         config.NewConfig<BbgSession, BbgSessionResult>()
           .Map(dest => dest.Program, src =>
-                new BbgSessionProgramResult((int)src.session_program.program_id!, src.session_program.program_name))
+                new BbgProgramResult((int)src.session_program.program_id!, 
+                    src.session_program.program_name, src.session_program.description))
           .Map(dest => dest.Id, src => src.session_id)
           .Map(dest => dest.Name, src => src.session_name)
           .Map(dest => dest.Description, src => src.description)

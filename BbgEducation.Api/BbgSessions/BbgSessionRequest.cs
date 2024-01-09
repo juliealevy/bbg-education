@@ -1,6 +1,6 @@
 ﻿namespace BbgEducation.Api.BbgSessions;
 
-public record CreateBbgSessionRequest(    
+public record BbgSessionRequest(    
     string Name,
     string Description,
     DateOnly StartDate,

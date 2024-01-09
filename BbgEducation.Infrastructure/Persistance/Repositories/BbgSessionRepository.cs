@@ -70,6 +70,7 @@ public class BbgSessionRepository : GenericRepository<BbgSession>, IBbgSessionRe
     public async Task<BbgSession> UpdateSession(BbgSession sessionToUpdate) {
         Update(sessionToUpdate);
         return await GetSessionById((int)sessionToUpdate.session_id!);
+
     }
 
     public async Task<bool> CheckSessionNameExistsAsync(string name) {
@@ -83,7 +84,7 @@ public class BbgSessionRepository : GenericRepository<BbgSession>, IBbgSessionRe
 
     private DynamicParameters BuildSessionParams(BbgSession session) {
         var inputParams = new DynamicParameters();
-        if (session == null) {
+        if (session is null) {
             throw new Exception("Session input cannot be null");
         }
 
@@ -101,7 +102,7 @@ public class BbgSessionRepository : GenericRepository<BbgSession>, IBbgSessionRe
 
     protected override DynamicParameters BuildAddUpdateParams(BbgSession entity) {
         var inputParams = new DynamicParameters();
-        if (entity == null) {
+        if (entity is null) {
             throw new Exception("Session input cannot be null");
         }
 

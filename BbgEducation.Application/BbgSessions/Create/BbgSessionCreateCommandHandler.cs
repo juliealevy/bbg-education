@@ -39,7 +39,7 @@ public class BbgSessionCreateCommandHandler : IRequestHandler<BbgSessionCreateCo
         var newSession = await _sessionRepository.AddSession(request.ProgramId, request.Name, request.Description,
             request.StartDate, request.EndDate);
 
-        return new BbgSessionResult((int)newSession.session_program.program_id!, newSession.session_program.program_name, (int)newSession.session_id!, newSession.session_name, newSession.description,
+        return new BbgSessionResult((int)newSession.session_program.program_id!, newSession.session_program.program_name, newSession.session_program.description, (int)newSession.session_id!, newSession.session_name, newSession.description,
             DateOnly.FromDateTime(newSession.start_date), DateOnly.FromDateTime(newSession.end_date));
 
     }

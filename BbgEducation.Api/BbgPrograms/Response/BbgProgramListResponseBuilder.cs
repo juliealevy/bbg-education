@@ -30,20 +30,17 @@ public class BbgProgramListResponseBuilder : BbgResponseBuilder<List<BbgProgramR
         });
 
         return programListResponse;
+    }   
+
+    protected override void AddCreateUpdateLinks(BbgProgramListResponse response, HttpContext context) {
+        
     }
 
-    protected override void AddCreateUpdateLinks(BbgProgramResponse response, HttpContext context)
-    {
-        throw new NotImplementedException();
+    protected override void AddGetByIdSelfLink(BbgProgramListResponse response, HttpContext context) {
+        
     }
 
-    protected override void AddGetByIdSelfLink(BbgProgramResponse response, HttpContext context)
-    {
-        throw new NotImplementedException();
-    }
-
-    protected override void AddGetLinks(BbgProgramResponse response, HttpContext context)
-    {
-        throw new NotImplementedException();
+    protected override void AddGetLinks(BbgProgramListResponse response, HttpContext context) {
+        
     }
 }

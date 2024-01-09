@@ -54,7 +54,7 @@ public class BbgProgramRepository : GenericRepository<BbgProgram>, IBbgProgramRe
 
     protected override DynamicParameters BuildAddUpdateParams(BbgProgram entity) {
         var inputParams = new DynamicParameters();
-        if (entity == null) {
+        if (entity is null) {
             throw new Exception("program input cannot be null");
         }
 

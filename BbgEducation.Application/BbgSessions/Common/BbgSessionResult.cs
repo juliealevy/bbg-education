@@ -1,6 +1,8 @@
-﻿namespace BbgEducation.Application.BbgSessions.Common;
+﻿using BbgEducation.Application.BbgPrograms.Common;
+
+namespace BbgEducation.Application.BbgSessions.Common;
 public record BbgSessionResult(
-    BbgSessionProgramResult Program,
+    BbgProgramResult Program,
     int Id,
     string Name,
     string Description,
@@ -11,13 +13,14 @@ public record BbgSessionResult(
     public BbgSessionResult(
         int programId,
         string programName,
+        string programDescription,
         int id,
         string name,
         string description,
         DateOnly startDate,
         DateOnly endDate) :
         this(
-            new BbgSessionProgramResult(programId, programName),
+            new BbgProgramResult(programId, programName, programDescription),
             id,
             name,
             description,
@@ -25,9 +28,3 @@ public record BbgSessionResult(
             endDate) {
     }
 }
-
-
-public record BbgSessionProgramResult(
-    int ProgramId,
-    string ProgramName
-);

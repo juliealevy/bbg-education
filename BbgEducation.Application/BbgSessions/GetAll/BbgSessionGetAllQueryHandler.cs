@@ -21,7 +21,7 @@ public class BbgSessionGetAllQueryHandler : IRequestHandler<BbgSessionGetAllQuer
 
         return sessions.Select(s =>
         {
-            return new BbgSessionResult((int)s.session_program.program_id!, s.session_program.program_name,
+            return new BbgSessionResult((int)s.session_program.program_id!, s.session_program.program_name, s.session_program.description,
                 (int)s.session_id!, s.session_name, s.description, DateOnly.FromDateTime(s.start_date), DateOnly.FromDateTime(s.end_date));
         }).ToList();
     }

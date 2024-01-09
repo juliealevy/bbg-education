@@ -27,7 +27,7 @@ public class BbgSessionGetByProgramIdQueryHandler : IRequestHandler<BbgSessionGe
         if (session is not null && session.session_program is not null &&
             session.session_program.program_id is not null && session.session_id is not null) {
 
-            return new BbgSessionResult((int)session.session_program.program_id, session.session_program.program_name,
+            return new BbgSessionResult((int)session.session_program.program_id, session.session_program.program_name, session.session_program.description,
                 (int)session.session_id, session.session_name, session.description, DateOnly.FromDateTime(session.start_date), DateOnly.FromDateTime(session.end_date));
 
         }

@@ -13,6 +13,7 @@
     <PackageReference Include="MediatR" Version="12.2.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="OneOf" Version="3.0.263" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,7 +23,6 @@
   <ItemGroup>
     <Folder Include="BbgPrograms\DeActivate\" />
     <Folder Include="BbgSessions\Deactivate\" />
-    <Folder Include="BbgSessions\Update\" />
   </ItemGroup>
 
 </Project>

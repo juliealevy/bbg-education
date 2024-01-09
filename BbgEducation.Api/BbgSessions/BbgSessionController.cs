@@ -1,6 +1,8 @@
 ﻿using BbgEducation.Api.BbgPrograms;
+using BbgEducation.Api.BbgSessions.Response;
 using BbgEducation.Api.Common;
 using BbgEducation.Api.Hal;
+using BbgEducation.Application.BbgSessions.Common;
 using BbgEducation.Application.BbgSessions.GetAll;
 using MapsterMapper;
 using MediatR;
@@ -11,14 +13,12 @@ namespace BbgEducation.Api.BbgSessions;
 [Route("sessions")]
 public class BbgSessionController: ApiControllerBase
 {
-    private readonly IMapper _mapper;
     private readonly ISender _mediator;
-    private readonly IBbgLinkGenerator _linkGenerator;
+    private readonly IBbgResponseBuilder<List<BbgSessionResult>, BbgSessionListResponse> _responseListBuilder;
 
-    public BbgSessionController(IMapper mapper, ISender mediator, IBbgLinkGenerator linkGenerator) {
-        _mapper = mapper;
+    public BbgSessionController(ISender mediator, IBbgResponseBuilder<List<BbgSessionResult>, BbgSessionListResponse> responseListBuilder) {
         _mediator = mediator;
-        _linkGenerator = linkGenerator;
+        _responseListBuilder = responseListBuilder;
     }
 
     [HttpGet]
@@ -26,18 +26,7 @@ public class BbgSessionController: ApiControllerBase
         var query = new BbgSessionGetAllQuery();
         var getResult = await _mediator.Send(query);
 
-        var sessionListResponse = new BbgSessionListResponse();
-        sessionListResponse.AddSelfLink(_linkGenerator.GetSelfLink(HttpContext));
-
-        var sessionList = _mapper.Map<List<BbgSessionResponse>>(getResult);
-
-        foreach (var session in sessionList.OrderBy(s => s.Program.Name)) {
-            session.AddLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Session.GET_BY_ID,
-                  typeof(BbgProgramSessionController), nameof(BbgProgramSessionController.GetSessionById),
-                  new { programId = session.Program.Id, sessionId = session.Id }));
-        }
-
-        sessionListResponse.Sessions = sessionList;
+        var sessionListResponse = _responseListBuilder.Build(getResult, HttpContext, false, false, false);
 
         return Ok(sessionListResponse);
 

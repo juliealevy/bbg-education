@@ -1,6 +1,9 @@
-﻿using BbgEducation.Infrastructure.Persistance.Connections;
+﻿using BbgEducation.Application.Common.Errors;
+using BbgEducation.Infrastructure.Persistance.Common;
+using BbgEducation.Infrastructure.Persistance.Connections;
 using Dapper;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace BbgEducation.Infrastructure.Persistance.Repositories;
 public abstract class GenericRepository<T> : IRepository<T>
@@ -36,6 +39,10 @@ public abstract class GenericRepository<T> : IRepository<T>
 
                 return newId;
             }
+            catch (SqlException sx) {
+                //TODO:   add logging and log full stack trace, etc.
+                throw SqlExceptionHelper.ToDBException(sx);
+            }
             catch (Exception ex) {
                 throw new Exception($"Error adding {typeof(T).Name}: {ex.Message}");
             }
@@ -63,6 +70,10 @@ public abstract class GenericRepository<T> : IRepository<T>
                     param: parameters,
                     commandType: CommandType.StoredProcedure);
             }
+            catch (SqlException sx) {
+                //TODO:   add logging and log full stack trace, etc.
+                throw SqlExceptionHelper.ToDBException(sx);
+            }
             catch (Exception ex) {
                 throw new Exception($"Error fetching {typeof(T).Name}: {ex.Message}");
             }
@@ -80,6 +91,10 @@ public abstract class GenericRepository<T> : IRepository<T>
                     splitOn: $"{splitOnFirst}, {splitOnSecond}",
                     param: parameters,
                     commandType: CommandType.StoredProcedure);
+            }
+            catch (SqlException sx) {
+                //TODO:   add logging and log full stack trace, etc.
+                throw SqlExceptionHelper.ToDBException(sx);
             }
             catch (Exception ex) {
                 throw new Exception($"Error fetching {typeof(T).Name}: {ex.Message}");
@@ -100,6 +115,10 @@ public abstract class GenericRepository<T> : IRepository<T>
                     commandType: CommandType.StoredProcedure);
 
             }
+            catch (SqlException sx) {
+                //TODO:   add logging and log full stack trace, etc.
+                throw SqlExceptionHelper.ToDBException(sx);
+            }
             catch (Exception ex) {
                 throw new Exception($"Error fetching {typeof(T).Name}: {ex.Message}");
             }
@@ -116,6 +135,10 @@ public abstract class GenericRepository<T> : IRepository<T>
                     param: BuildGetByIdParam(id),
                     commandType: CommandType.StoredProcedure
                  );
+            }
+            catch (SqlException sx) {
+                //TODO:   add logging and log full stack trace, etc.
+                throw SqlExceptionHelper.ToDBException(sx);
             }
             catch (Exception ex) {
                 throw new Exception($"Error fetching {typeof(T).Name}: {ex.Message}");
@@ -135,6 +158,10 @@ public abstract class GenericRepository<T> : IRepository<T>
                     param: BuildGetByIdParam(id),
                     commandType: CommandType.StoredProcedure);
             }
+            catch (SqlException sx) {
+                //TODO:   add logging and log full stack trace, etc.
+                throw SqlExceptionHelper.ToDBException(sx);
+            }
             catch (Exception ex) {
                 throw new Exception($"Error fetching {typeof(T).Name}: {ex.Message}");
             }
@@ -153,6 +180,10 @@ public abstract class GenericRepository<T> : IRepository<T>
                     param: BuildGetByIdParam(id),
                     commandType: CommandType.StoredProcedure);
             }
+            catch (SqlException sx) {
+                //TODO:   add logging and log full stack trace, etc.
+                throw SqlExceptionHelper.ToDBException(sx);
+            }
             catch (Exception ex) {
                 throw new Exception($"Error fetching {typeof(T).Name}: {ex.Message}");
             }
@@ -164,14 +195,17 @@ public abstract class GenericRepository<T> : IRepository<T>
             try {
                 var inputParams = BuildAddUpdateParams(entity);
 
-               var id = connection.ExecuteScalarAsync<int>(AddUpdateStoredProc, inputParams,
-                    commandType: CommandType.StoredProcedure);                
+                var id = connection.ExecuteScalar<int>(AddUpdateStoredProc, inputParams,
+                     commandType: CommandType.StoredProcedure);
+            }catch (SqlException sx) {
+                //TODO:   add logging and log full stack trace, etc.
+                throw SqlExceptionHelper.ToDBException(sx);
             }
             catch (Exception ex) {
-                throw new Exception($"Error updating {typeof(T).Name}: {ex.Message}");
+                throw new Exception($"Error fetching {typeof(T).Name}: {ex.Message}");
             }
-
         }
+
     }
 
     public async Task<bool> CheckNameExistsAsync(string name) {
@@ -183,6 +217,10 @@ public abstract class GenericRepository<T> : IRepository<T>
                     commandType: CommandType.StoredProcedure
                  );
                 return exists;
+            }
+            catch (SqlException sx) {
+                //TODO:   add logging and log full stack trace, etc.
+                throw SqlExceptionHelper.ToDBException(sx);
             }
             catch (Exception ex) {
                 throw new Exception($"Error fetching {typeof(T).Name}: {ex.Message}");
