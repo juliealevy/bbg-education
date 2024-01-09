@@ -17,7 +17,7 @@ public class BbgProgramGetByIdQueryHandler : IRequestHandler<BbgProgramGetByIdQu
     {
         var program = await _repository.GetProgramByIdAsync(request.Id);
 
-        return program == null ? new NotFound() : new BbgProgramResult((int)program.program_id!, program.program_name, 
+        return program is null ? new NotFound() : new BbgProgramResult((int)program.program_id!, program.program_name, 
             program.description);
     }
 }

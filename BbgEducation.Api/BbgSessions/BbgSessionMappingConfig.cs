@@ -12,6 +12,8 @@ public class BbgSessionMappingConfig : IRegister
             .Map(dest => dest, src => src.request);
 
         config.NewConfig<BbgSessionResult, BbgSessionResponse>()
-            .Map(dest => dest, src => src);
+           .Map(dest => dest.Program.Id, src => src.Program.ProgramId)
+           .Map(dest => dest.Program.Name, src => src.Program.ProgramName);
+
     }
 }

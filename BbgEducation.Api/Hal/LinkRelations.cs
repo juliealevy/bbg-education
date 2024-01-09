@@ -2,6 +2,7 @@
 
 public static class LinkRelations
 {
+    public const string SELF = "self";
     public static class Authentication
     {
         private const string _namespace = "auth";

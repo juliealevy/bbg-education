@@ -37,7 +37,7 @@ public class ApiRootController : ApiControllerBase
         apiResponse.AddLink(_linkGenerator.GetApiLink(LinkRelations.Program.CREATE, typeof(BbgProgramController), nameof(BbgProgramController.CreateProgram), 
             new CreateBbgProgramRequest("", "")));
         apiResponse.AddLink(_linkGenerator.GetApiLink(LinkRelations.Program.UPDATE, typeof(BbgProgramController), nameof(BbgProgramController.UpdateProgram), 
-            new UpdateBbgProgramRequest(-123, "", "")));
+            new UpdateBbgProgramRequest("", "")));
 
         apiResponse.AddLink(_linkGenerator.GetApiLink(LinkRelations.Session.CREATE, typeof(BbgProgramSessionController), nameof(BbgProgramSessionController.CreateSession),
             new CreateBbgSessionRequest("", "", DateOnly.Parse("09/13/2023"), DateOnly.Parse("12/20/2023"))));

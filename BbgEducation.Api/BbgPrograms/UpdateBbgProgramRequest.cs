@@ -1,6 +1,5 @@
 ﻿namespace BbgEducation.Api.BbgPrograms;
-public record UpdateBbgProgramRequest(
-    int Id,
+public record UpdateBbgProgramRequest(    
     string Name,
     string Description);
 

@@ -21,7 +21,7 @@ public class HalResponse
 
     public void AddSelfLink(ApiRouteData routeData) {
         if (routeData is not null) {
-            AddLink(new Link("self", routeData.RouteTemplate!, routeData.HttpMethod!));
+            AddLink(new Link(LinkRelations.SELF, routeData.RouteTemplate!, routeData.HttpMethod!));
         }
     }
 

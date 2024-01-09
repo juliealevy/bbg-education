@@ -39,6 +39,6 @@ public class BbgLinkGenerator : IBbgLinkGenerator
         var routeData = _routeService.GetSelfRouteData(context.Request.RouteValues);
         if (routeData is null) return null;
 
-        return new Link("self", context.Request.Path.Value!, routeData.HttpMethod);
+        return new Link(LinkRelations.SELF, context.Request.Path.Value!, routeData.HttpMethod);
     }
 }

@@ -57,10 +57,10 @@ public class BbgProgramSessionController : ApiControllerBase {
 
                var sessionList = _mapper.Map<List<BbgSessionResponse>>(session);
 
-               foreach (var item in sessionList.OrderBy(s => s.ProgramName)) {
+               foreach (var item in sessionList.OrderBy(s => s.Program.Name)) {
                    item.AddLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Session.GET_BY_ID,
                          typeof(BbgProgramSessionController), nameof(BbgProgramSessionController.GetSessionById),
-                         new { programId = item.ProgramId, sessionId = item.Id }));
+                         new { programId = item.Program.Id, sessionId = item.Id }));
                }
                sessionListResponse.Sessions = sessionList;
                return Ok(sessionListResponse);
