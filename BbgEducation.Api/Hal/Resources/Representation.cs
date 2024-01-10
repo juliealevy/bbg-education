@@ -11,6 +11,7 @@ public class Representation
     private IDictionary<string, List<Link>> __links = new Dictionary<string, List<Link>>();
     private IDictionary<string, object?>? _properties = null;
     private IDictionary<string, List<Representation>>? _resources = null;   //list of representations
+    
     public IDictionary<string, List<Link>> _links => __links;
 
     [JsonExtensionData]  //can only use on one IDictionary, has to contains objects, will prevent "Properties" from being included in JSON
