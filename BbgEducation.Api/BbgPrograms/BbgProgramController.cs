@@ -1,6 +1,7 @@
-﻿using BbgEducation.Api.BbgPrograms.Response;
+﻿using BbgEducation.Api.BbgSessions;
 using BbgEducation.Api.Common;
-using BbgEducation.Api.Hal;
+using BbgEducation.Api.Hal.Links;
+using BbgEducation.Api.Hal.Resources;
 using BbgEducation.Application.BbgPrograms.Common;
 using BbgEducation.Application.BbgPrograms.Create;
 using BbgEducation.Application.BbgPrograms.GetAll;
@@ -17,29 +18,28 @@ public class BbgProgramController : ApiControllerBase
 {
     private readonly IMapper _mapper;
     private readonly ISender _mediator;
+    private readonly IBbgLinkGenerator _linkGenerator;
 
-    private readonly IBbgResponseBuilder<BbgProgramResult, BbgProgramResponse> _responseBuilder;
-    private readonly IBbgResponseBuilder<List<BbgProgramResult>, BbgProgramListResponse> _responseListBuilder;
-
-    public BbgProgramController(IMapper mapper, ISender mediator, IBbgResponseBuilder<BbgProgramResult, BbgProgramResponse> responseBuilder, IBbgResponseBuilder<List<BbgProgramResult>, BbgProgramListResponse> responseListBuilder) {
+    public BbgProgramController(IMapper mapper, ISender mediator, IBbgLinkGenerator blogLinkGenerator) {
         _mapper = mapper;
         _mediator = mediator;
-        _responseBuilder = responseBuilder;
-        _responseListBuilder = responseListBuilder;
+        _linkGenerator = blogLinkGenerator;
     }
 
     [HttpGet("{programId}")]
+    [Produces(RepresentationFactory.HAL_JSON)]
     public async Task<IActionResult> GetProgramById(
         int programId)
     {
-
         var query = new BbgProgramGetByIdQuery(programId);
         var getResult = await _mediator.Send(query);
 
         return getResult.Match<IActionResult>(
             program => {
-                var response = _responseBuilder.Build(program, HttpContext, true, false, true);
-                return Ok(response);
+
+                var representation = BuildGetProgramRepresentation(program);
+                
+                return Ok(representation);
                 },
                 _ => NotFound()            
             );
@@ -47,18 +47,23 @@ public class BbgProgramController : ApiControllerBase
     }
 
     [HttpGet]
+    [Produces(RepresentationFactory.HAL_JSON)]
     public async Task<IActionResult> GetAllPrograms()
     {
         var query = new BbgProgramGetAllQuery();
-        var getResult = await _mediator.Send(query);
+        var getResultData = await _mediator.Send(query);
 
-        var programListResponse = _responseListBuilder.Build(getResult, HttpContext,false, false, false);
-       
-
-        return Ok(programListResponse);
+        var representation = RepresentationFactory.NewRepresentation(HttpContext);
+        getResultData.ForEach(p =>
+        {
+            representation.WithRepresentation("programs", BuildGetProgramRepresentation(p,true));
+        });
+      
+        return Ok(representation);
     }
 
     [HttpPost]
+    [Produces(RepresentationFactory.HAL_JSON)]
     public async Task<IActionResult> CreateProgram(
         CreateBbgProgramRequest request) {
 
@@ -68,7 +73,10 @@ public class BbgProgramController : ApiControllerBase
         return createResult.Match<IActionResult>(
             program =>
             {
-                var response = _responseBuilder.Build(program, HttpContext, true, true, false);
+
+                var response = BuildAddUpdateProgramRepresentation(program);
+                
+                //_responseBuilder.Build(program, HttpContext, true, true, false);
                 return CreatedAtAction(nameof(CreateProgram), value: response);
             },
             failed => BadRequest(BuildValidationProblem(failed.Errors))
@@ -76,6 +84,7 @@ public class BbgProgramController : ApiControllerBase
     }
 
     [HttpPut("{programId}")]
+    [Produces(RepresentationFactory.HAL_JSON)]
     public async Task<IActionResult> UpdateProgram(int programId,
        UpdateBbgProgramRequest request) {
 
@@ -85,13 +94,49 @@ public class BbgProgramController : ApiControllerBase
         return updateResult.Match<IActionResult>(
             program =>
             {
-                var response = _responseBuilder.Build(program, HttpContext, true, true, false);
+                var response = BuildAddUpdateProgramRepresentation(program);
+                //_responseBuilder.Build(program, HttpContext, true, true, false);
                 return Ok(response);
             },
             _ => NotFound(),
             failed => BadRequest(BuildValidationProblem(failed.Errors))
             );
 
-    } 
+    }
+
+    private Representation BuildGetProgramRepresentation(BbgProgramResult program, bool selfIsById = false) {
+
+        Representation? representation = null;
+
+        if (selfIsById) {
+            representation = RepresentationFactory.NewRepresentation(
+               _linkGenerator.GetActionLink(HttpContext, LinkRelations.SELF, typeof(BbgProgramController), nameof(BbgProgramController.GetProgramById), new { programId = program.Id })!
+           );
+            
+        }
+        else {
+            representation = RepresentationFactory.NewRepresentation(HttpContext);
+        }
+
+        representation.WithObject(program)
+            .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Program.UPDATE,
+                   typeof(BbgProgramController), nameof(BbgProgramController.UpdateProgram), new { programId = program.Id })!)
+            .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Session.CREATE,
+                    typeof(BbgProgramSessionController), nameof(BbgProgramSessionController.CreateSession), new { programId = program.Id })!);
+
+        return representation;
+    }
+
+    private Representation BuildAddUpdateProgramRepresentation(BbgProgramResult program) {
+
+        var representation = RepresentationFactory.NewRepresentation(HttpContext)
+            .WithObject(program)
+            .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Program.GET_BY_ID, 
+                typeof(BbgProgramController), nameof(BbgProgramController.GetProgramById), new { programId = program.Id })!)
+            .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Program.GET_ALL, typeof(BbgProgramController),
+                    nameof(BbgProgramController.GetAllPrograms), null)!);
+
+        return representation;
+    }
 
 }

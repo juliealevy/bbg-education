@@ -1,4 +1,4 @@
-﻿namespace BbgEducation.Api.Hal;
+﻿namespace BbgEducation.Api.Hal.Links;
 
 public static class LinkRelations
 {
@@ -19,11 +19,12 @@ public static class LinkRelations
         public const string UPDATE = $"{_namespace}:update";
     }
 
-    public static class Session {
+    public static class Session
+    {
         private const string _namespace = "session";
         public const string GET_ALL = $"{_namespace}:get-all";
         public const string GET_BY_PROGRAM_ID = $"{_namespace}:get-by-program-id";
-        public const string GET_BY_ID = $"{_namespace}:get-by-id";        
+        public const string GET_BY_ID = $"{_namespace}:get-by-id";
         public const string CREATE = $"{_namespace}:create";
         public const string UPDATE = $"{_namespace}:update";
     }

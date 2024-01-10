@@ -1,4 +1,4 @@
-﻿namespace BbgEducation.Api.Common.Routes;
+﻿namespace BbgEducation.Api.Common.Routes.CustomAttributes;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class CustomRoutePrefixAttribute : Attribute

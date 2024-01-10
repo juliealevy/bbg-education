@@ -1,6 +1,7 @@
 ﻿using BbgEducation.Api.Api;
 using BbgEducation.Api.Common;
-using BbgEducation.Api.Hal;
+using BbgEducation.Api.Hal.Links;
+using BbgEducation.Api.Hal.Resources;
 using BbgEducation.Application.Authentication.Common;
 using BbgEducation.Application.Authentication.Login;
 using BbgEducation.Application.Authentication.Register;
@@ -37,6 +38,7 @@ public class AuthenticationController: ApiControllerBase
         return HandleAuthResult(authResult, true);
     }
 
+    //just for testing for now
     [HttpDelete("clear-all")]
     public async Task<IActionResult> ClearAllUsers() {
         var command = new ClearCommand();
@@ -57,6 +59,8 @@ public class AuthenticationController: ApiControllerBase
     }
 
     [HttpPost("logout/{username}")]
+    [Consumes("application/json")]
+    [Produces("application/hal+json")]
     public IActionResult Logout(string username) {
 
         return Ok($"{username} is logged out");
@@ -66,22 +70,18 @@ public class AuthenticationController: ApiControllerBase
         return authResult.Match<IActionResult>(
             auth =>
             {
-                var authResponse = BuildAuthResponse(auth);
+                var representation = RepresentationFactory.NewRepresentation(HttpContext)
+                    .WithObject(auth);
+
                 if (addLoginLink) {
-                    authResponse.AddLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Authentication.LOGIN, typeof(AuthenticationController), "Login", null));
-                    authResponse.AddLink(_linkGenerator.GetActionLink(HttpContext, "auth:logout", typeof(AuthenticationController), "Logout", new {username="Julie" }));
+                    representation
+                        .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Authentication.LOGIN, typeof(AuthenticationController), "Login", null)!)
+                        .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Authentication.LOGOUT, typeof(AuthenticationController), "Logout", 
+                            new { username = "JulieLevy" })!);  //just a test,no logout logic
                 }
-                return Ok(authResponse);
+                return Ok(representation);
             },
             failed => BadRequest(BuildValidationProblem(failed.Errors))
             );
-    }
-
-    private AuthenticationResponse BuildAuthResponse(AuthenticationResult result) {
-
-        var response = _mapper.Map<AuthenticationResponse>(result);
-        response.AddSelfLink(_linkGenerator.GetSelfLink(HttpContext));
-
-        return response;
-    }
+    }   
 }

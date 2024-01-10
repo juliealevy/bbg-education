@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BbgEducation.Api.Common.Routes;
+namespace BbgEducation.Api.Common.Routes.CustomAttributes;
 
 public class RoutePrefixConvention : IControllerModelConvention
 {

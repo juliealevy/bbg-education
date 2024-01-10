@@ -1,4 +1,4 @@
-﻿namespace BbgEducation.Api.Hal;
+﻿namespace BbgEducation.Api.Hal.Links;
 
 public interface ILink
 {

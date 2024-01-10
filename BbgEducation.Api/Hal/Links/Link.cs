@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 
-namespace BbgEducation.Api.Hal;
+namespace BbgEducation.Api.Hal.Links;
 
 public class Link
 {
@@ -15,14 +15,16 @@ public class Link
     public string Method { get; set; }
     public object? Body { get; set; } = null;
 
-    public Link(string rel, string href, string method) {
+    public Link(string rel, string href, string method)
+    {
         Rel = rel;
         Href = href;
         Templated = hasTemplate(href);
         Method = method;
     }
 
-    public Link(string rel, string href, string method, object? body) {
+    public Link(string rel, string href, string method, object? body)
+    {
         Rel = rel;
         Href = href;
         Templated = hasTemplate(href);
@@ -30,8 +32,10 @@ public class Link
         Body = body;
     }
 
-    private bool hasTemplate(string href) {
-        if (href == null) {
+    private bool hasTemplate(string href)
+    {
+        if (href == null)
+        {
             return false;
         }
         string templatePattern = "\\{.+\\}";

@@ -1,4 +1,5 @@
 ﻿using BbgEducation.Api.Common.Routes;
+using BbgEducation.Api.Common.Routes.CustomAttributes;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
