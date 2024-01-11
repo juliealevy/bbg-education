@@ -11,5 +11,5 @@ using BbgEducation.Application.BbgSessions.Common;
 using BbgEducation.Application.Common.Validation;
 
 namespace BbgEducation.Application.BbgSessions.GetByProgramId;
-public record BbgSessionGetByProgramIdQuery(int ProgramId) : IRequest<OneOf<List<BbgSessionResult>, ValidationFailed, NotFound>>;
+public record BbgSessionGetByProgramIdQuery(int ProgramId) : IRequest<OneOf<List<BbgSessionResult>, ValidationFailed>>;
 

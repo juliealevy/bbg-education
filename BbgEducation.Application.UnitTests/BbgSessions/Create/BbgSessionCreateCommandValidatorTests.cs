@@ -2,6 +2,7 @@
 using BbgEducation.Application.Authentication.Login;
 using BbgEducation.Application.BbgPrograms.Create;
 using BbgEducation.Application.BbgSessions.Create;
+using BbgEducation.Application.BbgSessions.Update;
 using FluentAssertions;
 using FluentValidation;
 using System;
@@ -51,46 +52,7 @@ public class BbgSessionCreateCommandValidatorTests
         result.Should().NotBeNull();
         result.IsValid.Should().Be(false);
 
-    }
-
-    [Fact]
-    public void Validate_Should_Fail_WhenDatesAreMinValue() {
-
-        BbgSessionCreateCommand command =
-            new BbgSessionCreateCommand(_fixture.Create<int>(), _fixture.Create<string>(), _fixture.Create<string>(), DateOnly.MinValue, DateOnly.MinValue);
-
-        var result = _testing.Validate(command);
-
-        result.Should().NotBeNull();
-        result.IsValid.Should().Be(false);
-
-    }
-
-    [Fact]
-    public void Validate_Should_Fail_WhenDatesAreMaxValue() {
-
-        BbgSessionCreateCommand command =
-            new BbgSessionCreateCommand(_fixture.Create<int>(), _fixture.Create<string>(), _fixture.Create<string>(), DateOnly.MaxValue, DateOnly.MaxValue);
-
-        var result = _testing.Validate(command);
-
-        result.Should().NotBeNull();
-        result.IsValid.Should().Be(false);
-
-    }
-
-    [Fact]
-    public void Validate_Should_Fail_WhenStartDatesAfterEnd() {
-
-        BbgSessionCreateCommand command =
-            new BbgSessionCreateCommand(_fixture.Create<int>(), _fixture.Create<string>(), _fixture.Create<string>(), _startDateOnly.AddDays(365), _endDateOnly);
-
-        var result = _testing.Validate(command);
-
-        result.Should().NotBeNull();
-        result.IsValid.Should().Be(false);
-
-    }
+    }   
 
     [Fact]
     public void Validate_Should_Fail_WhenProgramIdInvalid() {
@@ -103,5 +65,29 @@ public class BbgSessionCreateCommandValidatorTests
         result.Should().NotBeNull();
         result.IsValid.Should().Be(false);
 
+    }
+
+    [Theory]
+    [MemberData(nameof(InvalidCreateSessionCommandDates))]
+    public void Validate_ShouldFail_WhenDatesAreInvalid(BbgSessionCreateCommand command) {
+        var result = _testing.Validate(command);
+
+        result.Should().NotBeNull();
+        result.IsValid.Should().Be(false);
+
+    }
+
+    public static IEnumerable<object[]> InvalidCreateSessionCommandDates() {
+        yield return new[] { BuildWithDates(DateOnly.MinValue, null) };
+        yield return new[] { BuildWithDates(null, DateOnly.MinValue) };
+        yield return new[] { BuildWithDates(DateOnly.MaxValue, null) };
+        yield return new[] { BuildWithDates(null, DateOnly.MaxValue) };
+        yield return new[] { BuildWithDates(DateOnly.Parse("09/20/2023").AddDays(365), DateOnly.Parse("12/20/2023")) };
+
+    }
+
+    private static BbgSessionCreateCommand BuildWithDates(DateOnly? start, DateOnly? end) {
+        return new BbgSessionCreateCommand(
+                    10, "name", "description", start ?? DateOnly.Parse("09/20/2023"), end ?? DateOnly.Parse("12/20/2023"));
     }
 }

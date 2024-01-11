@@ -1,11 +1,6 @@
 ﻿using BbgEducation.Application.BbgSessions.Common;
 using BbgEducation.Application.Common.Interfaces.Persistance;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BbgEducation.Application.BbgSessions.GetAll;
 public class BbgSessionGetAllQueryHandler : IRequestHandler<BbgSessionGetAllQuery, List<BbgSessionResult>>

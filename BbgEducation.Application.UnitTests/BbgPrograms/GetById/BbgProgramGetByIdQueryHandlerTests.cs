@@ -32,13 +32,14 @@ public class BbgProgramGetByIdQueryHandlerTests
 
 
         //assert
-        result.IsT0.Should().BeTrue();
+        result.Should().NotBeNull();
 
-        BbgProgramResult? T0Value = result.AsT0;
-        T0Value.Should().NotBeNull();
-        T0Value.Id.Should().Be(program.program_id!);
-        T0Value.Name.Should().Be(program.program_name);
-        T0Value.Description.Should().Be(program.description);
+        result.IsT0.Should().BeTrue();
+        BbgProgramResult? returnValue = result.AsT0;
+        returnValue.Should().NotBeNull();
+        returnValue.Id.Should().Be(program.program_id!);
+        returnValue.Name.Should().Be(program.program_name);
+        returnValue.Description.Should().Be(program.description);
     }
 
     [Fact]
@@ -55,6 +56,7 @@ public class BbgProgramGetByIdQueryHandlerTests
 
 
         //assert
+        result.Should().NotBeNull();
         result.IsT1.Should().BeTrue();
         result.AsT1.Should().NotBeNull();
         result.AsT1.Should().Be(new NotFound());

@@ -35,7 +35,7 @@ public class BbgSessionCreateCommandHandlerTests
 
         var newSession = BbgSession.Build(_fixture.Create<int>(), command.Name, command.Description,
             command.StartDate.ToDateTime(TimeOnly.Parse("12:00 AM")), command.EndDate.ToDateTime(TimeOnly.Parse("12:00 AM")),
-            program, _fixture.Create<DateTime>(), _fixture.Create<DateTime>());
+            program);
 
         _sessionRepository.CheckSessionNameExistsAsync(command.Name).Returns(false);
         _programRepository.GetProgramByIdAsync(command.ProgramId).Returns(program);

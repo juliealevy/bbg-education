@@ -42,9 +42,7 @@ public sealed class BbgSession: Entity
        string description,
        DateTime startDate,
        DateTime endDate,
-       BbgProgram program,
-       DateTime createdDate,
-       DateTime updatedDate) {
+       BbgProgram program) {
 
         return new BbgSession(
             sessionId,
@@ -53,8 +51,8 @@ public sealed class BbgSession: Entity
             startDate,
             endDate,
             program,
-            createdDate,
-            updatedDate);  
+            DateTime.UtcNow,
+            DateTime.UtcNow);  
     }
 
     public static BbgSession Create(

@@ -62,8 +62,7 @@ public class BbgProgramSessionController : ApiControllerBase {
                });
                return Ok(representation);
            },
-           failed => BadRequest(BuildValidationProblem(failed.Errors)),
-           _ => NotFound()
+           failed => BadRequest(BuildValidationProblem(failed.Errors))           
        );
 
        

@@ -30,11 +30,4 @@
     <ProjectReference Include="..\BbgEducation.Domain\BbgEducation.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="BbgSessions\GetAll\" />
-    <Folder Include="BbgSessions\GetById\" />
-    <Folder Include="BbgSessions\GetByProgramId\" />
-    <Folder Include="BbgSessions\Update\" />
-  </ItemGroup>
-
 </Project>

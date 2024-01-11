@@ -14,8 +14,8 @@ public class BbgSessionUpdateCommandValidator: AbstractValidator<BbgSessionUpdat
         RuleFor(x => x.SessionId).NotEmpty().GreaterThan(0);
         RuleFor(x => x.Name).NotEmpty().MaximumLength(100).MinimumLength(5);
         RuleFor(x => x.Description).MaximumLength(255);
-        RuleFor(x => x.StartDate).NotEmpty();  //check for min/max or default?
-        RuleFor(x => x.EndDate).NotEmpty();    //check for min/max or default?
+        RuleFor(x => x.StartDate).NotEqual(DateOnly.MinValue).NotEqual(DateOnly.MaxValue);
+        RuleFor(x => x.EndDate).NotEqual(DateOnly.MinValue).NotEqual(DateOnly.MaxValue);
         RuleFor(x => x.StartDate).LessThan(x => x.EndDate);
 
     }

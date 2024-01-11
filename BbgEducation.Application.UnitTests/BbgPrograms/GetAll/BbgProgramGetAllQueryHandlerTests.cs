@@ -51,4 +51,24 @@ public class BbgProgramGetAllQueryHandlerTests
 
     }
 
+    [Fact]
+    public async void Handle_ShouldReturnEmptyList_WhenNoData() {
+
+        //arrange
+
+        IEnumerable<BbgProgram> programs = new List<BbgProgram>();
+
+        _programRepository.GetProgramsAsync().Returns(programs);
+
+        var query = _fixture.Create<BbgProgramGetAllQuery>();
+
+        //act
+        var result = await _testing.Handle(query, default);
+
+        //assert
+        result.Should().NotBeNull();
+        result.Count.Should().Be(0);
+
+    }
+
 }

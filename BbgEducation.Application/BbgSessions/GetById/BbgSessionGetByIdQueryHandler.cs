@@ -6,12 +6,12 @@ using BbgEducation.Application.Common.Interfaces.Persistance;
 using BbgEducation.Application.Common.Validation;
 
 namespace BbgEducation.Application.BbgSessions.GetById;
-public class BbgSessionGetByProgramIdQueryHandler : IRequestHandler<BbgSessionGetByIdQuery, OneOf<BbgSessionResult, ValidationFailed, NotFound>>
+public class BbgSessionGetByIdQueryHandler : IRequestHandler<BbgSessionGetByIdQuery, OneOf<BbgSessionResult, ValidationFailed, NotFound>>
 {
     private readonly IBbgProgramRepository _programRepository;
     private readonly IBbgSessionRepository _sessionRepository;
 
-    public BbgSessionGetByProgramIdQueryHandler(IBbgProgramRepository programRepository, IBbgSessionRepository sessionRepository) {
+    public BbgSessionGetByIdQueryHandler(IBbgProgramRepository programRepository, IBbgSessionRepository sessionRepository) {
         _programRepository = programRepository;
         _sessionRepository = sessionRepository;
     }
