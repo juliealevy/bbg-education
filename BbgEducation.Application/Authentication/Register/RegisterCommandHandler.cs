@@ -21,7 +21,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, OneOf<Aut
         await Task.CompletedTask;  //to get rid of warning until there is asynchronous logic                     s
         
         if (_userRepository.GetUserByEmail(command.Email) is not null) {
-            return new ValidationFailed(nameof(RegisterCommand.Email), "Email already exists");
+            return ValidationFailed.Conflict(nameof(RegisterCommand.Email), "Email already exists");
         }
 
         var user = User.Create(

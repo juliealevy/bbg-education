@@ -1,20 +1,25 @@
-﻿using BbgEducation.Application.Authentication.Register;
-using FluentValidation.Results;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation.Results;
 
 namespace BbgEducation.Application.Common.Validation;
-public record ValidationFailed(IEnumerable<ValidationFailure> Errors) {
+public record ValidationFailed(ValidationErrorType ErrorType, IEnumerable<ValidationFailure> Errors) {
 
-    public ValidationFailed(ValidationFailure error): this(new [] { error }) {
+    public ValidationFailed(ValidationErrorType errorType, ValidationFailure error): this(errorType, new [] { error }) {
 
     }
 
-    public ValidationFailed(string propertyName, string message): this(
-        new[] { new ValidationFailure(propertyName, message) }) {
+    public ValidationFailed(ValidationErrorType errorType, string propertyName, string message): this(
+        errorType, new[] { new ValidationFailure(propertyName, message) }) {
 
+    }
+
+    public static ValidationFailed BadRequest(string propertyName, string message) {
+        return new ValidationFailed(ValidationErrorType.BadRequest, propertyName, message);
+    }
+
+    public static ValidationFailed BadRequest(IEnumerable<ValidationFailure> errors) {
+        return new ValidationFailed(ValidationErrorType.BadRequest, errors);
+    }
+    public static ValidationFailed Conflict(string propertyName, string message) {
+        return new ValidationFailed(ValidationErrorType.Conflict, propertyName, message);
     }
 }

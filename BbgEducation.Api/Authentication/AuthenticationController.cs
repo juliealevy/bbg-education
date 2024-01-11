@@ -76,12 +76,12 @@ public class AuthenticationController: ApiControllerBase
                 if (addLoginLink) {
                     representation
                         .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Authentication.LOGIN, typeof(AuthenticationController), "Login", null)!)
-                        .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Authentication.LOGOUT, typeof(AuthenticationController), "Logout", 
+                        .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Authentication.LOGOUT, typeof(AuthenticationController), "Logout",
                             new { username = "JulieLevy" })!);  //just a test,no logout logic
                 }
                 return Ok(representation);
             },
-            failed => BadRequest(BuildValidationProblem(failed.Errors))
-            );
+            failed => BuildActionResult(failed)
+            ) ;
     }   
 }

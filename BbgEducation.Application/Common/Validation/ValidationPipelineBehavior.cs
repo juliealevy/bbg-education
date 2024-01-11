@@ -37,7 +37,7 @@ public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior
             return await next();  
         }
 
-        return (dynamic)new ValidationFailed(errors);
+        return (dynamic)ValidationFailed.BadRequest(errors);
 
     }
 

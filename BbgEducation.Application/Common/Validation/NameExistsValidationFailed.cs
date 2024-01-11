@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 namespace BbgEducation.Application.Common.Validation;
 public record NameExistsValidationFailed : ValidationFailed
 {
-    public NameExistsValidationFailed(string entityName) : base("Name", $"{entityName} Name already exists.") {
+    public NameExistsValidationFailed(string entityName) : base(ValidationErrorType.Conflict, "Name", $"{entityName} Name already exists.") {
     }
 }

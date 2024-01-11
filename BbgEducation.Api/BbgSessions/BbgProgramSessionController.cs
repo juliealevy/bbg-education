@@ -38,7 +38,7 @@ public class BbgProgramSessionController : ApiControllerBase {
                 var representation = BuildAddUpdateRepresentation(session);
                 return CreatedAtAction(nameof(CreateSession), value: representation);
             },
-            failed => BadRequest(BuildValidationProblem(failed.Errors))
+            failed => BuildActionResult(failed)
             );
     }
 
@@ -62,7 +62,7 @@ public class BbgProgramSessionController : ApiControllerBase {
                });
                return Ok(representation);
            },
-           failed => BadRequest(BuildValidationProblem(failed.Errors))           
+           failed => BuildActionResult(failed)
        );
 
        
@@ -84,7 +84,7 @@ public class BbgProgramSessionController : ApiControllerBase {
                 var respresentation = BuildGetSessionRepresentation(session);
                 return Ok(respresentation);
             },
-            failed => BadRequest(BuildValidationProblem(failed.Errors)),
+            failed => BuildActionResult(failed),
             _ => NotFound()
         );
     }
@@ -104,7 +104,7 @@ public class BbgProgramSessionController : ApiControllerBase {
                 return Ok(representation);
             },
             _ => NotFound(),
-            failed => BadRequest(BuildValidationProblem(failed.Errors))
+            failed => BuildActionResult(failed)
             );
     }
 

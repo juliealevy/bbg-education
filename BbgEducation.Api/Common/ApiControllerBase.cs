@@ -1,5 +1,6 @@
 ﻿using BbgEducation.Api.Common.Routes;
 using BbgEducation.Api.Common.Routes.CustomAttributes;
+using BbgEducation.Application.Common.Validation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,21 @@ namespace BbgEducation.Api.Common;
 [ApiController]
 [Authorize]
 [CustomRoutePrefix("api")]
-public class ApiControllerBase : ControllerBase
-{
-    
-    protected IActionResult BuildValidationProblem(IEnumerable<ValidationFailure> errors) {
+public class ApiControllerBase : ControllerBase {
+
+    protected IActionResult BuildActionResult(ValidationFailed validationFail) {
+        var problem = BuildValidationProblem(validationFail.Errors);
+
+        return validationFail.ErrorType switch {
+            ValidationErrorType.BadRequest => BadRequest(problem),
+            ValidationErrorType.Conflict => Conflict(problem)
+        };
+
+}
+
+
+
+protected IActionResult BuildValidationProblem(IEnumerable<ValidationFailure> errors) {
         if (errors is null || !errors.Any()) {
             return Problem();
         }

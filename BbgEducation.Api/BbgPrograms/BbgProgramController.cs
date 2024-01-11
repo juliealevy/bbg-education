@@ -79,7 +79,7 @@ public class BbgProgramController : ApiControllerBase
                 //_responseBuilder.Build(program, HttpContext, true, true, false);
                 return CreatedAtAction(nameof(CreateProgram), value: response);
             },
-            failed => BadRequest(BuildValidationProblem(failed.Errors))
+            failed => BuildActionResult(failed)
             );
     }
 
@@ -99,7 +99,7 @@ public class BbgProgramController : ApiControllerBase
                 return Ok(response);
             },
             _ => NotFound(),
-            failed => BadRequest(BuildValidationProblem(failed.Errors))
+            failed => BuildActionResult(failed)
             );
 
     }

@@ -24,7 +24,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, OneOf<Authenticatio
 
         if (user is null || (user.Password != query.Password)) {
             string propertyNames = $"{nameof(User.Email)} or {nameof(User.Password)}";
-            return new ValidationFailed(propertyNames, "Email or Password is invalid.");
+            return ValidationFailed.BadRequest(propertyNames, "Email or Password is invalid.");
         }
 
         var token = _jwtTokenGenerator.GenerateToken(user);

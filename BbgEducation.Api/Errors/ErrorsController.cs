@@ -32,12 +32,12 @@ public class ErrorsController: ControllerBase
     }
 
     private IActionResult HandleDBException(DBException dbException) {       
-        return Problem(statusCode: StatusCodes.Status400BadRequest, title: dbException.Title,
+        return Problem(statusCode: StatusCodes.Status409Conflict, title: dbException.Title,
             detail: dbException.Message);
     }
 
     private IActionResult HandleHalException(HalRepresentationException halRepresentationException) {
-        return Problem(statusCode: StatusCodes.Status400BadRequest, title: "Error building api response",
+        return Problem(statusCode: StatusCodes.Status500InternalServerError, title: "Error building api response",
            detail: halRepresentationException.Message);
     }
 
