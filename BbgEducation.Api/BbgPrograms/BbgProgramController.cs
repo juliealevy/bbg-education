@@ -48,18 +48,21 @@ public class BbgProgramController : ApiControllerBase
 
     [HttpGet]
     [Produces(RepresentationFactory.HAL_JSON)]
-    public async Task<IActionResult> GetAllPrograms()
-    {
+    public async Task<IActionResult> GetAllPrograms() {
         var query = new BbgProgramGetAllQuery();
         var getResultData = await _mediator.Send(query);
 
         var representation = RepresentationFactory.NewRepresentation(HttpContext);
-        getResultData.ForEach(p =>
-        {
-            representation.WithRepresentation("programs", BuildGetProgramRepresentation(p,true));
-        });
-      
-        return Ok(representation);
+        return getResultData.Match<IActionResult>(
+            programs =>
+            {
+                programs.ForEach(p =>
+                {
+                    representation.WithRepresentation("programs", BuildGetProgramRepresentation(p, true));
+                });
+                return Ok(representation);
+            }
+            );
     }
 
     [HttpPost]

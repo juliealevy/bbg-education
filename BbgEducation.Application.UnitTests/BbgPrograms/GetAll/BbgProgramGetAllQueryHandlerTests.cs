@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using BbgEducation.Application.BbgPrograms.Common;
 using BbgEducation.Application.BbgPrograms.GetAll;
 using BbgEducation.Application.Common.Interfaces.Persistance;
 using BbgEducation.Domain.BbgProgramDomain;
@@ -38,10 +39,13 @@ public class BbgProgramGetAllQueryHandlerTests
 
         //assert
         result.Should().NotBeNull();
-        result.Count.Should().Be(3);
-        result.FirstOrDefault().Should().NotBeNull();
+        result.IsT0.Should().BeTrue();
+        List<BbgProgramResult>? resultValue = result.AsT0;
+        resultValue.Should().NotBeNull();
+        resultValue.Count.Should().Be(3);
+        resultValue.FirstOrDefault().Should().NotBeNull();
 
-        var firstResult = result.OrderBy(x => x.Id).FirstOrDefault();
+        var firstResult = resultValue.OrderBy(x => x.Id).FirstOrDefault();
         var firstSeed = programs.OrderBy(x => x.program_id).FirstOrDefault();
 
         firstResult?.Id.Should().Be(firstSeed?.program_id);
@@ -67,7 +71,10 @@ public class BbgProgramGetAllQueryHandlerTests
 
         //assert
         result.Should().NotBeNull();
-        result.Count.Should().Be(0);
+        result.IsT0.Should().BeTrue();
+        List<BbgProgramResult>? resultValue = result.AsT0;
+        resultValue.Should().NotBeNull();
+        resultValue.Count.Should().Be(0);
 
     }
 

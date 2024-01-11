@@ -26,14 +26,15 @@ public class BbgSessionController: ApiControllerBase
         var getResultData = await _mediator.Send(query);
 
         var representation = RepresentationFactory.NewRepresentation(HttpContext);
-        getResultData.ForEach(result =>
-        {
-            representation.WithRepresentation("sessions", BuildGetSessionRepresentation(result));
-        });
-
-        
-
-        return Ok(representation);
+        return getResultData.Match<IActionResult>(
+           sessions =>
+           {
+               sessions.ForEach(s =>
+               {
+                   representation.WithRepresentation("sessions", BuildGetSessionRepresentation(s));
+               });
+               return Ok(representation);
+           });
 
     }
 

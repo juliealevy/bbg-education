@@ -18,7 +18,8 @@ public class ApiControllerBase : ControllerBase {
 
         return validationFail.ErrorType switch {
             ValidationErrorType.BadRequest => BadRequest(problem),
-            ValidationErrorType.Conflict => Conflict(problem)
+            ValidationErrorType.Conflict => Conflict(problem),
+            _ => BadRequest(problem)
         };
 
 }

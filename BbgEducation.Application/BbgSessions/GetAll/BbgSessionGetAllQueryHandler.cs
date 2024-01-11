@@ -1,9 +1,10 @@
 ﻿using BbgEducation.Application.BbgSessions.Common;
 using BbgEducation.Application.Common.Interfaces.Persistance;
 using MediatR;
+using OneOf;
 
 namespace BbgEducation.Application.BbgSessions.GetAll;
-public class BbgSessionGetAllQueryHandler : IRequestHandler<BbgSessionGetAllQuery, List<BbgSessionResult>>
+public class BbgSessionGetAllQueryHandler : IRequestHandler<BbgSessionGetAllQuery, OneOf<List<BbgSessionResult>>>
 {
     private readonly IBbgSessionRepository _repository;
 
@@ -11,7 +12,7 @@ public class BbgSessionGetAllQueryHandler : IRequestHandler<BbgSessionGetAllQuer
         _repository = repository;
     }
 
-    public async Task<List<BbgSessionResult>> Handle(BbgSessionGetAllQuery request, CancellationToken cancellationToken) {
+    public async Task<OneOf<List<BbgSessionResult>>> Handle(BbgSessionGetAllQuery request, CancellationToken cancellationToken) {
         var sessions =  await _repository.GetAllSessions(false);
 
         return sessions.Select(s =>

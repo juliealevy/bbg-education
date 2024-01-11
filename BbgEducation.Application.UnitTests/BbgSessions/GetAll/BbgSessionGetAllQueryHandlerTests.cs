@@ -1,4 +1,6 @@
 ﻿using AutoFixture;
+using BbgEducation.Application.BbgPrograms.Common;
+using BbgEducation.Application.BbgSessions.Common;
 using BbgEducation.Application.BbgSessions.GetAll;
 using BbgEducation.Application.Common.Interfaces.Persistance;
 using BbgEducation.Application.UnitTests.BbgSessions.Common;
@@ -34,10 +36,14 @@ public class BbgSessionGetAllQueryHandlerTests
         var result = await _testing.Handle(query, default);
 
         result.Should().NotBeNull();
-        result.Count.Should().Be(sessions.Count());
+        result.IsT0.Should().BeTrue();
+        List<BbgSessionResult>? resultValue = result.AsT0;
+        resultValue.Should().NotBeNull();
+        resultValue.Count.Should().Be(3);
+        resultValue.FirstOrDefault().Should().NotBeNull();
 
         var firstSession = sessions.OrderBy(s => s.session_id).First();
-        var firstResult = result.OrderBy(r => r.Id).First();
+        var firstResult = resultValue.OrderBy(r => r.Id).First();
 
         firstSession.Should().NotBeNull();
         firstResult.Should().NotBeNull();
@@ -59,7 +65,10 @@ public class BbgSessionGetAllQueryHandlerTests
         var result = await _testing.Handle(query, default);
 
         result.Should().NotBeNull();
-        result.Count.Should().Be(0);
+        result.IsT0.Should().BeTrue();
+        List<BbgSessionResult>? resultValue = result.AsT0;
+        resultValue.Should().NotBeNull();
+        resultValue.Count.Should().Be(0);
 
     }
 }

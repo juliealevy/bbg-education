@@ -2,9 +2,10 @@
 using BbgEducation.Application.Common.Interfaces.Persistance;
 using BbgEducation.Domain.BbgProgramDomain;
 using MediatR;
+using OneOf;
 
 namespace BbgEducation.Application.BbgPrograms.GetAll;
-public class BbgProgramGetAllQueryHandler : IRequestHandler<BbgProgramGetAllQuery, List<BbgProgramResult>>
+public class BbgProgramGetAllQueryHandler : IRequestHandler<BbgProgramGetAllQuery, OneOf<List<BbgProgramResult>>>
 {
     private readonly IBbgProgramRepository _bbgProgramRepository;
 
@@ -14,7 +15,7 @@ public class BbgProgramGetAllQueryHandler : IRequestHandler<BbgProgramGetAllQuer
         _bbgProgramRepository = bbgProgramRepository;
     }
 
-    public async Task<List<BbgProgramResult>> Handle(BbgProgramGetAllQuery request, CancellationToken cancellationToken)
+    public async Task<OneOf<List<BbgProgramResult>>> Handle(BbgProgramGetAllQuery request, CancellationToken cancellationToken)
     {
 
         var programs = await _bbgProgramRepository.GetProgramsAsync();        
