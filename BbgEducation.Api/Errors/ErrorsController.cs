@@ -1,4 +1,4 @@
-﻿using BbgEducation.Api.Hal;
+﻿using BbgEducation.Api.Common.Hal.Resources;
 using BbgEducation.Application.Common.Errors;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;

@@ -1,7 +1,8 @@
 ﻿using BbgEducation.Api.Common.Hal.Links;
 using System.Reflection;
+using System.Text.Json.Serialization;
 
-namespace BbgEducation.Api.Hal;
+namespace BbgEducation.Api.Common.Hal.Resources;
 
 public class BbgRepresentation : IRepresentation
 {
@@ -11,6 +12,7 @@ public class BbgRepresentation : IRepresentation
 
     public IDictionary<string, List<Link>> _links => __links;
 
+    [JsonExtensionData]  //excludes "Properties" from json output... can only use on one IDictionary in a class    
     public IDictionary<string, object?>? Properties => _properties;
     public IDictionary<string, List<IRepresentation>>? _embedded => _resources;
 

@@ -1,4 +1,4 @@
-﻿namespace BbgEducation.Api.Hal;
+﻿namespace BbgEducation.Api.Common.Hal.Resources;
 
 public class HalRepresentationException : Exception
 {

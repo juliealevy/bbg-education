@@ -1,12 +1,11 @@
 ﻿using BbgEducation.Api.Common.Hal.Links;
 
-namespace BbgEducation.Api.Hal;
+namespace BbgEducation.Api.Common.Hal.Resources;
 
 public class RepresentationFactory : IRepresentationFactory
 {
     public const string HAL_JSON = "application/hal+json";
-    public IRepresentation NewRepresentation(HttpContext context)
-    {
+    public IRepresentation NewRepresentation(HttpContext context) {
 
         var selfLink = new Link(LinkRelations.SELF, context.Request.Path.Value!, context.Request.Method);
         var representation = new BbgRepresentation(selfLink);
@@ -15,8 +14,7 @@ public class RepresentationFactory : IRepresentationFactory
     }
 
 
-    public IRepresentation NewRepresentation(Link selfLink)
-    {
+    public IRepresentation NewRepresentation(Link selfLink) {
 
         selfLink.Rel = LinkRelations.SELF;
         var representation = new BbgRepresentation(selfLink);

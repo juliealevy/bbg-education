@@ -1,6 +1,6 @@
 ﻿using BbgEducation.Api.Common.Authentication;
 using BbgEducation.Api.Common.Hal.Links;
-using BbgEducation.Api.Hal;
+using BbgEducation.Api.Common.Hal.Resources;
 using BbgEducation.Application.Authentication.Common;
 using BbgEducation.Application.Authentication.Login;
 using BbgEducation.Application.Authentication.Register;

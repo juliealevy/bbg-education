@@ -22,4 +22,8 @@
     <ProjectReference Include="..\BbgEducation.Infrastructure\BbgEducation.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Hal\" />
+  </ItemGroup>
+
 </Project>

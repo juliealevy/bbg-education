@@ -1,4 +1,5 @@
 ﻿using BbgEducation.Api.Common.Hal.Links;
+using BbgEducation.Api.Common.Hal.Resources;
 using BbgEducation.Api.Common.Routes;
 using Mapster;
 using MapsterMapper;
@@ -12,23 +13,22 @@ public static class DependencyInjection
 
         services.AddSingleton<IApiRouteService, ApiRouteService>();
         services.AddScoped<IBbgLinkGenerator, BbgLinkGenerator>();
-       // services.AddScoped<IRepresentationFactory, RepresentationFactory>();
+        services.AddScoped<IRepresentationFactory, RepresentationFactory>();
         services.AddMappings(); 
-        //services.ConfigureJsonOptions();
         return services;
 
     }
 
-    private static IServiceCollection ConfigureJsonOptions(this IServiceCollection services) {
-        services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
-        {
-            options.SerializerOptions.PropertyNameCaseInsensitive = false;
-            options.SerializerOptions.PropertyNamingPolicy = null;
-            options.SerializerOptions.WriteIndented = true;
-        });
+    //private static IServiceCollection ConfigureJsonOptions(this IServiceCollection services) {
+    //    services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+    //    {
+    //        options.SerializerOptions.PropertyNameCaseInsensitive = false;
+    //        options.SerializerOptions.PropertyNamingPolicy = null;
+    //        options.SerializerOptions.WriteIndented = true;
+    //    });
 
-        return services;
-    }
+    //    return services;
+    //}
     private static IServiceCollection AddMappings(this IServiceCollection services) {
 
         var config = TypeAdapterConfig.GlobalSettings;

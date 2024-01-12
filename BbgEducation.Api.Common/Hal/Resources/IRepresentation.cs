@@ -1,7 +1,7 @@
 ﻿using BbgEducation.Api.Common.Hal.Links;
 using System.Text.Json.Serialization;
 
-namespace BbgEducation.Api.Hal;
+namespace BbgEducation.Api.Common.Hal.Resources;
 public interface IRepresentation
 {
     IDictionary<string, List<IRepresentation>>? _embedded { get; }

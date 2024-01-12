@@ -1,7 +1,7 @@
 ﻿using BbgEducation.Api.BbgSessions;
 using BbgEducation.Api.Common.BbgProgram;
 using BbgEducation.Api.Common.Hal.Links;
-using BbgEducation.Api.Hal;
+using BbgEducation.Api.Common.Hal.Resources;
 using BbgEducation.Application.BbgPrograms.Common;
 using BbgEducation.Application.BbgPrograms.Create;
 using BbgEducation.Application.BbgPrograms.GetAll;
