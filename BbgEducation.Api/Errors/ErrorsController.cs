@@ -1,10 +1,7 @@
-﻿using BbgEducation.Api.Hal.Resources;
+﻿using BbgEducation.Api.Hal;
 using BbgEducation.Application.Common.Errors;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Data.SqlClient;
-using System.Text;
 
 namespace BbgEducation.Api.Errors;
 

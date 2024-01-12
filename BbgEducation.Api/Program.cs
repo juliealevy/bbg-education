@@ -2,6 +2,7 @@
 using BbgEducation.Infrastructure;
 using BbgEducation.Application;
 using Serilog;
+using BbgEducation.Api.Common;
 
 namespace BbgEducation.Api;
 public class Program {
@@ -12,6 +13,7 @@ public class Program {
             builder.Services
                 .AddHttpContextAccessor()
                 .AddPresentation()
+                .AddCommonServices()
                 .AddApplication()
                 .AddInfrastructure(builder.Configuration);
 

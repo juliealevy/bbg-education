@@ -1,9 +1,11 @@
 ﻿using BbgEducation.Api.Authentication;
 using BbgEducation.Api.BbgPrograms;
 using BbgEducation.Api.BbgSessions;
-using BbgEducation.Api.Common;
-using BbgEducation.Api.Hal.Links;
-using BbgEducation.Api.Hal.Resources;
+using BbgEducation.Api.Common.Authentication;
+using BbgEducation.Api.Common.BbgProgram;
+using BbgEducation.Api.Common.BbgSession;
+using BbgEducation.Api.Common.Hal.Links;
+using BbgEducation.Api.Hal;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
