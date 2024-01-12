@@ -11,6 +11,27 @@
 			"item": [
 				{
 					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"/**const {success, token} = JSON.parse(responseBody);\r",
+									"if (success){\r",
+									"    pm.collectionVariables.set(\"token\", \"blah\");    \r",
+									"}\r",
+									"**/\r",
+									"\r",
+									"\r",
+									"pm.test(\"success\", () => {\r",
+									"  const responseJson = pm.response.json();\r",
+									"  pm.collectionVariables.set(\"token\", responseJson.token); \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -22,7 +43,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"email\": \"jalevy19@gmail.com\",\r\n  \"password\": \"Iw2rmb29!!\"\r\n}"
+							"raw": "{\r\n  \"email\": \"jalevy19@gmail.com\",\r\n  \"password\": \"Iw2rmb29!\"\r\n}"
 						},
 						"url": {
 							"raw": "https://localhost:7270/api/auth/login",
@@ -42,6 +63,20 @@
 				},
 				{
 					"name": "Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const {success, token} = JSON.parse(responseBody);\r",
+									"if (success){\r",
+									"    postman.setEnvironmentVariable(\"token\", token);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [
@@ -49,16 +84,11 @@
 								"key": "Content-Type",
 								"value": "application/json",
 								"type": "default"
-							},
-							{
-								"key": "Content-Type",
-								"value": "application/hal+json",
-								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"firstName\": \"julie\",\r\n  \"lastName\": \"levy\",\r\n  \"email\": \"jalevy199@gmail.com\",\r\n  \"password\": \"Iw2rmb29!!\"\r\n}"
+							"raw": "{\r\n  \"firstName\": \"julie\",\r\n  \"lastName\": \"levy\",\r\n  \"email\": \"jalevy19@gmail.com\",\r\n  \"password\": \"Iw2rmb29!\"\r\n}"
 						},
 						"url": {
 							"raw": "https://localhost:7270/api/auth/register",
@@ -141,7 +171,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0OWIyNTZjOS1lZDgyLTQ1ZTMtODRjZi01ZWQ1ZmY1MzgyNWIiLCJnaXZlbl9uYW1lIjoianVsaWUiLCJmYW1pbHlfbmFtZSI6ImxldnkiLCJqdGkiOiJjYzZhNWI5Yy1lMjc2LTRmNjMtOTdkYS05YTk1MzBjNmJlNmEiLCJleHAiOjE3MDQ0OTM4NTUsImlzcyI6IkJiZ0VkdWNhdGlvbiIsImF1ZCI6IkJiZ0VkdWNhdGlvbiJ9.KSKeCXAI4J454Rxc3YQFtPdI6qsSsJV9PECSjFcQIXE",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -156,7 +186,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Testing123\",\r\n  \"description\": \"blah\"  \r\n}"
+							"raw": "{\r\n  \"name\": \"Testing123 Program\",\r\n  \"description\": \"blah blah blah\"  \r\n}"
 						},
 						"url": {
 							"raw": "https://localhost:7270/api/programs",
@@ -181,7 +211,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0ZDE3NjM1NS1jYmEzLTQwMTEtYjM2Mi1iNzUyYjc2N2FjOTYiLCJnaXZlbl9uYW1lIjoianVsaWUiLCJmYW1pbHlfbmFtZSI6ImxldnkiLCJqdGkiOiIzODc1MDllNy0zN2Q3LTQ1YzgtYjEzMC0yMmVkY2I4MTgwYjEiLCJleHAiOjE3MDQyMjE0ODQsImlzcyI6IkJiZ0VkdWNhdGlvbiIsImF1ZCI6IkJiZ0VkdWNhdGlvbiJ9.x8meIMPeiLjH62Uo41C_LrDlU3RuTnGAHTumaTh53xY",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -211,7 +241,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzMzQ0ZjgzMC0wYjg2LTRhZGMtOWNjNi01OWI1M2ZhMzM2ZjEiLCJnaXZlbl9uYW1lIjoianVsaWUiLCJmYW1pbHlfbmFtZSI6ImxldnkiLCJqdGkiOiJhODUzMGNiMy03Y2M0LTQxODUtYmMwMi1kZWVjYWU1NTJkNTgiLCJleHAiOjE3MDQ4MjE3NTQsImlzcyI6IkJiZ0VkdWNhdGlvbiIsImF1ZCI6IkJiZ0VkdWNhdGlvbiJ9.fylD3ThUmhoePqDQLTib3LnWxoR0WQXOr-Hsu4VFVrk",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -220,7 +250,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"name\": \"Level I Horticulture Certificate Program\",\r\n        \"description\": \"The Horticulture Certificate Program is a non-credit, adult enrichment program designed for the professional, aspiring professional or serious home gardener blah\"\r\n}",
+							"raw": "{\r\n        \"name\": \"Level I Horticulture Certificate Program\",\r\n        \"description\": \"The Horticulture Certificate Program is a non-credit, adult enrichment program designed for the professional, aspiring professional or serious home gardener\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -251,7 +281,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmM2Q2YWY4MC03NjY0LTQwMTktYWU4Ny1hZjg1ODJkOWNlNzciLCJnaXZlbl9uYW1lIjoianVsaWUiLCJmYW1pbHlfbmFtZSI6ImxldnkiLCJqdGkiOiJmYzgzZTYzYy00ODJhLTQxNjctOWRmZS04NWE3NzRmYzlmNTIiLCJleHAiOjE3MDQ0OTIzMDcsImlzcyI6IkJiZ0VkdWNhdGlvbiIsImF1ZCI6IkJiZ0VkdWNhdGlvbiJ9.Co5ZUmv_lClUNkP2Mp1KQGaL7gvnkuxpowuiubnG6Us",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -287,7 +317,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YjdjZDI0Ni03YzEzLTRlYmItODdkZC0wZWU2YTJhMjZhN2QiLCJnaXZlbl9uYW1lIjoianVsaWUiLCJmYW1pbHlfbmFtZSI6ImxldnkiLCJqdGkiOiJjNzk0M2RjNi03OTA3LTQ4ODMtOGNkNS03MzRkZTJkNjZkYjgiLCJleHAiOjE3MDQ3NDMyNzQsImlzcyI6IkJiZ0VkdWNhdGlvbiIsImF1ZCI6IkJiZ0VkdWNhdGlvbiJ9.TlEMs63Bis7l_lTMearfl2jATRE3apPsn8F52OZoQu4",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -296,7 +326,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Testing4\",\r\n    \"description\": \"Test123\",\r\n    \"startDate\": \"2024-01-06\",\r\n    \"endDate\": \"2024-05-31\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Testing555\",\r\n    \"description\": \"Test123\",\r\n    \"startDate\": \"2024-01-06\",\r\n    \"endDate\": \"2024-05-31\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -304,7 +334,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:7270/api/programs/4010/sessions",
+							"raw": "https://localhost:7270/api/programs/4020/sessions",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -313,7 +343,7 @@
 							"path": [
 								"api",
 								"programs",
-								"4010",
+								"4020",
 								"sessions"
 							]
 						}
@@ -328,7 +358,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNDkxOGE4ZS1kMDI5LTRmZDItYjJlOC0zZDA4NGZiMTE1YTQiLCJnaXZlbl9uYW1lIjoianVsaWUiLCJmYW1pbHlfbmFtZSI6ImxldnkiLCJqdGkiOiI0NjZkMDhhMi1mNTU5LTQ2MzMtODE1Ni0yMzEwMjM0NmM4MTciLCJleHAiOjE3MDQ3NTA4NTIsImlzcyI6IkJiZ0VkdWNhdGlvbiIsImF1ZCI6IkJiZ0VkdWNhdGlvbiJ9.7XnU7Z724nU5fo-lpieLXHoIboCcfxlktk4mR3B-bck",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -336,7 +366,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:7270/api/programs/4010/session/{sessionId}",
+							"raw": "https://localhost:7270/api/programs/4010/sessions/1",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -346,8 +376,8 @@
 								"api",
 								"programs",
 								"4010",
-								"session",
-								"{sessionId}"
+								"sessions",
+								"1"
 							]
 						}
 					},
@@ -356,8 +386,30 @@
 				{
 					"name": "GetAllSessions",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7270/api/sessions",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7270",
+							"path": [
+								"api",
+								"sessions"
+							]
+						}
 					},
 					"response": []
 				},
@@ -369,7 +421,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3ODE0MjFmNi01MWJiLTRhMWItYmE3OC1lNWY0OTY1YjlmMmIiLCJnaXZlbl9uYW1lIjoianVsaWUiLCJmYW1pbHlfbmFtZSI6ImxldnkiLCJqdGkiOiJiNWY2YjE0ZS02YWIyLTQ2ZGItOTA2OS0zZGY0NDhhOWIxMmIiLCJleHAiOjE3MDQ4MzE0NjEsImlzcyI6IkJiZ0VkdWNhdGlvbiIsImF1ZCI6IkJiZ0VkdWNhdGlvbiJ9.kHwRZ7XmQ-s7HDfC6T1EuSiT72Qx5K-HuGaZwARDqsY",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
@@ -378,7 +430,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Julie Test1\",\r\n    \"description\": \"\",\r\n    \"startDate\": \"2023-09-13\",\r\n    \"endDate\": \"2023-12-20\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Julie Test\",\r\n    \"description\": \"blah22\",\r\n    \"startDate\": \"2023-09-13\",\r\n    \"endDate\": \"2023-12-20\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -386,7 +438,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:7270/api/programs/40110/sessions/1",
+							"raw": "https://localhost:7270/api/programs/4010/sessions/5",
 							"protocol": "https",
 							"host": [
 								"localhost"
@@ -395,9 +447,41 @@
 							"path": [
 								"api",
 								"programs",
-								"40110",
+								"4010",
 								"sessions",
-								"1"
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get_by_Program_Id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:7270/api/programs/4010/sessions",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "7270",
+							"path": [
+								"api",
+								"programs",
+								"4010",
+								"sessions"
 							]
 						}
 					},
@@ -428,6 +512,43 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
 		}
 	]
 }
