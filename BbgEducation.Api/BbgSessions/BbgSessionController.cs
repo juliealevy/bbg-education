@@ -13,11 +13,12 @@ public class BbgSessionController: ApiControllerBase
 {
     private readonly ISender _mediator;
     private readonly IBbgLinkGenerator _linkGenerator;
+    private readonly IRepresentationFactory _representationFactory;
 
-
-    public BbgSessionController(ISender mediator, IBbgLinkGenerator linkGenerator) {
+    public BbgSessionController(ISender mediator, IBbgLinkGenerator linkGenerator, IRepresentationFactory representationFactory) {
         _mediator = mediator;
         _linkGenerator = linkGenerator;
+        _representationFactory = representationFactory;
     }
 
     [HttpGet]
@@ -25,7 +26,7 @@ public class BbgSessionController: ApiControllerBase
         var query = new BbgSessionGetAllQuery();
         var getResultData = await _mediator.Send(query);
 
-        var representation = RepresentationFactory.NewRepresentation(HttpContext);
+        var representation = _representationFactory.NewRepresentation(HttpContext);
         return getResultData.Match<IActionResult>(
            sessions =>
            {
@@ -38,9 +39,9 @@ public class BbgSessionController: ApiControllerBase
 
     }
 
-    private Representation BuildGetSessionRepresentation(BbgSessionResult session) {
+    private IRepresentation BuildGetSessionRepresentation(BbgSessionResult session) {
 
-        var representation = RepresentationFactory.NewRepresentation(
+        var representation = _representationFactory.NewRepresentation(
                 _linkGenerator.GetActionLink(HttpContext, LinkRelations.SELF, typeof(BbgProgramSessionController),
                     nameof(BbgProgramSessionController.GetSessionById), new { programId = session.Program.Id, sessionId = session.Id })!)
                 .WithObject(session)

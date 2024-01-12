@@ -2,24 +2,22 @@
 
 namespace BbgEducation.Api.Hal.Resources;
 
-public static class RepresentationFactory
+public class RepresentationFactory : IRepresentationFactory
 {
     public const string HAL_JSON = "application/hal+json";
-    public static Representation NewRepresentation(HttpContext context)
-    {
+    public IRepresentation NewRepresentation(HttpContext context) {
 
         var selfLink = new Link(LinkRelations.SELF, context.Request.Path.Value!, context.Request.Method);
-        var representation = new Representation(selfLink);
+        var representation = new BbgRepresentation(selfLink);
 
         return representation;
     }
 
 
-    public static Representation NewRepresentation(Link selfLink)
-    {
+    public IRepresentation NewRepresentation(Link selfLink) {
 
         selfLink.Rel = LinkRelations.SELF;
-        var representation = new Representation(selfLink);
+        var representation = new BbgRepresentation(selfLink);
 
         return representation;
     }

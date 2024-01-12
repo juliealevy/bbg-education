@@ -19,11 +19,13 @@ public class BbgProgramController : ApiControllerBase
     private readonly IMapper _mapper;
     private readonly ISender _mediator;
     private readonly IBbgLinkGenerator _linkGenerator;
+    private readonly IRepresentationFactory _representationFactory;
 
-    public BbgProgramController(IMapper mapper, ISender mediator, IBbgLinkGenerator blogLinkGenerator) {
+    public BbgProgramController(IMapper mapper, ISender mediator, IBbgLinkGenerator blogLinkGenerator, IRepresentationFactory representationFactory) {
         _mapper = mapper;
         _mediator = mediator;
         _linkGenerator = blogLinkGenerator;
+        _representationFactory = representationFactory;
     }
 
     [HttpGet("{programId}")]
@@ -52,7 +54,7 @@ public class BbgProgramController : ApiControllerBase
         var query = new BbgProgramGetAllQuery();
         var getResultData = await _mediator.Send(query);
 
-        var representation = RepresentationFactory.NewRepresentation(HttpContext);
+        var representation = _representationFactory.NewRepresentation(HttpContext);
         return getResultData.Match<IActionResult>(
             programs =>
             {
@@ -76,10 +78,7 @@ public class BbgProgramController : ApiControllerBase
         return createResult.Match<IActionResult>(
             program =>
             {
-
-                var response = BuildAddUpdateProgramRepresentation(program);
-                
-                //_responseBuilder.Build(program, HttpContext, true, true, false);
+                var response = BuildAddUpdateProgramRepresentation(program);                               
                 return CreatedAtAction(nameof(CreateProgram), value: response);
             },
             failed => BuildActionResult(failed)
@@ -107,18 +106,18 @@ public class BbgProgramController : ApiControllerBase
 
     }
 
-    private Representation BuildGetProgramRepresentation(BbgProgramResult program, bool selfIsById = false) {
+    private IRepresentation BuildGetProgramRepresentation(BbgProgramResult program, bool selfIsById = false) {
 
-        Representation? representation = null;
+        IRepresentation? representation = null;
 
         if (selfIsById) {
-            representation = RepresentationFactory.NewRepresentation(
+            representation = _representationFactory.NewRepresentation(
                _linkGenerator.GetActionLink(HttpContext, LinkRelations.SELF, typeof(BbgProgramController), nameof(BbgProgramController.GetProgramById), new { programId = program.Id })!
            );
             
         }
         else {
-            representation = RepresentationFactory.NewRepresentation(HttpContext);
+            representation = _representationFactory.NewRepresentation(HttpContext);
         }
 
         representation.WithObject(program)
@@ -130,9 +129,9 @@ public class BbgProgramController : ApiControllerBase
         return representation;
     }
 
-    private Representation BuildAddUpdateProgramRepresentation(BbgProgramResult program) {
+    private IRepresentation BuildAddUpdateProgramRepresentation(BbgProgramResult program) {
 
-        var representation = RepresentationFactory.NewRepresentation(HttpContext)
+        var representation = _representationFactory.NewRepresentation(HttpContext)
             .WithObject(program)
             .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Program.GET_BY_ID, 
                 typeof(BbgProgramController), nameof(BbgProgramController.GetProgramById), new { programId = program.Id })!)

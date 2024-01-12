@@ -21,14 +21,16 @@ public class AuthenticationController: ApiControllerBase
     private readonly ISender _mediator;
     private readonly IMapper _mapper;
     private readonly IBbgLinkGenerator _linkGenerator;
+    private readonly IRepresentationFactory _representationFactory;
 
-    public AuthenticationController(ISender mediator, IMapper mapper, IBbgLinkGenerator linkGenerator) {        
+    public AuthenticationController(ISender mediator, IMapper mapper, IBbgLinkGenerator linkGenerator, IRepresentationFactory representationFactory) {
         _mediator = mediator;
         _mapper = mapper;
         _linkGenerator = linkGenerator;
+        _representationFactory = representationFactory;
     }
 
-    
+
     [HttpPost("register")]
     [Consumes("application/json")]
     [Produces("application/hal+json")]
@@ -70,7 +72,7 @@ public class AuthenticationController: ApiControllerBase
         return authResult.Match<IActionResult>(
             auth =>
             {
-                var representation = RepresentationFactory.NewRepresentation(HttpContext)
+                var representation = _representationFactory.NewRepresentation(HttpContext)
                     .WithObject(auth);
 
                 if (addLoginLink) {

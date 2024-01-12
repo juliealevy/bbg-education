@@ -17,11 +17,13 @@ public class BbgProgramSessionController : ApiControllerBase {
     private readonly IMapper _mapper;
     private readonly ISender _mediator;
     private readonly IBbgLinkGenerator _linkGenerator;
+    private readonly IRepresentationFactory _representationFactory;
 
-    public BbgProgramSessionController(IMapper mapper, ISender mediator, IBbgLinkGenerator linkGenerator) {
+    public BbgProgramSessionController(IMapper mapper, ISender mediator, IBbgLinkGenerator linkGenerator, IRepresentationFactory representationFactory) {
         _mapper = mapper;
         _mediator = mediator;
         _linkGenerator = linkGenerator;
+        _representationFactory = representationFactory;
     }
 
     [HttpPost]
@@ -55,7 +57,7 @@ public class BbgProgramSessionController : ApiControllerBase {
         return getResultData.Match<IActionResult>(
            sessionList =>
            {              
-               var representation = RepresentationFactory.NewRepresentation(HttpContext);
+               var representation = _representationFactory.NewRepresentation(HttpContext);
                sessionList.ForEach(p =>
                {
                    representation.WithRepresentation("sessions", BuildGetSessionRepresentation(p, true));
@@ -108,16 +110,16 @@ public class BbgProgramSessionController : ApiControllerBase {
             );
     }
 
-    private Representation BuildGetSessionRepresentation(BbgSessionResult session, bool selfIsById = false) {
-        Representation? representation = null;
+    private IRepresentation BuildGetSessionRepresentation(BbgSessionResult session, bool selfIsById = false) {
+        IRepresentation? representation = null;
 
         if (selfIsById) {
-            representation = RepresentationFactory.NewRepresentation(
+            representation = _representationFactory.NewRepresentation(
                 _linkGenerator.GetActionLink(HttpContext, LinkRelations.SELF, typeof(BbgProgramSessionController), 
                     nameof(BbgProgramSessionController.GetSessionById), new { programId = session.Program.Id, sessionId = session.Id })!);
         }
         else {
-            representation = RepresentationFactory.NewRepresentation(HttpContext);
+            representation = _representationFactory.NewRepresentation(HttpContext);
         }
         representation.WithObject(session)
             .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Session.UPDATE,
@@ -127,8 +129,8 @@ public class BbgProgramSessionController : ApiControllerBase {
         return representation;
     }
 
-    private Representation BuildAddUpdateRepresentation(BbgSessionResult session) {
-        var representation = RepresentationFactory.NewRepresentation(HttpContext)
+    private IRepresentation BuildAddUpdateRepresentation(BbgSessionResult session) {
+        var representation = _representationFactory.NewRepresentation(HttpContext)
             .WithObject(session)
             .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Session.GET_BY_ID, 
                 typeof(BbgProgramSessionController), nameof(BbgProgramSessionController.GetSessionById), new { programId = session.Program.Id, sessionId = session.Id })!)

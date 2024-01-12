@@ -15,15 +15,17 @@ public class ApiRootController : ApiControllerBase
 {
     private readonly string _version = "0.0.1";  //TODO:   move out to real versioning service/scheme
     private readonly IBbgLinkGenerator _linkGenerator;
+    private readonly IRepresentationFactory _representationFactory;
 
-    public ApiRootController(IBbgLinkGenerator linkGenerator) {
+    public ApiRootController(IBbgLinkGenerator linkGenerator, IRepresentationFactory representationFactory) {
         _linkGenerator = linkGenerator;
+        _representationFactory = representationFactory;
     }
 
     [HttpGet]
     [Produces("application/hal+json")]
     public IActionResult Get() {
-        var representation = RepresentationFactory.NewRepresentation(HttpContext)
+        var representation = _representationFactory.NewRepresentation(HttpContext)
             .WithProperty("version", _version);
 
         representation

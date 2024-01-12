@@ -1,6 +1,7 @@
 ﻿using BbgEducation.Api.Common.Routes;
 using BbgEducation.Api.Common.Routes.CustomAttributes;
 using BbgEducation.Api.Hal.Links;
+using BbgEducation.Api.Hal.Resources;
 using BbgEducation.Api.JsonConverters;
 using Mapster;
 using MapsterMapper;
@@ -22,6 +23,7 @@ public static class DependencyInjection
         services.AddMappings();
         services.AddSingleton<IApiRouteService, ApiRouteService>();
         services.AddScoped<IBbgLinkGenerator, BbgLinkGenerator>();
+        services.AddScoped<IRepresentationFactory, RepresentationFactory>();
         services.AddControllersWithViews(opts =>
         {
             opts.Conventions.Add(new RoutePrefixConvention());
