@@ -18,12 +18,12 @@ Some sample code in C#/.NET Core to show the following:
 - BbgProgram and BbgSession domains with CRU (no D yet)
 - HAL/HATEOS responses
 - First error handling in stored proc, rest in progress
+- Logging
 
 
 ## Coming soon
 In progress, coming soon:
 - Minimal APIs
-- Logging
 - Integration Tests
 - Acceptance Tests
 - More authentication (OAuth, refresh token)
@@ -35,11 +35,10 @@ https://localhost:7270/api
 
 ```json
 {
-    "version": "0.0.1",
     "_links": {
         "self": [
             {
-                "href": "api",
+                "href": "/api",
                 "templated": false,
                 "method": "GET"
             }
@@ -158,6 +157,9 @@ https://localhost:7270/api
                 "method": "GET"
             }
         ]
+    },
+    "properties": {
+        "version": "0.0.1"
     }
 }
 ```
