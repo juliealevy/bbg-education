@@ -31,7 +31,7 @@ public class LoggingPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TR
 
         if (result is IOneOf oneOfResult) {
             if (oneOfResult.Value is ValidationFailed fail) {
-                _logger.LogError("Request failure {@RequestName}, {Errors}, {@DateTimeUtc} ",
+                _logger.LogError("Request failure {@RequestName}, {@Errors}, {@DateTimeUtc} ",
                      typeof(TRequest).Name, fail.Errors, DateTime.UtcNow);
             }
         }

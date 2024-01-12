@@ -1,20 +1,25 @@
 
 using BbgEducation.Infrastructure;
 using BbgEducation.Application;
-using BbgEducation.Api.Errors;
+using Serilog;
 
 namespace BbgEducation.Api;
 public class Program {
 
     public static void Main(string[] args) {
         var builder = WebApplication.CreateBuilder(args);
-        {            
-            builder.Services                
+        {
+            builder.Services
                 .AddHttpContextAccessor()
-                //.AddRouting()
-                .AddPresentation()               
+                .AddPresentation()
                 .AddApplication()
                 .AddInfrastructure(builder.Configuration);
+
+
+            var host = builder.Host;
+            host.UseSerilog((context, configuration) =>            
+                configuration.ReadFrom.Configuration(context.Configuration)
+            );
 
             var app = builder.Build();
             {
@@ -23,6 +28,9 @@ public class Program {
                 app.UseAuthentication();
                 app.UseAuthorization();                
                 app.MapControllers();
+                app.UseSerilogRequestLogging();
+                
+                
 
                 app.Run();
             }
