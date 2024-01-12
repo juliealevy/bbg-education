@@ -7,10 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Carter" Version="6.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Routing" Version="2.2.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BbgEducation.Api.Common\BbgEducation.Api.Common.csproj" />
     <ProjectReference Include="..\BbgEducation.Application\BbgEducation.Application.csproj" />
     <ProjectReference Include="..\BbgEducation.Infrastructure\BbgEducation.Infrastructure.csproj" />
   </ItemGroup>
