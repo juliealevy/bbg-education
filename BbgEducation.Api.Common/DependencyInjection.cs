@@ -1,6 +1,7 @@
 ﻿using BbgEducation.Api.Common.Hal.Links;
 using BbgEducation.Api.Common.Hal.Resources;
 using BbgEducation.Api.Common.Routes;
+using BbgEducation.Api.Common.Versioning;
 using Mapster;
 using MapsterMapper;
 using System.Reflection;
@@ -12,8 +13,9 @@ public static class DependencyInjection
     public static IServiceCollection AddCommonServices(this IServiceCollection services) {
 
         services.AddSingleton<IApiRouteService, ApiRouteService>();       
-        services.AddScoped<IRepresentationFactory, RepresentationFactory>();
+        services.AddSingleton<IRepresentationFactory, RepresentationFactory>();
         services.AddMappings(); 
+        services.AddSingleton<IVersionProvider, VersionProvider>();
         return services;
 
     }  

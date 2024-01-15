@@ -3,6 +3,7 @@ using BbgEducation.Api.Common;
 using BbgEducation.Infrastructure;
 using BbgEducation.Application;
 using Serilog;
+using BbgEducation.Api.Minimal.ApiRoot;
 
 namespace BbgEducation.MinimalApi;
 
@@ -10,34 +11,44 @@ public class Program
 {
     public static void Main(string[] args) {
         var builder = WebApplication.CreateBuilder(args);
-        {
-            builder.Services
-                .AddHttpContextAccessor()
-                .AddEndpointsApiExplorer()
-                .AddPresentation()
-                .AddCommonServices()
-                .AddApplication()
-                .AddInfrastructure(builder.Configuration);
+        builder.Services.AddAuthorization();
+        builder.Services.AddEndpointsApiExplorer();
 
-            var host = builder.Host;
-            host.UseSerilog((context, configuration) =>
-                configuration.ReadFrom.Configuration(context.Configuration)
-            );
+        var app = builder.Build();
+        app.AddApiRootEndPoints();
+        app.UseHttpsRedirection();
+        app.Run();
 
-            var app = builder.Build();
-            {
-               // app.UseExceptionHandler("/error");
-                app.UseHttpsRedirection();
-                app.UseAuthentication();
-                app.UseAuthorization();                
-                app.MapControllers();
-                app.UseSerilogRequestLogging();
-                app.UseRouting();
-                app.UsePathBase(new PathString("/api"));
+        //var builder = WebApplication.CreateBuilder(args);
+        //{
+        //    builder.Services
+        //        .AddHttpContextAccessor()
+        //        .AddEndpointsApiExplorer();              
+        //        //.AddAuthorization()               
+        //        //.AddPresentation()
+        //        //.AddCommonServices()
+        //        //.AddApplication()
+        //        //.AddInfrastructure(builder.Configuration);
+
+        //    var host = builder.Host;
+        //    //host.UseSerilog((context, configuration) =>
+        //    //    configuration.ReadFrom.Configuration(context.Configuration)
+        //    //);
+
+        //    var app = builder.Build();
+        //    {
+        //        // app.UseExceptionHandler("/error");                              
+        //     //   app.UseAuthentication();
+        //     //   app.UseAuthorization();                              
+        //        app.UseRouting();
+        //        app.AddApiRootEndPoints();
+        //        app.UseHttpsRedirection();
+        //       // app.UseSerilogRequestLogging();
+        //        //  app.UsePathBase(new PathString("/api"));
 
 
-                app.Run();
-            }
-        }       
+        //        app.Run();
+        //    }
+        //}       
     }
 }

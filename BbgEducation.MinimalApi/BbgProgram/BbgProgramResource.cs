@@ -1,30 +1,11 @@
-﻿using BbgEducation.Api.Common.Hal.Links;
-using BbgEducation.Api.Common.Hal.Resources;
-using BbgEducation.Application.BbgPrograms.Common;
-using BbgEducation.Application.BbgPrograms.GetAll;
-using Carter;
-using MapsterMapper;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
 
 
 namespace BbgEducation.Api.Minimal.BbgProgram;
 
-public class BbgProgramResource : ICarterModule
+public class BbgProgramResource
 {
 
-    private readonly IMapper _mapper;
-    private readonly ISender _mediator;
-    private readonly IBbgLinkGenerator _linkGenerator;
-    private readonly IRepresentationFactory _representationFactory;
-
-    public BbgProgramResource(IMapper mapper, ISender mediator, IBbgLinkGenerator linkGenerator, IRepresentationFactory representationFactory) {
-        _mapper = mapper;
-        _mediator = mediator;
-        _linkGenerator = linkGenerator;
-        _representationFactory = representationFactory;
-    }
 
     public void AddRoutes(IEndpointRouteBuilder app) {
         app.MapGet("/Programs", [Authorize] (HttpContext context) => GetAllPrograms)
@@ -40,20 +21,22 @@ public class BbgProgramResource : ICarterModule
 
     public async Task<IResult> GetAllPrograms(HttpContext context) {
 
-        var query = new BbgProgramGetAllQuery();
-        var getResultData = await _mediator.Send(query);
+        await Task.CompletedTask;
+        //var query = new BbgProgramGetAllQuery();
+        //var getResultData = await _mediator.Send(query);
 
-        var representation = _representationFactory.NewRepresentation(context);
-        return getResultData.Match<IResult>(
-            programs =>
-            {
-                programs.ForEach(p =>
-                {
-                   // representation.WithRepresentation("programs", BuildGetProgramRepresentation(p, true));
-                });
-                return Results.Ok(representation);
-            }
-            );
+        //var representation = _representationFactory.NewRepresentation(context);
+        //return getResultData.Match<IResult>(
+        //    programs =>
+        //    {
+        //        programs.ForEach(p =>
+        //        {
+        //           // representation.WithRepresentation("programs", BuildGetProgramRepresentation(p, true));
+        //        });
+        //        return Results.Ok(representation);
+        //    }
+        //    );
+        return Results.Ok("blah");
     }
 
     //private static async Task<IResult> GetProgramById(IBBGProgramRepository repo, int id) {

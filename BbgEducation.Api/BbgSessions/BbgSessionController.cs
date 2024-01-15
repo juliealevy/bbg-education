@@ -1,5 +1,6 @@
 ﻿using BbgEducation.Api.Common.Hal.Links;
 using BbgEducation.Api.Common.Hal.Resources;
+using BbgEducation.Api.Hal;
 using BbgEducation.Application.BbgSessions.Common;
 using BbgEducation.Application.BbgSessions.GetAll;
 using MediatR;

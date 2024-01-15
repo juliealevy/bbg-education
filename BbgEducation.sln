@@ -39,9 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Authentication", "Authentic
 		Register.http = Register.http
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BbgEducation.Api.Minimal", "BbgEducation.MinimalApi\BbgEducation.Api.Minimal.csproj", "{8D4B58AA-E5E0-43E7-9054-A94380FEA01D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BbgEducation.Api.Common", "BbgEducation.Api.Common\BbgEducation.Api.Common.csproj", "{1425B9CF-B07F-4771-B827-1AF1EC45C5B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BbgEducation.Api.Common", "BbgEducation.Api.Common\BbgEducation.Api.Common.csproj", "{1425B9CF-B07F-4771-B827-1AF1EC45C5B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,10 +73,6 @@ Global
 		{0AF9CE5E-D15E-4473-AE11-819B0C81AEA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AF9CE5E-D15E-4473-AE11-819B0C81AEA8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0AF9CE5E-D15E-4473-AE11-819B0C81AEA8}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{8D4B58AA-E5E0-43E7-9054-A94380FEA01D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D4B58AA-E5E0-43E7-9054-A94380FEA01D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D4B58AA-E5E0-43E7-9054-A94380FEA01D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D4B58AA-E5E0-43E7-9054-A94380FEA01D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1425B9CF-B07F-4771-B827-1AF1EC45C5B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1425B9CF-B07F-4771-B827-1AF1EC45C5B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1425B9CF-B07F-4771-B827-1AF1EC45C5B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -97,7 +91,6 @@ Global
 		{0AF9CE5E-D15E-4473-AE11-819B0C81AEA8} = {EBA1F1D6-38C7-4613-89C0-D2BBA91FD3B4}
 		{3BCD291C-A954-4C6E-8BCC-D0A9E9663286} = {C4D12ED7-9EF8-4BC0-A8B9-AACE034026F7}
 		{74E44BC7-C90C-49FB-9E6D-5D338DF7C064} = {C4D12ED7-9EF8-4BC0-A8B9-AACE034026F7}
-		{8D4B58AA-E5E0-43E7-9054-A94380FEA01D} = {EBA1F1D6-38C7-4613-89C0-D2BBA91FD3B4}
 		{1425B9CF-B07F-4771-B827-1AF1EC45C5B5} = {EBA1F1D6-38C7-4613-89C0-D2BBA91FD3B4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

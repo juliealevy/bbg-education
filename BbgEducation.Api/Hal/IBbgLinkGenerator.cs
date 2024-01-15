@@ -1,6 +1,7 @@
-﻿using BbgEducation.Api.Common.Routes;
+﻿using BbgEducation.Api.Common.Hal.Links;
+using BbgEducation.Api.Common.Routes;
 
-namespace BbgEducation.Api.Common.Hal.Links;
+namespace BbgEducation.Api.Hal;
 public interface IBbgLinkGenerator
 {
     Link? GetActionLink(HttpContext context, string linkRelation, Type controller, string actionName, object? values);

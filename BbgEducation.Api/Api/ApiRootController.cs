@@ -6,6 +6,7 @@ using BbgEducation.Api.Common.BbgProgram;
 using BbgEducation.Api.Common.BbgSession;
 using BbgEducation.Api.Common.Hal.Links;
 using BbgEducation.Api.Common.Hal.Resources;
+using BbgEducation.Api.Hal;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
