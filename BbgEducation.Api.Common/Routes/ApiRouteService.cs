@@ -8,31 +8,33 @@ namespace BbgEducation.Api.Common.Routes;
 public class ApiRouteService : IApiRouteService
 {
     private Dictionary<string, List<ApiRouteData>> _routesByController = new();
+    private readonly IActionDescriptorCollectionProvider _provider;
 
-    public ApiRouteService(IActionDescriptorCollectionProvider provider)
-    {
-        LoadRoutes(provider);
+    public ApiRouteService(IActionDescriptorCollectionProvider provider) {       
+        _provider = provider;
     }
 
-    private void LoadRoutes(IActionDescriptorCollectionProvider provider)
+    private void LoadRoutes()
     {
-
-        _routesByController = provider.
-           ActionDescriptors
-           .Items
-           .OfType<ControllerActionDescriptor>()
-           .Select(a => new ApiRouteData(
-               a.ControllerName,
-               a.MethodInfo.Name,
-               a.AttributeRouteInfo?.Template!,
-               string.Join(", ", a.ActionConstraints?.OfType<HttpMethodActionConstraint>().SingleOrDefault()?.HttpMethods ?? new string[] { "any" })
-           ))
-           .GroupBy(c => c.ControllerName)
-           .ToDictionary(g => g.Key, g => g.ToList());
+        if (_routesByController.Count == 0) {
+            _routesByController = _provider.
+               ActionDescriptors
+               .Items
+               .OfType<ControllerActionDescriptor>()
+               .Select(a => new ApiRouteData(
+                   a.ControllerName,
+                   a.MethodInfo.Name,
+                   a.AttributeRouteInfo?.Template!,
+                   string.Join(", ", a.ActionConstraints?.OfType<HttpMethodActionConstraint>().SingleOrDefault()?.HttpMethods ?? new string[] { "any" })
+               ))
+               .GroupBy(c => c.ModuleName)
+               .ToDictionary(g => g.Key, g => g.ToList());
+        }
     }
 
     public ApiRouteData? GetRouteData(Type controllerClass, string actionName)
     {
+        LoadRoutes();
         if (!CheckIsApiController(controllerClass))
         {
             return null;

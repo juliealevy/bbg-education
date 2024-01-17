@@ -32,33 +32,41 @@ public class BbgProgramController : ApiControllerBase
     [HttpGet("{programId}")]
     [Produces(RepresentationFactory.HAL_JSON)]
     public async Task<IActionResult> GetProgramById(
-        int programId)
+        int programId, CancellationToken token)
     {
         var query = new BbgProgramGetByIdQuery(programId);
-        var getResult = await _mediator.Send(query);
+        var getResult = await _mediator.Send(query,token);
 
-        return getResult.Match<IActionResult>(
-            program => {
+        if (token.IsCancellationRequested) {
+            return NoContent();
+        }
+        else {
+            return getResult.Match<IActionResult>(
+                program =>
+                {
 
-                var representation = BuildGetProgramRepresentation(program);
-                
-                return Ok(representation);
+                    var representation = BuildGetProgramRepresentation(program);
+
+                    return Ok(representation);
                 },
-                _ => NotFound()            
-            );
-           
+                    _ => NotFound()
+                );
+        }
     }
 
     [HttpGet]
     [Produces(RepresentationFactory.HAL_JSON)]
-    public async Task<IActionResult> GetAllPrograms() {
+    public async Task<IActionResult> GetAllPrograms(CancellationToken token) {
         var query = new BbgProgramGetAllQuery();
-        var getResultData = await _mediator.Send(query);
-
-        var representation = _representationFactory.NewRepresentation(HttpContext);
+        var getResultData = await _mediator.Send(query, token);
+        
         return getResultData.Match<IActionResult>(
             programs =>
             {
+                if (token.IsCancellationRequested) {
+                    return NoContent();
+                }
+                var representation = _representationFactory.NewRepresentation(HttpContext);
                 programs.ForEach(p =>
                 {
                     representation.WithRepresentation("programs", BuildGetProgramRepresentation(p, true));
@@ -66,20 +74,21 @@ public class BbgProgramController : ApiControllerBase
                 return Ok(representation);
             }
             );
+
     }
 
     [HttpPost]
     [Produces(RepresentationFactory.HAL_JSON)]
     public async Task<IActionResult> CreateProgram(
-        CreateBbgProgramRequest request) {
+        CreateBbgProgramRequest request, CancellationToken token) {
 
         var command = _mapper.Map<BbgProgramCreateCommand>(request);
-        var createResult = await _mediator.Send(command);
+        var createResult = await _mediator.Send(command,token);
 
         return createResult.Match<IActionResult>(
-            program =>
+            newId =>
             {
-                var response = BuildAddUpdateProgramRepresentation(program);                               
+                var response = BuildAddUpdateProgramRepresentation(newId);
                 return CreatedAtAction(nameof(CreateProgram), value: response);
             },
             failed => BuildActionResult(failed)
@@ -89,16 +98,15 @@ public class BbgProgramController : ApiControllerBase
     [HttpPut("{programId}")]
     [Produces(RepresentationFactory.HAL_JSON)]
     public async Task<IActionResult> UpdateProgram(int programId,
-       UpdateBbgProgramRequest request) {
+       UpdateBbgProgramRequest request, CancellationToken token) {
 
         var command = _mapper.Map<BbgProgramUpdateCommand>((request, programId));
-        var updateResult = await _mediator.Send(command);
+        var updateResult = await _mediator.Send(command,token);
 
         return updateResult.Match<IActionResult>(
-            program =>
+            success =>
             {
-                var response = BuildAddUpdateProgramRepresentation(program);
-                //_responseBuilder.Build(program, HttpContext, true, true, false);
+                var response = BuildAddUpdateProgramRepresentation(programId);                
                 return Ok(response);
             },
             _ => NotFound(),
@@ -130,12 +138,11 @@ public class BbgProgramController : ApiControllerBase
         return representation;
     }
 
-    private IRepresentation BuildAddUpdateProgramRepresentation(BbgProgramResult program) {
+    private IRepresentation BuildAddUpdateProgramRepresentation(int id) {
 
-        var representation = _representationFactory.NewRepresentation(HttpContext)
-            .WithObject(program)
+        var representation = _representationFactory.NewRepresentation(HttpContext)            
             .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Program.GET_BY_ID, 
-                typeof(BbgProgramController), nameof(BbgProgramController.GetProgramById), new { programId = program.Id })!)
+                typeof(BbgProgramController), nameof(BbgProgramController.GetProgramById), new { programId = id })!)
             .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Program.GET_ALL, typeof(BbgProgramController),
                     nameof(BbgProgramController.GetAllPrograms), null)!);
 

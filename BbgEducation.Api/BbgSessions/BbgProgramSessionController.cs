@@ -30,15 +30,15 @@ public class BbgProgramSessionController : ApiControllerBase {
     [HttpPost]
     [Produces(RepresentationFactory.HAL_JSON)]
     public async Task<IActionResult> CreateSession(
-       BbgSessionRequest request, int programId) {
+       BbgSessionRequest request, int programId, CancellationToken token) {
 
         var command = _mapper.Map<BbgSessionCreateCommand>((request, programId));
-        var createResult = await _mediator.Send(command);
+        var createResult = await _mediator.Send(command, token);
 
         return createResult.Match<IActionResult>(
-            session =>
+            sessionId =>
             {
-                var representation = BuildAddUpdateRepresentation(session);
+                var representation = BuildAddUpdateRepresentation(programId, sessionId);
                 return CreatedAtAction(nameof(CreateSession), value: representation);
             },
             failed => BuildActionResult(failed)
@@ -49,10 +49,10 @@ public class BbgProgramSessionController : ApiControllerBase {
     [HttpGet]
     [Produces(RepresentationFactory.HAL_JSON)]
     public async Task<IActionResult> GetSessionsByProgramId(
-        int programId) {
+        int programId, CancellationToken token) {
 
         var query = new BbgSessionGetByProgramIdQuery(programId);
-        var getResultData = await _mediator.Send(query);
+        var getResultData = await _mediator.Send(query,token);
 
 
         return getResultData.Match<IActionResult>(
@@ -76,10 +76,10 @@ public class BbgProgramSessionController : ApiControllerBase {
     [HttpGet("{sessionId}")]
     [Produces(RepresentationFactory.HAL_JSON)]
     public async Task<IActionResult> GetSessionById(
-        int programId, int sessionId) {
+        int programId, int sessionId, CancellationToken token) {
 
         var query = new BbgSessionGetByIdQuery(programId, sessionId);
-        var getResult = await _mediator.Send(query);
+        var getResult = await _mediator.Send(query,token);
 
         return getResult.Match<IActionResult>(
             session =>
@@ -95,15 +95,15 @@ public class BbgProgramSessionController : ApiControllerBase {
     [HttpPut("{sessionId}")]
     [Produces(RepresentationFactory.HAL_JSON)]
     public async Task<IActionResult> UpdateSession(
-        int programId, int sessionId, BbgSessionRequest request) {
+        int programId, int sessionId, BbgSessionRequest request, CancellationToken token) {
 
         var command = _mapper.Map<BbgSessionUpdateCommand>((request, programId, sessionId));
-        var createResult = await _mediator.Send(command);
+        var createResult = await _mediator.Send(command,token);
 
         return createResult.Match<IActionResult>(
-            session =>
+            success =>
             {
-                var representation = BuildAddUpdateRepresentation(session);
+                var representation = BuildAddUpdateRepresentation(programId, sessionId);
                 return Ok(representation);
             },
             _ => NotFound(),
@@ -130,13 +130,12 @@ public class BbgProgramSessionController : ApiControllerBase {
         return representation;
     }
 
-    private IRepresentation BuildAddUpdateRepresentation(BbgSessionResult session) {
+    private IRepresentation BuildAddUpdateRepresentation(int programId,int sessionId) {
         var representation = _representationFactory.NewRepresentation(HttpContext)
-            .WithObject(session)
             .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Session.GET_BY_ID, 
-                typeof(BbgProgramSessionController), nameof(BbgProgramSessionController.GetSessionById), new { programId = session.Program.Id, sessionId = session.Id })!)
+                typeof(BbgProgramSessionController), nameof(BbgProgramSessionController.GetSessionById), new { programId, sessionId })!)
             .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Session.GET_BY_PROGRAM_ID, typeof(BbgProgramSessionController),
-                    nameof(BbgProgramSessionController.GetSessionsByProgramId), new { programId = session.Program.Id })!)
+                    nameof(BbgProgramSessionController.GetSessionsByProgramId), new { programId })!)
             .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Session.GET_ALL, typeof(BbgSessionController),
                     nameof(BbgSessionController.GetAllSessions), null)!);
 

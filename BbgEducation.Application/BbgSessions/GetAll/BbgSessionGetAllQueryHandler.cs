@@ -13,7 +13,7 @@ public class BbgSessionGetAllQueryHandler : IRequestHandler<BbgSessionGetAllQuer
     }
 
     public async Task<OneOf<List<BbgSessionResult>>> Handle(BbgSessionGetAllQuery request, CancellationToken cancellationToken) {
-        var sessions =  await _repository.GetAllSessions(false);
+        var sessions =  await _repository.GetAllSessionsAsync(cancellationToken, false);
 
         return sessions.Select(s =>
         {

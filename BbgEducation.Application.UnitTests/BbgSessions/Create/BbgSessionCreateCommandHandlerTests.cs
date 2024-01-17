@@ -37,10 +37,10 @@ public class BbgSessionCreateCommandHandlerTests
             command.StartDate.ToDateTime(TimeOnly.Parse("12:00 AM")), command.EndDate.ToDateTime(TimeOnly.Parse("12:00 AM")),
             program);
 
-        _sessionRepository.CheckSessionNameExistsAsync(command.Name).Returns(false);
-        _programRepository.GetProgramByIdAsync(command.ProgramId).Returns(program);
+        _sessionRepository.CheckSessionNameExistsAsync(command.Name,default).Returns(false);
+        _programRepository.GetProgramByIdAsync(command.ProgramId, default).Returns(program);
         _sessionRepository.AddSession(command.ProgramId, command.Name, command.Description, command.StartDate, command.EndDate)
-            .Returns(newSession);
+            .Returns((int)newSession.session_id!);
 
         var result = await _testing.Handle(command, default);
 
@@ -48,11 +48,9 @@ public class BbgSessionCreateCommandHandlerTests
         result.Should().NotBeNull();
 
         result.IsT0.Should().BeTrue();
-        BbgSessionResult? T0Value = result.AsT0;
+        int? T0Value = result.AsT0;
         T0Value.Should().NotBeNull();
-        T0Value.Id.Should().Be(newSession.session_id);
-        T0Value.Name.Should().Be(newSession.session_name);
-        T0Value.Description.Should().Be(newSession.description);
+        T0Value.Should().Be(newSession.session_id);
     }
 
     [Fact]
@@ -61,7 +59,7 @@ public class BbgSessionCreateCommandHandlerTests
         var program = GetNewProgram();
         var command = GetNewCommand(program);
 
-        _sessionRepository.CheckSessionNameExistsAsync(command.Name).Returns(true);
+        _sessionRepository.CheckSessionNameExistsAsync(command.Name, default).Returns(true);
 
         var result = await _testing.Handle(command, default);
 
@@ -78,8 +76,8 @@ public class BbgSessionCreateCommandHandlerTests
         var program = GetNewProgram();
         var command = GetNewCommand(program);
 
-        _sessionRepository.CheckSessionNameExistsAsync(command.Name).Returns(false);
-        _programRepository.GetProgramByIdAsync((int)program.program_id!).ReturnsNull();
+        _sessionRepository.CheckSessionNameExistsAsync(command.Name, default).Returns(false);
+        _programRepository.GetProgramByIdAsync((int)program.program_id!, default).ReturnsNull();
 
         var result = await _testing.Handle(command, default);
 

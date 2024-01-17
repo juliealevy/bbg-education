@@ -1,13 +1,11 @@
 ﻿using MediatR;
-using BbgEducation.Domain.BbgProgramDomain;
 using BbgEducation.Application.Common.Interfaces.Persistance;
 using BbgEducation.Application.Common.Validation;
 using OneOf;
-using FluentValidation.Results;
-using BbgEducation.Application.BbgPrograms.Common;
+using OneOf.Types;
 
 namespace BbgEducation.Application.BbgPrograms.Create;
-public class BbgProgramCreateCommandHandler : IRequestHandler<BbgProgramCreateCommand, OneOf<BbgProgramResult, ValidationFailed>>
+public class BbgProgramCreateCommandHandler : IRequestHandler<BbgProgramCreateCommand, OneOf<int, ValidationFailed>>
 {
     private readonly IBbgProgramRepository _bbgProgramRepository;
 
@@ -16,18 +14,18 @@ public class BbgProgramCreateCommandHandler : IRequestHandler<BbgProgramCreateCo
         _bbgProgramRepository = bbgProgramRepository;
     }
 
-    public async Task<OneOf<BbgProgramResult, ValidationFailed>> Handle(BbgProgramCreateCommand request, CancellationToken cancellationToken)
+    public async Task<OneOf<int, ValidationFailed>> Handle(BbgProgramCreateCommand request, CancellationToken cancellationToken)
     {
-        var programNameExists = await _bbgProgramRepository.CheckProgramNameExistsAsync(request.Name);
+        var programNameExists = await _bbgProgramRepository.CheckProgramNameExistsAsync(request.Name, cancellationToken);
 
         if (programNameExists)
         {            
             return new NameExistsValidationFailed("Program");
         }
 
-        var newProgram = await _bbgProgramRepository.AddProgram(request.Name, request.Description);
+        var newId = _bbgProgramRepository.AddProgram(request.Name, request.Description);
 
-        return new BbgProgramResult((int)newProgram.program_id!, newProgram.program_name, newProgram.description);
+        return newId;
 
     }
 }

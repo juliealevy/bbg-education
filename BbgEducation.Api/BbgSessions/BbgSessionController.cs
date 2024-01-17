@@ -22,9 +22,9 @@ public class BbgSessionController: ApiControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllSessions() {
+    public async Task<IActionResult> GetAllSessions(CancellationToken token) {
         var query = new BbgSessionGetAllQuery();
-        var getResultData = await _mediator.Send(query);
+        var getResultData = await _mediator.Send(query,token);
 
         var representation = _representationFactory.NewRepresentation(HttpContext);
         return getResultData.Match<IActionResult>(

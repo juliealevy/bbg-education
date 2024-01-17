@@ -10,4 +10,4 @@ public record BbgSessionCreateCommand(
     string Name,
     string Description,
     DateOnly StartDate,
-    DateOnly EndDate) : IRequest<OneOf<BbgSessionResult, ValidationFailed>>;
+    DateOnly EndDate) : IRequest<OneOf<int, ValidationFailed>>;

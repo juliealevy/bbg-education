@@ -38,8 +38,8 @@ public class BbgSessionGetByIdQueryHandlerTests
             _fixture.Create<string>(), _fixture.Create<string>());
         var session = BbgSessionData.GenerateForProgramAndSession(query.SessionId, program, _fixture);        
 
-        _programRepository.GetProgramByIdAsync(query.ProgramId).Returns(program);
-        _sessionRepository.GetSessionById(query.SessionId).Returns(session);
+        _programRepository.GetProgramByIdAsync(query.ProgramId, default).Returns(program);
+        _sessionRepository.GetSessionByIdAsync(query.SessionId, default).Returns(session);
 
         //act
         var result = await _testing.Handle(query, default);
@@ -60,7 +60,7 @@ public class BbgSessionGetByIdQueryHandlerTests
         var program = BbgProgram.Create(query.ProgramId,
             _fixture.Create<string>(), _fixture.Create<string>());        
 
-        _programRepository.GetProgramByIdAsync(query.ProgramId).ReturnsNull<BbgProgram>();
+        _programRepository.GetProgramByIdAsync(query.ProgramId, default).ReturnsNull<BbgProgram>();
 
         
         //act
@@ -82,8 +82,8 @@ public class BbgSessionGetByIdQueryHandlerTests
         var program = BbgProgram.Create(query.ProgramId,
             _fixture.Create<string>(), _fixture.Create<string>());
 
-        _programRepository.GetProgramByIdAsync(query.ProgramId).Returns<BbgProgram>(program);
-        _sessionRepository.GetSessionById(query.SessionId).ReturnsNull<BbgSession>();
+        _programRepository.GetProgramByIdAsync(query.ProgramId, default).Returns<BbgProgram>(program);
+        _sessionRepository.GetSessionByIdAsync(query.SessionId, default).ReturnsNull<BbgSession>();
 
 
         //act

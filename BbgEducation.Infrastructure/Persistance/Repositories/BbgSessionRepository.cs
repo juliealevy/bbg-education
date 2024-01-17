@@ -5,7 +5,6 @@ using BbgEducation.Domain.UserDomain;
 using BbgEducation.Infrastructure.Persistance.Common;
 using BbgEducation.Infrastructure.Persistance.Connections;
 using Dapper;
-using MediatR;
 
 namespace BbgEducation.Infrastructure.Persistance.Repositories;
 public class BbgSessionRepository : GenericRepository<BbgSession>, IBbgSessionRepository
@@ -23,7 +22,7 @@ public class BbgSessionRepository : GenericRepository<BbgSession>, IBbgSessionRe
     }
 
 
-    public async Task<IEnumerable<BbgSession>> GetSessionsByProgramId(int programId, bool includeInactive = false) {
+    public async Task<IEnumerable<BbgSession>> GetSessionsByProgramIdAsync(int programId, CancellationToken cancellationToken, bool includeInactive = false) {
         return await GetAllAsync<BbgSession, BbgProgram, User, BbgSession, dynamic>("program_id", "user_id",
             (s, p, u) =>
             {
@@ -33,51 +32,55 @@ public class BbgSessionRepository : GenericRepository<BbgSession>, IBbgSessionRe
             }, new {
                 IncludeInactive = includeInactive,
                 ProgramId = programId
-            }
+            },
+            cancellationToken
         );
     }
 
-    public async Task<IEnumerable<BbgSession>> GetAllSessions(bool includeInactive = false) {
+    public async Task<IEnumerable<BbgSession>> GetAllSessionsAsync(CancellationToken cancellationToken, bool includeInactive = false) {
         return await GetAllAsync<BbgSession, BbgProgram, User, BbgSession, dynamic>("program_id", "user_id",
             (s, p, u) =>
             {
                 s.session_program = p;
                 s.inactivated_user = u;
                 return s;
-            }, new { IncludeInactive = includeInactive });
+            }, new { IncludeInactive = includeInactive },
+            cancellationToken
+        );
 
     }
 
-    public async Task<BbgSession> GetSessionById(int sessionID) {
+    public async Task<BbgSession> GetSessionByIdAsync(int sessionID, CancellationToken cancellationToken) {
         return await GetByIdAsync<BbgSession, BbgProgram, User, BbgSession>(sessionID, "program_id", "user_id",
             (s, p, u) =>
             {
                 s.session_program = p;
                 s.inactivated_user = u;
                 return s;
-            });
+            },
+            cancellationToken
+        );
     } 
 
-    public async Task<BbgSession> AddSession(int programId, string sessionName, string description, 
+    public int AddSession(int programId, string sessionName, string description, 
         DateOnly startDate, DateOnly endDate) {
 
         var sessionToAdd = BbgSession.Create(programId, sessionName, description,
             startDate.ToDateTime(TimeOnly.Parse("12:00 AM")), endDate.ToDateTime(TimeOnly.Parse("12:00 AM")));
         var newId = Add(sessionToAdd);
-        return await GetSessionById(newId);
+        return newId;
+        
     }
 
-    public async Task<BbgSession> UpdateSession(BbgSession sessionToUpdate) {
-        Update(sessionToUpdate);
-        return await GetSessionById((int)sessionToUpdate.session_id!);
-
+    public void UpdateSession(BbgSession sessionToUpdate) {
+        Update(sessionToUpdate);     
     }
 
-    public async Task<bool> CheckSessionNameExistsAsync(string name) {
-        return await CheckNameExistsAsync(name);
+    public async Task<bool> CheckSessionNameExistsAsync(string name, CancellationToken cancellationToken) {
+        return await CheckNameExistsAsync(name,cancellationToken);
     }
 
-    public Task InactivateSession(int sessionID) {
+    public void InactivateSession(int sessionID) {
         //later when i figure out users/authentication
         throw new NotImplementedException();
     }
@@ -137,4 +140,5 @@ public class BbgSessionRepository : GenericRepository<BbgSession>, IBbgSessionRe
         
         return inputParams;
     }
+
 }

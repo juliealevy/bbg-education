@@ -7,7 +7,7 @@ using OneOf;
 using BbgEducation.Application.BbgPrograms.Common;
 
 namespace BbgEducation.Application.BbgPrograms.Update;
-public class BbgProgramUpdateCommandHandler : IRequestHandler<BbgProgramUpdateCommand, OneOf<BbgProgramResult, NotFound, ValidationFailed>>
+public class BbgProgramUpdateCommandHandler : IRequestHandler<BbgProgramUpdateCommand, OneOf<Success, NotFound, ValidationFailed>>
 {
     private readonly IBbgProgramRepository _programRepository;
 
@@ -16,17 +16,17 @@ public class BbgProgramUpdateCommandHandler : IRequestHandler<BbgProgramUpdateCo
         _programRepository = programRepository;
     }
 
-    public async Task<OneOf<BbgProgramResult, NotFound, ValidationFailed>> Handle(BbgProgramUpdateCommand request, CancellationToken cancellationToken)
+    public async Task<OneOf<Success, NotFound, ValidationFailed>> Handle(BbgProgramUpdateCommand request, CancellationToken cancellationToken)
     {
        
-        var programExists = await _programRepository.GetProgramByIdAsync(request.Id);
+        var programExists = await _programRepository.GetProgramByIdAsync(request.Id, cancellationToken);
         if (programExists is null) {
             return new NotFound();
         }
 
         //if the name changed, make sure it doesn't already exist
         if (!request.Name.Trim().Equals(programExists.program_name.Trim())) {
-            var programNameExists = await _programRepository.CheckProgramNameExistsAsync(request.Name);
+            var programNameExists = await _programRepository.CheckProgramNameExistsAsync(request.Name,cancellationToken);
 
             if (programNameExists) {
                 return new NameExistsValidationFailed("Program");
@@ -37,8 +37,8 @@ public class BbgProgramUpdateCommandHandler : IRequestHandler<BbgProgramUpdateCo
           request.Name,
           request.Description);
 
-        var newProgram = await _programRepository.UpdateProgram(program);
+       _programRepository.UpdateProgram(program);
 
-        return new BbgProgramResult((int)newProgram.program_id!, newProgram.program_name, newProgram.description);
+        return new Success();
     }
 }

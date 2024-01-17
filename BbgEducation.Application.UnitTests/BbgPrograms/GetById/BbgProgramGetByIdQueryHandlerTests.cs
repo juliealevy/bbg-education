@@ -23,7 +23,7 @@ public class BbgProgramGetByIdQueryHandlerTests
     {
         //arrange
         var program = BbgProgram.Create(1, "One", "One Description");
-        _programRepository.GetProgramByIdAsync((int)program.program_id!).Returns(program);
+        _programRepository.GetProgramByIdAsync((int)program.program_id!, default).Returns(program);
 
         //act
         var query = new BbgProgramGetByIdQuery((int)program.program_id);
@@ -47,7 +47,7 @@ public class BbgProgramGetByIdQueryHandlerTests
     {
         //arrange
         var program = BbgProgram.Create(-1, "One", "One Description");
-        _programRepository.GetProgramByIdAsync((int)program.program_id!).ReturnsNull();
+        _programRepository.GetProgramByIdAsync((int)program.program_id!,default).ReturnsNull();
 
         //act
         var query = new BbgProgramGetByIdQuery((int)program.program_id);

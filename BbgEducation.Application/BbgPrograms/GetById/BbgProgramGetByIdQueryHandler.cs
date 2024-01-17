@@ -15,7 +15,7 @@ public class BbgProgramGetByIdQueryHandler : IRequestHandler<BbgProgramGetByIdQu
 
     public async Task<OneOf<BbgProgramResult, NotFound>> Handle(BbgProgramGetByIdQuery request, CancellationToken cancellationToken)
     {
-        var program = await _repository.GetProgramByIdAsync(request.Id);
+        var program = await _repository.GetProgramByIdAsync(request.Id,cancellationToken);
 
         return program is null ? new NotFound() : new BbgProgramResult((int)program.program_id!, program.program_name, 
             program.description);

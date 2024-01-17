@@ -39,22 +39,18 @@ public class BbgSessionUpdateCommandHandlerTests
             command.StartDate.ToDateTime(TimeOnly.Parse("12:00 AM")), command.EndDate.ToDateTime(TimeOnly.Parse("12:00 AM")),
             newProgram);
 
-        _repository.GetSessionById(command.SessionId).Returns(existingSession);
-        _programRepository.GetProgramByIdAsync(command.ProgramId).Returns(newProgram);
-        _repository.CheckSessionNameExistsAsync(command.Name).Returns(false);
-        _repository.UpdateSession(updatedSession).Returns(updatedSession);
+        _repository.GetSessionByIdAsync(command.SessionId, default).Returns(existingSession);
+        _programRepository.GetProgramByIdAsync(command.ProgramId, default).Returns(newProgram);
+        _repository.CheckSessionNameExistsAsync(command.Name, default).Returns(false);
+        _repository.UpdateSession(updatedSession);
 
         var result = await _testing.Handle(command, default);
 
         result.Should().NotBeNull();
 
         result.IsT0.Should().BeTrue();
-        BbgSessionResult? resultValue = result.AsT0;
+        Success? resultValue = result.AsT0;
         resultValue.Should().NotBeNull();
-        resultValue.Id.Should().Be(command.SessionId);
-        resultValue.Name.Should().Be(command.Name);
-        resultValue.Description.Should().Be(command.Description);
-        resultValue.Program.Id.Should().Be(command.ProgramId);
 
     }
 
@@ -63,7 +59,7 @@ public class BbgSessionUpdateCommandHandlerTests
         var command = new BbgSessionUpdateCommand(_fixture.Create<int>(), _fixture.Create<int>(), _fixture.Create<string>(), _fixture.Create<string>(),
             DateOnly.FromDateTime(_fixture.Create<DateTime>()), DateOnly.FromDateTime(_fixture.Create<DateTime>()));
 
-        _repository.GetSessionById(command.SessionId).ReturnsNull<BbgSession>();
+        _repository.GetSessionByIdAsync(command.SessionId, default).ReturnsNull<BbgSession>();
 
         var result = await _testing.Handle(command, default);
 
@@ -83,8 +79,8 @@ public class BbgSessionUpdateCommandHandlerTests
         var existingSession = BbgSessionData.GenerateForProgramAndSession(command.SessionId,
             existingProgram, _fixture);
 
-        _repository.GetSessionById(command.SessionId).Returns(existingSession);
-        _programRepository.GetProgramByIdAsync(command.ProgramId).ReturnsNull<BbgProgram>();
+        _repository.GetSessionByIdAsync(command.SessionId, default).Returns(existingSession);
+        _programRepository.GetProgramByIdAsync(command.ProgramId, default).ReturnsNull<BbgProgram>();
 
         var result = await _testing.Handle(command, default);
 
@@ -111,9 +107,9 @@ public class BbgSessionUpdateCommandHandlerTests
             command.StartDate.ToDateTime(TimeOnly.Parse("12:00 AM")), command.EndDate.ToDateTime(TimeOnly.Parse("12:00 AM")),
             newProgram);
 
-        _repository.GetSessionById(command.SessionId).Returns(existingSession);
-        _programRepository.GetProgramByIdAsync(command.ProgramId).Returns(newProgram);
-        _repository.CheckSessionNameExistsAsync(command.Name).Returns(true);
+        _repository.GetSessionByIdAsync(command.SessionId, default).Returns(existingSession);
+        _programRepository.GetProgramByIdAsync(command.ProgramId, default).Returns(newProgram);
+        _repository.CheckSessionNameExistsAsync(command.Name, default).Returns(true);
 
         var result = await _testing.Handle(command, default);
 

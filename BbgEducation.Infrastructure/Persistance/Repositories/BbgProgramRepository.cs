@@ -3,6 +3,7 @@ using BbgEducation.Domain.BbgProgramDomain;
 using BbgEducation.Infrastructure.Persistance.Common;
 using BbgEducation.Infrastructure.Persistance.Connections;
 using Dapper;
+using System.Threading;
 
 namespace BbgEducation.Infrastructure.Persistance.Repositories;
 public class BbgProgramRepository : GenericRepository<BbgProgram>, IBbgProgramRepository
@@ -20,33 +21,32 @@ public class BbgProgramRepository : GenericRepository<BbgProgram>, IBbgProgramRe
 
     }
 
-    public async Task<IEnumerable<BbgProgram>> GetProgramsAsync() {
-        return await GetAllAsync();
+    public async Task<IEnumerable<BbgProgram>> GetProgramsAsync(CancellationToken cancellationToken) {        
+        return await GetAllAsync(cancellationToken);
     }
 
-    public async Task<BbgProgram> GetProgramByIdAsync(int id) {
-        return await GetByIdAsync(id);
+    public async Task<BbgProgram> GetProgramByIdAsync(int id, CancellationToken cancellationToken) {
+        return await GetByIdAsync(id, cancellationToken);
     }
 
-    public async Task<bool> CheckProgramNameExistsAsync(string name) {
-        return await CheckNameExistsAsync(name);
+    public async Task<bool> CheckProgramNameExistsAsync(string name, CancellationToken cancellationToken) {
+        return await CheckNameExistsAsync(name,cancellationToken);
     }
 
-    public Task<BbgProgram> AddProgram(string name, string description) {
+    public int AddProgram(string name, string description) {
         var newId = Add(BbgProgram.CreateNew(name, description));
-        return GetProgramByIdAsync(newId);
+        return newId;
     }
 
-    public Task<BbgProgram> UpdateProgram(BbgProgram entity) {
-        Update(entity);
-        return GetProgramByIdAsync((int)entity.program_id!);
+    public void UpdateProgram(BbgProgram entity) {
+        Update(entity);        
     }
 
-    public Task DeleteProgram(BbgProgram entity) {        
+    public void DeleteProgram(BbgProgram entity) {        
         throw new NotImplementedException();
     }
 
-    public Task DeleteAllPrograms() {
+    public void DeleteAllPrograms() {
         throw new NotImplementedException();
     }
 

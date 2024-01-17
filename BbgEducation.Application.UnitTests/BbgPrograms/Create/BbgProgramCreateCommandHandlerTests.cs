@@ -25,10 +25,10 @@ public class BbgProgramCreateCommandHandlerTests
         //arrange
         var command = _fixture.Create<BbgProgramCreateCommand>();
 
-        _programRepository.CheckProgramNameExistsAsync(command.Name).Returns(false);
+        _programRepository.CheckProgramNameExistsAsync(command.Name,default).Returns(false);
 
         var savedProgram = BbgProgram.Create(1, command.Name, command.Description);
-        _programRepository.AddProgram(command.Name, command.Description).Returns(savedProgram);
+        _programRepository.AddProgram(command.Name, command.Description).Returns((int)savedProgram.program_id!);
 
         //act
         var result = await _testing.Handle(command, default);
@@ -37,11 +37,9 @@ public class BbgProgramCreateCommandHandlerTests
         result.Should().NotBeNull();
 
         result.IsT0.Should().BeTrue();
-        BbgProgramResult? T0Value = result.AsT0;
+        int? T0Value = result.AsT0;
         T0Value.Should().NotBeNull();
-        T0Value.Id.Should().Be(savedProgram.program_id);
-        T0Value.Name.Should().Be(savedProgram.program_name);
-        T0Value.Description.Should().Be(savedProgram.description);
+        T0Value.Should().Be(savedProgram.program_id);
     }
 
 
@@ -50,10 +48,7 @@ public class BbgProgramCreateCommandHandlerTests
     {
         //arrange
         var command = _fixture.Create<BbgProgramCreateCommand>();
-        _programRepository.CheckProgramNameExistsAsync(command.Name).Returns(true);
-
-        var savedProgram = BbgProgram.Create(1, command.Name, command.Description);
-        _programRepository.AddProgram(command.Name, command.Description).Returns(savedProgram);
+        _programRepository.CheckProgramNameExistsAsync(command.Name, default).Returns(true);
 
         //act
         var result = await _testing.Handle(command, default);

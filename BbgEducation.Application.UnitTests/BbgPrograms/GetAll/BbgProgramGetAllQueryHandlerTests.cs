@@ -30,7 +30,7 @@ public class BbgProgramGetAllQueryHandlerTests
             BbgProgram.Create(3, "Three", "Three Description")
         };
 
-        _programRepository.GetProgramsAsync().Returns(programs);
+        _programRepository.GetProgramsAsync(default).Returns(programs);
 
         var query = _fixture.Create<BbgProgramGetAllQuery>();
 
@@ -62,7 +62,7 @@ public class BbgProgramGetAllQueryHandlerTests
 
         IEnumerable<BbgProgram> programs = new List<BbgProgram>();
 
-        _programRepository.GetProgramsAsync().Returns(programs);
+        _programRepository.GetProgramsAsync(default).Returns(programs);
 
         var query = _fixture.Create<BbgProgramGetAllQuery>();
 

@@ -12,21 +12,21 @@ namespace BbgEducation.Api.Hal
             _linkGenerator = linkGenerator;
         }
 
-        public Link? GetActionLink(HttpContext context, string linkRelation, Type controller, string actionName, object? values) {
-            var routeData = _routeService.GetRouteData(controller, actionName);
+        public Link? GetActionLink(HttpContext context, string linkRelation, Type module, string actionName, object? values) {
+            var routeData = _routeService.GetRouteData(module, actionName);
 
             if (routeData is null) return null;
 
             var link = _linkGenerator.GetPathByAction(context, action: actionName,
-               controller: routeData.ControllerName, values: values);
+               controller: routeData.ModuleName, values: values);
 
             if (link is null) return null;
 
             return new Link(linkRelation, link, routeData.HttpMethod);
         }
 
-        public Link? GetApiLink(string linkRelation, Type controller, string actionName, object? body) {
-            var routeData = _routeService.GetRouteData(controller, actionName);
+        public Link? GetApiLink(string linkRelation, Type module, string actionName, object? body) {
+            var routeData = _routeService.GetRouteData(module, actionName);
             if (routeData is null) return null;
 
             return new Link(linkRelation, routeData.RouteTemplate, routeData.HttpMethod, body);

@@ -31,7 +31,7 @@ public class BbgSessionGetAllQueryHandlerTests
             BbgSessionData.Generate(_fixture)
         };
 
-        _sessionRepository.GetAllSessions().Returns(sessions);
+        _sessionRepository.GetAllSessionsAsync(default).Returns(sessions);
 
         var result = await _testing.Handle(query, default);
 
@@ -60,7 +60,7 @@ public class BbgSessionGetAllQueryHandlerTests
 
         IEnumerable<BbgSession> sessions = new List<BbgSession>();
 
-        _sessionRepository.GetAllSessions().Returns(sessions);
+        _sessionRepository.GetAllSessionsAsync(default).Returns(sessions);
 
         var result = await _testing.Handle(query, default);
 

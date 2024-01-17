@@ -21,12 +21,12 @@ public class BbgSessionGetByProgramIdQueryHandler : IRequestHandler<BbgSessionGe
     public async Task<OneOf<List<BbgSessionResult>, ValidationFailed>> Handle(BbgSessionGetByProgramIdQuery request, CancellationToken cancellationToken) {
 
         
-        var program = await _programRepository.GetProgramByIdAsync(request.ProgramId);
+        var program = await _programRepository.GetProgramByIdAsync(request.ProgramId,cancellationToken);
         if (program is null) {
             return new ProgramNotExistValidationFailed(request.ProgramId);
         }
 
-        var sessions = await _sessionRepository.GetSessionsByProgramId(request.ProgramId);
+        var sessions = await _sessionRepository.GetSessionsByProgramIdAsync(request.ProgramId,cancellationToken);
 
         var sessionResults = sessions
             .Select(sr => new BbgSessionResult((int)sr.session_program.program_id!, sr.session_program.program_name, sr.session_program.description,

@@ -29,12 +29,12 @@ public class BbgProgramUpdateCommandHandlerTests
         var command = _fixture.Create<BbgProgramUpdateCommand>();
         var program = BbgProgram.Create(command.Id, command.Name, command.Description);
 
-        _programRepository.GetProgramByIdAsync(command.Id).Returns(program);
+        _programRepository.GetProgramByIdAsync(command.Id, default).Returns(program);
         //this should not be called so returning true to be sure
-        _programRepository.CheckProgramNameExistsAsync(command.Name).Returns(true);
+        _programRepository.CheckProgramNameExistsAsync(command.Name,default).Returns(true);
 
-        
-        _programRepository.UpdateProgram(program).Returns(program);
+
+        _programRepository.UpdateProgram(program);
 
         //act
         var result = await _testing.Handle(command, default);
@@ -43,19 +43,16 @@ public class BbgProgramUpdateCommandHandlerTests
         result.Should().NotBeNull();
 
         result.IsT0.Should().BeTrue();
-        BbgProgramResult? T0Value = result.AsT0;        
+        Success T0Value = result.AsT0;        
         T0Value.Should().NotBeNull();
-        T0Value.Id.Should().Be(program.program_id);
-        T0Value.Name.Should().Be(program.program_name);
-        T0Value.Description.Should().Be(program.description);       
     }
 
     [Fact]
     public async void Handle_ShouldReturnNotFound_WhenIdIsInvalid() {
 
         //arrange
-        var command = _fixture.Create<BbgProgramUpdateCommand>();
-        _programRepository.GetProgramByIdAsync(command.Id).ReturnsNull();
+        var command = _fixture.Create<BbgProgramUpdateCommand>();        
+        _programRepository.GetProgramByIdAsync(command.Id, default).ReturnsNull();
 
         //act
         var result = await _testing.Handle(command, default);
@@ -73,8 +70,8 @@ public class BbgProgramUpdateCommandHandlerTests
         var command = _fixture.Create<BbgProgramUpdateCommand>();
         var program = BbgProgram.Create(command.Id, _fixture.Create<String>(), command.Description);
 
-        _programRepository.GetProgramByIdAsync(command.Id).Returns(program);
-        _programRepository.CheckProgramNameExistsAsync(command.Name).Returns(true);
+        _programRepository.GetProgramByIdAsync(command.Id,default).Returns(program);
+        _programRepository.CheckProgramNameExistsAsync(command.Name,default).Returns(true);
 
         //act
         var result = await _testing.Handle(command, default);

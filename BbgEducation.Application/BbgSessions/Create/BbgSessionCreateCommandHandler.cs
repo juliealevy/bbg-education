@@ -14,7 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BbgEducation.Application.BbgSessions.Create;
-public class BbgSessionCreateCommandHandler : IRequestHandler<BbgSessionCreateCommand, OneOf<BbgSessionResult, ValidationFailed>>
+public class BbgSessionCreateCommandHandler : IRequestHandler<BbgSessionCreateCommand, OneOf<int, ValidationFailed>>
 {
     private readonly IBbgSessionRepository _sessionRepository;
     private readonly IBbgProgramRepository _programRepository;
@@ -24,23 +24,22 @@ public class BbgSessionCreateCommandHandler : IRequestHandler<BbgSessionCreateCo
         _programRepository = programRepository;
     }
 
-    public async Task<OneOf<BbgSessionResult, ValidationFailed>> Handle(BbgSessionCreateCommand request, CancellationToken cancellationToken) {
+    public async Task<OneOf<int, ValidationFailed>> Handle(BbgSessionCreateCommand request, CancellationToken cancellationToken) {
 
-        var sessionNameExists = await _sessionRepository.CheckSessionNameExistsAsync(request.Name);
+        var sessionNameExists = await _sessionRepository.CheckSessionNameExistsAsync(request.Name, cancellationToken);
         if (sessionNameExists) {
             return new NameExistsValidationFailed("Session");
         }
         
-        var sessionProgram = await _programRepository.GetProgramByIdAsync(request.ProgramId);
+        var sessionProgram = await _programRepository.GetProgramByIdAsync(request.ProgramId,cancellationToken);
         if (sessionProgram is null) {
             return new ProgramNotExistValidationFailed(request.ProgramId);
         }
 
-        var newSession = await _sessionRepository.AddSession(request.ProgramId, request.Name, request.Description,
+        var newSessionId = _sessionRepository.AddSession(request.ProgramId, request.Name, request.Description,
             request.StartDate, request.EndDate);
 
-        return new BbgSessionResult((int)newSession.session_program.program_id!, newSession.session_program.program_name, newSession.session_program.description, (int)newSession.session_id!, newSession.session_name, newSession.description,
-            DateOnly.FromDateTime(newSession.start_date), DateOnly.FromDateTime(newSession.end_date));
+        return newSessionId;
 
     }
 }
