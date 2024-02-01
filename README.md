@@ -4,6 +4,8 @@ This is a practice app to track the course make-up and student progress in progr
 
 This is very much an in progress project - in current development.
 
+Tools, etc: .NET Core, Controller Apis, Minimal Apis, SQL Server, Dapper, JWT Bearer Auth, MediatR, Serilog, Mapster, FluentValidation, xUnit, AutoFixture, NSubstitute, FluentAssertions
+
 ## What's in it
 Some sample code in C#/.NET Core to show the following:
 - Clean Architecture concepts
