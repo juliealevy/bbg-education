@@ -25,6 +25,7 @@ Some sample code in C#/.NET Core to show the following:
 
 ## Coming soon
 In progress, coming soon:
+- Idempotent posts, caching (redus?)
 - Minimal APIs
 - Integration Tests
 - Acceptance Tests
