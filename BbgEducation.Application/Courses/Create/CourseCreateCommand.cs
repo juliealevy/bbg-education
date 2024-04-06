@@ -2,7 +2,7 @@
 using MediatR;
 using OneOf;
 
-namespace BbgEducation.Application.BbgPrograms.Create;
-public record BbgProgramCreateCommand(
-    string Name,
+namespace BbgEducation.Application.Courses.Create;
+
+public record CourseCreateCommand(string Name,
     string Description) : IRequest<OneOf<int, ValidationFailed>>;

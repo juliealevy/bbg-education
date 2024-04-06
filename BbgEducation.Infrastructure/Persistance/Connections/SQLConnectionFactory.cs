@@ -12,7 +12,7 @@ internal sealed class SQLConnectionFactory : ISQLConnectionFactory
 {
     private readonly string _connectionString;
 
-    public SQLConnectionFactory(IConfiguration config) {
+    public SQLConnectionFactory(IConfiguration config) {        
         _connectionString = config.GetConnectionString("BbgEducation") ??
             throw new ApplicationException("Database BbgEducation connection string is missing");
     }

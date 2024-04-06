@@ -5,7 +5,7 @@ using Serilog;
 using BbgEducation.Api.Common;
 
 namespace BbgEducation.Api;
-public class Program {
+public partial class Program {
 
     public static void Main(string[] args) {
         var builder = WebApplication.CreateBuilder(args);
@@ -34,13 +34,11 @@ public class Program {
                 
                 
 
-                app.Run();
-            }
+                app.Run();                
+}
         }
-    }
-
-
-
-
+    }   
 
 }
+
+public partial class Program;

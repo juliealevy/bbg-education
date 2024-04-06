@@ -38,6 +38,7 @@ public static class DependencyInjection
         services.AddScoped<IBbgSessionRepository, BbgSessionRepository>();
         services.AddScoped<IBbgProgramRepository, BbgProgramRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ICourseRepository, CourseRepository>();
         
         return services;
 

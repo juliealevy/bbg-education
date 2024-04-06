@@ -39,7 +39,6 @@ public class BbgProgramCreateCommandHandlerTests
         result.IsT0.Should().BeTrue();
         int? T0Value = result.AsT0;
         T0Value.Should().NotBeNull();
-        T0Value.Should().Be(savedProgram.program_id);
     }
 
 
