@@ -17,12 +17,12 @@ public class BaseFunctionalTest: IClassFixture<FunctionalTestWebAppFactory>
     protected async Task SetAuthToken() {
         HttpResponseMessage authResponse;
 
-        var authRequest = new RegisterRequest("Julie", "Levy", "test@test.com", "123456");
-        authResponse = await HttpClient.PostAsJsonAsync<RegisterRequest>("api/auth/register", authRequest);
+        var loginRequest = new LoginRequest("test@test.com", "123456");
+        authResponse = await HttpClient.PostAsJsonAsync<LoginRequest>("api/auth/login", loginRequest);
 
-        if (authResponse.StatusCode == System.Net.HttpStatusCode.Conflict) {
-            var loginRequest = new LoginRequest("test@test.com", "123456");
-            authResponse = await HttpClient.PostAsJsonAsync<LoginRequest>("api/auth/login", loginRequest);
+        if (authResponse.StatusCode == System.Net.HttpStatusCode.BadRequest) {
+            var authRequest = new RegisterRequest("Julie", "Levy", "test@test.com", "123456");
+            authResponse = await HttpClient.PostAsJsonAsync<RegisterRequest>("api/auth/register", authRequest);
         }
 
         if (authResponse.IsSuccessStatusCode) {
