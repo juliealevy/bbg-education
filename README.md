@@ -4,12 +4,12 @@ This is a practice app to track the course make-up and student progress in progr
 
 This is very much an in progress project - in current development.
 
-Tools, etc: .NET Core, Controller Apis, Minimal Apis, SQL Server, Dapper, JWT Bearer Auth, MediatR, Serilog, Mapster, FluentValidation, xUnit, AutoFixture, NSubstitute, FluentAssertions
+Tools, etc: .NET Core, Controller Apis, Minimal Apis, SQL Server, Dapper, JWT Bearer Auth, MediatR, Serilog, Mapster, FluentValidation, xUnit, AutoFixture, NSubstitute, FluentAssertions, TestContainers
 
 ## What's in it
 Some sample code in C#/.NET Core to show the following:
 - Clean Architecture concepts
-- Vertical Slice
+- Vertical Slice/Feature Organization within
 - Controller APIs
 - Basic jwt authentication
 - Dapper (no EF)
@@ -21,14 +21,19 @@ Some sample code in C#/.NET Core to show the following:
 - HAL/HATEOS responses
 - First error handling in stored proc, rest in progress
 - Logging
+- Added Test DB setup and testing (in progress)
+- Started Integration Tests
+    - Handlers -> DB
+- Started Functional Tests
+    - API -> DB
+- Started Course Entity implementation - in progress
+      
 
 
 ## Coming soon
 In progress, coming soon:
-- Idempotent posts, caching (redus?)
+- Idempotent posts, caching (redis?)
 - Minimal APIs
-- Integration Tests
-- Acceptance Tests
 - More authentication (OAuth, refresh token)
 - Front End ??
 
