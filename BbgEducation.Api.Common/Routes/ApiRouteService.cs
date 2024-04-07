@@ -25,7 +25,7 @@ public class ApiRouteService : IApiRouteService
                    a.ControllerName,
                    a.MethodInfo.Name,
                    a.AttributeRouteInfo?.Template!,
-                   string.Join(", ", a.ActionConstraints?.OfType<HttpMethodActionConstraint>().SingleOrDefault()?.HttpMethods ?? new string[] { "any" })
+                   string.Join(", ", a.ActionConstraints?.OfType<HttpMethodActionConstraint>().FirstOrDefault()?.HttpMethods ?? new string[] { "any" })
                ))
                .GroupBy(c => c.ModuleName)
                .ToDictionary(g => g.Key, g => g.ToList());

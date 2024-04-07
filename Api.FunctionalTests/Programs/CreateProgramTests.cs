@@ -1,9 +1,7 @@
-﻿using Api.FunctionalTests.Abstractions;
-using BbgEducation.Api.Common.Authentication;
+﻿using Api.FunctionalTests.Common;
+using Api.FunctionalTests.WebApp;
 using BbgEducation.Api.Common.BbgProgram;
-using BbgEducation.Application.Authentication.Common;
 using FluentAssertions;
-using Microsoft.AspNetCore.Authentication;
 using System.Net;
 using System.Net.Http.Json;
 
