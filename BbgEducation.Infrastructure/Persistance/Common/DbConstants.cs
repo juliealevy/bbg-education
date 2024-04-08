@@ -24,6 +24,14 @@ public static class DbConstants
             public const string INACTIVATE = SCHEMA_PREFIX + "spSessionInactivate";
 
         }
+
+        public static class Course {
+            public const string GET_BY_ID = SCHEMA_PREFIX + "spCourseGetById";
+            public const string GET_ALL = SCHEMA_PREFIX + "spCourseGetAll";
+            public const string ADD_UPDATE = SCHEMA_PREFIX + "spCourseAddUpdate";
+            public const string INACTIVATE = SCHEMA_PREFIX + "spCourseInactivate";
+            public const string NAME_EXISTS = SCHEMA_PREFIX + "spCourseNameExists";
+        }
     }
 
 

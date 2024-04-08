@@ -32,13 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Scripts\DropObjects\Drop_StoredProcedures.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="Scripts\DropObjects\Drop_Tables.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Scripts\DropObjects\Drop_Views.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Scripts\SeedData\Seed_Data.sql">
@@ -71,6 +65,21 @@
     <None Update="Scripts\StoredProcedures\BbgSession\spSessionNameExists.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Scripts\StoredProcedures\Course\spCourseAddUpdate.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Scripts\StoredProcedures\Course\spCourseGetAll.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Scripts\StoredProcedures\Course\spCourseGetById.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Scripts\StoredProcedures\Course\spCourseNameExists.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Scripts\Tables\Course.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Scripts\Tables\Program.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -87,6 +96,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Scripts\Views\BbgSession\vSessions.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Scripts\Views\Course\vActiveCourses.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

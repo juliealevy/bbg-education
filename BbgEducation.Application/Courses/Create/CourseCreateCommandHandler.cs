@@ -21,7 +21,7 @@ public class CourseCreateCommandHandler : IRequestHandler<CourseCreateCommand, O
             return new NameExistsValidationFailed("Course");
         }
 
-        var newId = _courseRepository.AddCourse(request.Name, request.Description);
+        var newId = _courseRepository.AddCourse(request.Name, request.Description,request.isPublic);
 
         return newId;
 

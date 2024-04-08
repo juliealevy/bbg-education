@@ -1,10 +1,4 @@
-﻿using BbgEducation.Domain.BbgProgramDomain;
-using BbgEducation.Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BbgEducation.Domain.Common;
 
 namespace BbgEducation.Domain.CourseDomain;
 public sealed class CourseEntity : Entity
@@ -13,32 +7,38 @@ public sealed class CourseEntity : Entity
     public string course_name { get; private set; } = string.Empty;
     public string description { get; private set; } = string.Empty;
 
+    public bool is_public { get; private set; } = true;
+
     private CourseEntity(int? id,
         string name,
         string description,
+        bool is_public,
         DateTime createdDateTime,
         DateTime updatedDateTime) {
         this.course_id = id;
         this.course_name = name;
+        this.is_public = is_public;
         this.description = description;
         this.created_datetime = createdDateTime;
         this.updated_datetime = updatedDateTime;
     }
 
-    public static CourseEntity Create(int id, string name, string description) {
+    public static CourseEntity Create(int id, string name, string description, bool isPublic) {
         return new CourseEntity(
             id,
             name,
             description,
+            isPublic,
             DateTime.UtcNow,
             DateTime.UtcNow);
     }
 
-    public static CourseEntity CreateNew(string name, string description) {
+    public static CourseEntity CreateNew(string name, string description, bool isPublic) {
         return new CourseEntity(
             null,
             name,
             description,
+            isPublic,            
             DateTime.UtcNow,
             DateTime.UtcNow);
     }
@@ -47,6 +47,7 @@ public sealed class CourseEntity : Entity
         return this.course_id == null || this.course_id <= 0;
     }
 
+    private CourseEntity() { }
 
     public override bool Equals(object? obj) {
         return obj is CourseEntity entity && course_id.Equals(entity.course_id);
