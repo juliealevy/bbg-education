@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using BbgEducation.Application.Common.Interfaces.Persistance;
+using BbgEducation.Application.Common.Validation;
 using BbgEducation.Application.Courses.Create;
 using BbgEducation.Domain.CourseDomain;
 using FluentAssertions;
@@ -38,6 +39,23 @@ public class CourseCreateCommandHandlerTests
         int? T0Value = result.AsT0;
         T0Value.Should().NotBeNull();
         T0Value.Should().Be(savedCourse.course_id);
+    }
+
+    [Fact]
+    public async void Handle_ShouldFail_WhenNameExists() {
+        var command = _fixture.Create<CourseCreateCommand>();
+
+        _courseRepository.CheckCourseNameExistsAsync(command.Name, default).Returns(true);
+        var savedCourse = CourseEntity.Create(1, command.Name, command.Description, command.isPublic);
+        _courseRepository.AddCourse(command.Name, command.Description, command.isPublic).Returns((int)savedCourse.course_id!);
+
+        var result = await _testing.Handle(command, default);
+
+        result.Should().NotBeNull();
+        result.IsT1.Should().BeTrue();
+        result.AsT1.Should().NotBeNull();
+        result.AsT1.Errors.Should().NotBeNull().And.HaveCount(1);
+        result.AsT1.GetType().Should().Be(typeof(NameExistsValidationFailed));
     }
 
 

@@ -9,7 +9,7 @@ namespace Api.FunctionalTests.Programs;
 public class CreateProgramTests : BaseFunctionalTest
 {
     public CreateProgramTests(FunctionalTestWebAppFactory webAppfactory) 
-        : base(webAppfactory) {
+        : base(webAppfactory, "api/programs") {
 
     }
 
@@ -21,7 +21,7 @@ public class CreateProgramTests : BaseFunctionalTest
         var request = new CreateBbgProgramRequest("Program 2", "Description for Program 2");
 
         //act
-        HttpResponseMessage response = await HttpClient.PostAsJsonAsync("api/programs", request);
+        HttpResponseMessage response = await HttpClient.PostAsJsonAsync(EntityRootPath, request);
 
         //assert
         response.StatusCode.Should().Be(HttpStatusCode.Created);
@@ -37,7 +37,7 @@ public class CreateProgramTests : BaseFunctionalTest
         var request = new CreateBbgProgramRequest("", "blah");
 
         //act
-        HttpResponseMessage response = await HttpClient.PostAsJsonAsync("api/programs", request);
+        HttpResponseMessage response = await HttpClient.PostAsJsonAsync(EntityRootPath, request);
 
         //assert
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -53,7 +53,7 @@ public class CreateProgramTests : BaseFunctionalTest
         var request = new CreateBbgProgramRequest("program1", "blah");
 
         //act
-        HttpResponseMessage response = await HttpClient.PostAsJsonAsync("api/programs", request);
+        HttpResponseMessage response = await HttpClient.PostAsJsonAsync(EntityRootPath, request);
 
         //assert
         response.StatusCode.Should().Be(HttpStatusCode.Conflict);
@@ -68,7 +68,7 @@ public class CreateProgramTests : BaseFunctionalTest
         var request = new CreateBbgProgramRequest("program 2", "blah");
 
         //act
-        HttpResponseMessage response = await HttpClient.PostAsJsonAsync("api/programs", request);
+        HttpResponseMessage response = await HttpClient.PostAsJsonAsync(EntityRootPath, request);
 
         //assert
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);

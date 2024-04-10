@@ -9,12 +9,14 @@ public abstract class BaseIntegrationTest : IClassFixture<IntegrationTestWebAppF
     private readonly IServiceScope _scope;
     protected readonly ISender Sender;
     protected readonly IBbgProgramRepository ProgramRepository;
+    protected readonly ICourseRepository CourseRepository;
 
     protected BaseIntegrationTest(IntegrationTestWebAppFactory webAppFactory)
     {
         _scope = webAppFactory.Services.CreateScope();
         Sender = _scope.ServiceProvider.GetRequiredService<ISender>();
         ProgramRepository = _scope.ServiceProvider.GetRequiredService<IBbgProgramRepository>();
+        CourseRepository = _scope.ServiceProvider.GetRequiredService<ICourseRepository>();
         DbObjectBuilder.Build(webAppFactory.ConnectionString);
     }
 }
