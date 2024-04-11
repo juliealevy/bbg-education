@@ -30,6 +30,11 @@ public class Link
         Body = body;
     }
 
+    [JsonConstructor]
+    public Link() {
+
+    }
+
     private bool hasTemplate(string href) {
         if (href == null) {
             return false;

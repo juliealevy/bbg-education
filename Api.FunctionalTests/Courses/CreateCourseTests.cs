@@ -53,7 +53,7 @@ public class CreateCourseTests : BaseFunctionalTest
         //arrange
         await SetAuthToken();
         var request = CourseDataBuilders.BuildTestRequest();
-        CourseRepository.AddCourse(request.Name, request.Description, request.isPublic);
+        CourseRepository.AddCourse(request.Name, request.Description, request.IsPublic);
 
         //act
         HttpResponseMessage response = await HttpClient.PostAsJsonAsync(EntityRootPath, request);

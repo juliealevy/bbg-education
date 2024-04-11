@@ -5,4 +5,4 @@ using OneOf;
 namespace BbgEducation.Application.Courses.Create;
 
 public record CourseCreateCommand(string Name,
-    string Description, bool isPublic) : IRequest<OneOf<int, ValidationFailed>>;
+    string Description, bool IsPublic) : IRequest<OneOf<int, ValidationFailed>>;

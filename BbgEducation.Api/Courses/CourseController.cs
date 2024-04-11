@@ -1,7 +1,8 @@
-﻿using BbgEducation.Api.Common.BbgProgram;
-using BbgEducation.Api.Common.Course;
+﻿using BbgEducation.Api.Common.Course;
+using BbgEducation.Api.Common.Hal.Links;
 using BbgEducation.Api.Common.Hal.Resources;
-using BbgEducation.Application.BbgPrograms.Create;
+using BbgEducation.Api.Hal;
+using BbgEducation.Application.Courses.Common;
 using BbgEducation.Application.Courses.Create;
 using BbgEducation.Application.Courses.GetById;
 using MapsterMapper;
@@ -15,10 +16,14 @@ public class CourseController: ApiControllerBase
 {
     private readonly ISender _mediator;
     private readonly IMapper _mapper;
+    private readonly IBbgLinkGenerator _linkGenerator;
+    private readonly IRepresentationFactory _representationFactory;
 
-    public CourseController(ISender mediator, IMapper mapper) {
+    public CourseController(ISender mediator, IMapper mapper, IBbgLinkGenerator linkGenerator, IRepresentationFactory representationFactory) {
         _mediator = mediator;
         _mapper = mapper;
+        _linkGenerator = linkGenerator;
+        _representationFactory = representationFactory;
     }
 
     [HttpPost]    
@@ -32,8 +37,8 @@ public class CourseController: ApiControllerBase
         return createResult.Match<IActionResult>(
             newId =>
             {
-                //var response = BuildAddUpdateProgramRepresentation(newId);
-                return CreatedAtAction(nameof(CreateCourse), value: newId);
+                var response = BuildAddUpdateCourseRepresentation(newId);
+                return CreatedAtAction(nameof(CreateCourse), value: response);
             },
             failed => BuildActionResult(failed)
             );
@@ -55,13 +60,45 @@ public class CourseController: ApiControllerBase
             return result.Match<IActionResult>(
                 course =>
                 {
-                    //var representation = BuildGetProgramRepresentation(program);
-                    //return Ok(representation);
-                    return Ok(course);
+                    var representation = BuildGetCourseRepresentation(course);
+                    return Ok(representation);                    
                 },
                     _ => NotFound()
                 );
         }
 
+    }
+
+
+
+    private IRepresentation BuildGetCourseRepresentation(CourseResult course, bool selfIsById = false) {
+        IRepresentation? representation = null;
+
+        if (selfIsById) {
+            representation = _representationFactory.NewRepresentation(
+               _linkGenerator.GetActionLink(HttpContext, LinkRelations.SELF, typeof(CourseController), nameof(CourseController.GetCourseById), new { id = course.Id })!
+            );
+
+        }
+        else {
+            representation = _representationFactory.NewRepresentation(HttpContext);
+        }
+
+        representation.WithObject(course);
+            //.WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Course.UPDATE,
+            //       typeof(CourseController), nameof(CourseController.UpdateProgram), new { programId = course.Id })!);
+
+        return representation;
+    }
+
+    private IRepresentation BuildAddUpdateCourseRepresentation(int id) {
+
+        var representation = _representationFactory.NewRepresentation(HttpContext)
+            .WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Course.GET_BY_ID,
+                typeof(CourseController), nameof(CourseController.GetCourseById), new { id = id })!);
+            //.WithLink(_linkGenerator.GetActionLink(HttpContext, LinkRelations.Course.GET_ALL, typeof(CourseController),
+            //        nameof(CourseController.GetAllCourses), null)!);
+
+        return representation;
     }
 }

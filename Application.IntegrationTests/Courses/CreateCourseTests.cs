@@ -34,7 +34,7 @@ public class CreateCourseTests : BaseIntegrationTest
         newCourse.Should().NotBeNull();
         newCourse.course_id.Should().Be(newId);
         newCourse.course_name.Trim().Should().Be(command.Name);
-        newCourse.is_public.Should().Be(command.isPublic);
+        newCourse.is_public.Should().Be(command.IsPublic);
 
     }
 

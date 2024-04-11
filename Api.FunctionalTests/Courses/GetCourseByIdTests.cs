@@ -1,14 +1,11 @@
 ﻿using Api.FunctionalTests.Common;
 using Api.FunctionalTests.WebApp;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Json;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using BbgEducation.Application.Courses.Common;
+using BbgEducation.Api.Common.Hal.Resources;
+using BbgEducation.Api.Common.Hal.Links;
 
 namespace Api.FunctionalTests.Courses;
 public class GetCourseByIdTests : BaseFunctionalTest
@@ -24,10 +21,10 @@ public class GetCourseByIdTests : BaseFunctionalTest
         await SetAuthToken();
         var request = CourseDataBuilders.BuildTestRequest();
         HttpResponseMessage createResponse = await HttpClient.PostAsJsonAsync(EntityRootPath, request);
-        string newId = await createResponse.Content.ReadAsStringAsync();
+        var href = await GetByIdHrefFromRepresentation(createResponse);
 
         //act
-        HttpResponseMessage response = await HttpClient.GetAsync($"{EntityRootPath}/{newId}");
+        HttpResponseMessage response = await HttpClient.GetAsync(href);
 
         //assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -41,18 +38,17 @@ public class GetCourseByIdTests : BaseFunctionalTest
         await SetAuthToken();
         var request = CourseDataBuilders.BuildTestRequest();
         HttpResponseMessage createResponse = await HttpClient.PostAsJsonAsync(EntityRootPath, request);
-        string newId = await createResponse.Content.ReadAsStringAsync();
+        var href = await GetByIdHrefFromRepresentation(createResponse);
 
         //act
-        HttpResponseMessage response = await HttpClient.GetAsync($"{EntityRootPath}/{newId}");
+        HttpResponseMessage response = await HttpClient.GetAsync(href);
         var courseResult = await response.Content.ReadFromJsonAsync<CourseResult>();
 
         //assert
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        courseResult.Should().NotBeNull();
-        courseResult!.Id.Should().Be(Convert.ToInt32(newId));
-        courseResult.Name.Trim().Should().Be(request.Name);
-        courseResult.IsPublic.Should().Be(request.isPublic);
+        courseResult.Should().NotBeNull();        
+        courseResult!.Name.Trim().Should().Be(request.Name);
+        courseResult.IsPublic.Should().Be(request.IsPublic);
 
     }
 
@@ -69,5 +65,19 @@ public class GetCourseByIdTests : BaseFunctionalTest
         //assert
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
+    }
+
+    private async Task<TestRepresentation> createCourse() {
+        var request = CourseDataBuilders.BuildTestRequest();
+        HttpResponseMessage createResponse = await HttpClient.PostAsJsonAsync(EntityRootPath, request);
+        return await createResponse.Content.ReadFromJsonAsync<TestRepresentation>();
+    }
+
+    private async Task<string> GetByIdHrefFromRepresentation(HttpResponseMessage createCourseResponse) {
+        
+        var representation = await createCourseResponse.Content.ReadFromJsonAsync<TestRepresentation>();
+        var getByIdLink = representation!._links[LinkRelations.Course.GET_BY_ID];
+        var href = getByIdLink.First().Href;
+        return href;
     }
 }

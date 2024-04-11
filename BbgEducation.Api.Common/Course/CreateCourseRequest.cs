@@ -3,4 +3,4 @@
 public record CreateCourseRequest(
     string Name,
     string Description,
-    bool isPublic);
+    bool IsPublic);

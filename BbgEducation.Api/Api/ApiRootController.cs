@@ -4,8 +4,10 @@ using BbgEducation.Api.BbgSessions;
 using BbgEducation.Api.Common.Authentication;
 using BbgEducation.Api.Common.BbgProgram;
 using BbgEducation.Api.Common.BbgSession;
+using BbgEducation.Api.Common.Course;
 using BbgEducation.Api.Common.Hal.Links;
 using BbgEducation.Api.Common.Hal.Resources;
+using BbgEducation.Api.Courses;
 using BbgEducation.Api.Hal;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -56,6 +58,11 @@ public class ApiRootController : ApiControllerBase
           .WithLink(_linkGenerator.GetApiLink(LinkRelations.Session.GET_BY_PROGRAM_ID, typeof(BbgProgramSessionController), nameof(BbgProgramSessionController.GetSessionsByProgramId), null)!)
           .WithLink(_linkGenerator.GetApiLink(LinkRelations.Session.GET_ALL,
                 typeof(BbgSessionController), nameof(BbgSessionController.GetAllSessions), null)!);
+
+        representation
+            .WithLink(_linkGenerator.GetApiLink(LinkRelations.Course.CREATE, typeof(CourseController), nameof(CourseController.CreateCourse),
+                new CreateCourseRequest("", "", true))!)
+            .WithLink(_linkGenerator.GetApiLink(LinkRelations.Course.GET_BY_ID, typeof(CourseController), nameof(CourseController.GetCourseById), null)!);
 
         return Ok(representation);
     }

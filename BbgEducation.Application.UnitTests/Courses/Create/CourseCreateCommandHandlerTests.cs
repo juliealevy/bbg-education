@@ -28,8 +28,8 @@ public class CourseCreateCommandHandlerTests
         var command = _fixture.Create<CourseCreateCommand>();
 
         _courseRepository.CheckCourseNameExistsAsync(command.Name, default).Returns(false);
-        var savedCourse = CourseEntity.Create(1, command.Name, command.Description, command.isPublic);
-        _courseRepository.AddCourse(command.Name, command.Description, command.isPublic).Returns((int)savedCourse.course_id!);
+        var savedCourse = CourseEntity.Create(1, command.Name, command.Description, command.IsPublic);
+        _courseRepository.AddCourse(command.Name, command.Description, command.IsPublic).Returns((int)savedCourse.course_id!);
 
         var result = await _testing.Handle(command, default);
 
@@ -46,8 +46,8 @@ public class CourseCreateCommandHandlerTests
         var command = _fixture.Create<CourseCreateCommand>();
 
         _courseRepository.CheckCourseNameExistsAsync(command.Name, default).Returns(true);
-        var savedCourse = CourseEntity.Create(1, command.Name, command.Description, command.isPublic);
-        _courseRepository.AddCourse(command.Name, command.Description, command.isPublic).Returns((int)savedCourse.course_id!);
+        var savedCourse = CourseEntity.Create(1, command.Name, command.Description, command.IsPublic);
+        _courseRepository.AddCourse(command.Name, command.Description, command.IsPublic).Returns((int)savedCourse.course_id!);
 
         var result = await _testing.Handle(command, default);
 

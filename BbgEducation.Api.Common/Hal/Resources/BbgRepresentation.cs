@@ -6,7 +6,7 @@ namespace BbgEducation.Api.Common.Hal.Resources;
 
 public class BbgRepresentation : IRepresentation
 {
-    private IDictionary<string, List<Link>> __links = new Dictionary<string, List<Link>>();
+    protected IDictionary<string, List<Link>> __links = new Dictionary<string, List<Link>>();
     private IDictionary<string, object?>? _properties = null;
     private IDictionary<string, List<IRepresentation>>? _resources = null;   //list of representations
 
@@ -21,6 +21,7 @@ public class BbgRepresentation : IRepresentation
 
         AddLink(selfLink);
     }
+
 
     public IRepresentation WithLink(Link link) {
         AddLink(link);
