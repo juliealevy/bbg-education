@@ -164,6 +164,25 @@ https://localhost:7270/api
                 "templated": false,
                 "method": "GET"
             }
+        ],
+        "course:create": [
+            {
+                "href": "api/courses",
+                "templated": false,
+                "method": "POST",
+                "body": {
+                    "name": "",
+                    "description": "",
+                    "isPublic": true
+                }
+            }
+        ],
+        "course:get-by-id": [
+            {
+                "href": "api/courses/{id}",
+                "templated": true,
+                "method": "GET"
+            }
         ]
     },
     "version": "0.0.1"
