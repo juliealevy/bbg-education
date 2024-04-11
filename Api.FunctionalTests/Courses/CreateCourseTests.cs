@@ -21,7 +21,7 @@ public class CreateCourseTests : BaseFunctionalTest
 
         //arrange
         await SetAuthToken();
-        var request = buildTestRequest();
+        var request = CourseDataBuilders.BuildTestRequest();
 
         //act
         HttpResponseMessage response = await HttpClient.PostAsJsonAsync(EntityRootPath, request);
@@ -52,7 +52,7 @@ public class CreateCourseTests : BaseFunctionalTest
 
         //arrange
         await SetAuthToken();
-        var request = buildTestRequest();
+        var request = CourseDataBuilders.BuildTestRequest();
         CourseRepository.AddCourse(request.Name, request.Description, request.isPublic);
 
         //act
@@ -64,11 +64,13 @@ public class CreateCourseTests : BaseFunctionalTest
 
     }
 
+  
+
     [Fact]
     public async Task CreateCourse_ShouldReturnUnauthorized_WhenTokenMissing() {
 
         //arrange
-       var request = buildTestRequest();
+       var request = CourseDataBuilders.BuildTestRequest();
 
         //act
         HttpResponseMessage response = await HttpClient.PostAsJsonAsync(EntityRootPath, request);
@@ -79,7 +81,5 @@ public class CreateCourseTests : BaseFunctionalTest
 
     }
 
-    private CreateCourseRequest buildTestRequest() {
-        return new CreateCourseRequest("test course 1", "test description", false);
-    }
+   
 }

@@ -41,10 +41,10 @@ public class CourseGetByIdQueryHandlerTests
         result.IsT0.Should().BeTrue();
         var courseResult = result.AsT0;
         courseResult.Should().NotBeNull();
-        courseResult.id.Should().Be(returnCourse.course_id);
-        courseResult.name.Should().Be(courseResult.name);
-        courseResult.description.Should().Be(courseResult.description);
-        courseResult.isPublic.Should().Be(courseResult.isPublic);
+        courseResult.Id.Should().Be(returnCourse.course_id);
+        courseResult.Name.Should().Be(returnCourse.course_name);
+        courseResult.Description.Should().Be(returnCourse.description);
+        courseResult.IsPublic.Should().Be(returnCourse.is_public);
         
     }
 

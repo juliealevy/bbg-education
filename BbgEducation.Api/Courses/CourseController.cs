@@ -3,6 +3,7 @@ using BbgEducation.Api.Common.Course;
 using BbgEducation.Api.Common.Hal.Resources;
 using BbgEducation.Application.BbgPrograms.Create;
 using BbgEducation.Application.Courses.Create;
+using BbgEducation.Application.Courses.GetById;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ public class CourseController: ApiControllerBase
         _mapper = mapper;
     }
 
-    [HttpPost]
+    [HttpPost]    
     [Produces(RepresentationFactory.HAL_JSON)]
     public async Task<IActionResult> CreateCourse(
        CreateCourseRequest request, CancellationToken token) {
@@ -36,5 +37,31 @@ public class CourseController: ApiControllerBase
             },
             failed => BuildActionResult(failed)
             );
+    }
+
+    [HttpGet("{id}")]
+    [Produces(RepresentationFactory.HAL_JSON)]
+    
+    public async Task<IActionResult> GetCourseById(
+         int id, CancellationToken token) {
+
+        var query = new CourseGetByIdQuery(id);
+        var result = await _mediator.Send(query, token);
+
+        if (token.IsCancellationRequested) {
+            return NoContent();
+        }
+        else {
+            return result.Match<IActionResult>(
+                course =>
+                {
+                    //var representation = BuildGetProgramRepresentation(program);
+                    //return Ok(representation);
+                    return Ok(course);
+                },
+                    _ => NotFound()
+                );
+        }
+
     }
 }

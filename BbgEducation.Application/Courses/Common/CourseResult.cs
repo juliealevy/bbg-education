@@ -1,3 +1,3 @@
 ﻿namespace BbgEducation.Application.Courses.Common;
 
-public record CourseResult(int id, string name, string description, bool isPublic);
+public record CourseResult(int Id, string Name, string Description, bool IsPublic);
